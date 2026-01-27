@@ -8,8 +8,18 @@ public class Icicle : Weapon
        return true;
     }
 
-    public override void Use()
+    public override void OnRelease()
+    {
+        Debug.Log("Конец");
+    }
+
+    public void Hit()
     {
         Debug.Log("Удар сосулькой");
+    }
+
+    public override void OnPress()
+    {
+        Hit();
     }
 }

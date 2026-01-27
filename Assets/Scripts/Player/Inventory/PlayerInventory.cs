@@ -34,6 +34,7 @@ public class PlayerInventory : MonoBehaviour
     public void ThrowWeapon()
     {
         _hand.UnequipWeapon();
+        _activeWeapon = null;   
         _inventorySlots[_activeIndexSlot].UnsetWeapon();
     }
     public void ChooseSlot(int indexSlot)

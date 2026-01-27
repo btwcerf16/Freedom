@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour
 {
-    public GameObject IconGameObject;
     public Image Icon;
     public bool IsBusy;
     public Weapon SlotWeapon;
@@ -12,11 +11,7 @@ public class InventorySlot : MonoBehaviour
     public TextMeshPro KeyText;
 
 
-    private void Awake()
-    {
-        Icon = IconGameObject.GetComponent<Image>();
-        
-    }
+
     public void SetWeapon(Weapon weapon)
     {
         Icon.enabled = true;

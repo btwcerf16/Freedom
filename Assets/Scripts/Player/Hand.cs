@@ -9,7 +9,6 @@ public class Hand : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private float maxRadius = 1.5f;
     [SerializeField] private List<Weapon> _weaponsInRange = new();
-    [SerializeField] private float _angle;
     [SerializeField] private Weapon _currentWeapon;
     [SerializeField] private Sprite _baseSpriteImage;
 
@@ -19,9 +18,8 @@ public class Hand : MonoBehaviour
     private void Awake()
     {
         _camera = Camera.main;
-        _sprite = GetComponent<SpriteRenderer>();
+        _sprite = GetComponentInChildren<SpriteRenderer>();
         _sprite.sprite = _baseSpriteImage;
-        
     }
 
     private void Update()
@@ -38,15 +36,15 @@ public class Hand : MonoBehaviour
         transform.position = player.position + dir;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle-_angle);
+        transform.rotation = Quaternion.Euler(0, 0, angle);
         Flip(dir);
     }
     private void Flip(Vector3 dir)
     {
-        if (dir.x >= 0)
-            transform.localScale = new Vector2(1, transform.localScale.y);
+        if (dir.x < 0)
+            _sprite.transform.localScale = new Vector3(-1, 1, 1);
         else
-            transform.localScale = new Vector2(-1, transform.localScale.y);
+            _sprite.transform.localScale = Vector3.one;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

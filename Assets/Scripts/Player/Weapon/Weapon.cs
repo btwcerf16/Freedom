@@ -4,16 +4,19 @@ public abstract class Weapon : MonoBehaviour
 {
     protected Rigidbody2D _rb;
     protected Collider2D _collider;
-    protected SpriteRenderer _spriteRenderer;
+    [SerializeField] protected SpriteRenderer _spriteRenderer;
     protected Animator _animator;
-    [SerializeField] private float zRotationOffset;
+    [SerializeField] protected float zRotationOffset;
+    protected Hand _hand;
     public virtual bool CanHold => false;
     protected virtual void Awake()
     {
+
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_spriteRenderer == null)
+            _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     /// <summary>
@@ -38,13 +41,14 @@ public abstract class Weapon : MonoBehaviour
 
     public void AttachToHand(Transform hand)
     {
+        _hand = hand.GetComponent<Hand>();
         _rb.simulated = false;
         _collider.enabled = false;
         _spriteRenderer.enabled = true;
         transform.SetParent(hand, false);
         transform.localScale = Vector3.one;
         transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.Euler(0, 0, zRotationOffset);
+        transform.localRotation = Quaternion.Euler(0, 0, hand.rotation.z);
     }
 
     public void DetachFromHand()

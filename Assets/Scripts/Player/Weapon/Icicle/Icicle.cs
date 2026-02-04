@@ -15,7 +15,7 @@ public class Icicle : Weapon
 
     public void Hit()
     {
-        Debug.Log("Удар сосулькой");
+        _animator.SetTrigger("Hit");
     }
 
     public override void OnPress()

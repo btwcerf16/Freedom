@@ -15,7 +15,7 @@ public class InventorySlot : MonoBehaviour
     public void SetWeapon(Weapon weapon)
     {
         Icon.enabled = true;
-        Icon.sprite = weapon.GetComponent<SpriteRenderer>().sprite;
+        Icon.sprite = weapon.GetSprite().sprite;
         SlotWeapon = weapon;
         IsBusy = true;
     }

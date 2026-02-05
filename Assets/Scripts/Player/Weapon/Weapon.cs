@@ -12,11 +12,10 @@ public abstract class Weapon : MonoBehaviour
     protected virtual void Awake()
     {
 
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
-        if (_spriteRenderer == null)
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     /// <summary>
@@ -65,6 +64,10 @@ public abstract class Weapon : MonoBehaviour
         _spriteRenderer.enabled = false;
         _rb.simulated = false;
         _collider.enabled = false;
+    }
+    public SpriteRenderer GetSprite()
+    {
+        return _spriteRenderer;
     }
 
 }

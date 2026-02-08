@@ -145,6 +145,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold(duration=1,pressPoint=1)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TestButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""054143b1-65bb-45bc-8b32-721b72b5cfd1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -257,6 +266,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""71bbd333-bffb-461a-997a-1c44bb28207f"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard And Mouse"",
+                    ""action"": ""TestButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -277,6 +297,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Slot1 = m_Player.FindAction("Slot1", throwIfNotFound: true);
         m_Player_Slot2 = m_Player.FindAction("Slot2", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_TestButton = m_Player.FindAction("TestButton", throwIfNotFound: true);
     }
 
     ~@Controls()
@@ -363,6 +384,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Slot1;
     private readonly InputAction m_Player_Slot2;
     private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_TestButton;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -398,6 +420,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Attack".
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/TestButton".
+        /// </summary>
+        public InputAction @TestButton => m_Wrapper.m_Player_TestButton;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -442,6 +468,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @TestButton.started += instance.OnTestButton;
+            @TestButton.performed += instance.OnTestButton;
+            @TestButton.canceled += instance.OnTestButton;
         }
 
         /// <summary>
@@ -471,6 +500,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @TestButton.started -= instance.OnTestButton;
+            @TestButton.performed -= instance.OnTestButton;
+            @TestButton.canceled -= instance.OnTestButton;
         }
 
         /// <summary>
@@ -566,5 +598,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TestButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTestButton(InputAction.CallbackContext context);
     }
 }

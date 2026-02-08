@@ -1,5 +1,6 @@
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Bow : Weapon
 {
@@ -66,5 +67,5 @@ public class Bow : Weapon
         projectile.Launch(direction, speed, damage);
     }
 
- 
+
 }

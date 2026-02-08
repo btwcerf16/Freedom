@@ -59,6 +59,15 @@
                     "processors": "",
                     "interactions": "Hold(duration=1,pressPoint=1)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TestButton",
+                    "type": "Button",
+                    "id": "054143b1-65bb-45bc-8b32-721b72b5cfd1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -169,6 +178,17 @@
                     "processors": "",
                     "groups": ";Keyboard And Mouse",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71bbd333-bffb-461a-997a-1c44bb28207f",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard And Mouse",
+                    "action": "TestButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

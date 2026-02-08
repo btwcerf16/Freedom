@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76601fc1491c09d4c8abe9938e5c9617, type: 3}
+  m_Name: HealData
+  m_EditorClassIdentifier: Assembly-CSharp::HealBuffData
+  EffectName: 1
+  EffectDuration: 3
+  EffectDescription: "\u0418\u0437\u043B\u0435\u0447\u0438\u0432\u0430\u0435\u0442
+    \u0440\u0430\u043D\u044B\n\u043D\u0430 5 \u043A\u0430\u0436\u0434\u0443\u044E
+    \u0441\u0435\u043A\u0443\u043D\u0434\u0443\n\u0432 \u0442\u0435\u0447\u0435\u043D\u0438\u0438
+    3 \u0441\u0435\u043A\u0443\u043D\u0434 "
+  SpriteIcon: {fileID: -8715664787557870507, guid: f1834ea4ddb2caa47803edb3b283df29, type: 3}
+  HealCount: 5

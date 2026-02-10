@@ -9,6 +9,6 @@ public class RustyScrap : Weapon
 
     public override void OnPress()
     {
-        Debug.Log("¿“¿ ¿");
+        _animator.SetTrigger("Attack");
     }
 }

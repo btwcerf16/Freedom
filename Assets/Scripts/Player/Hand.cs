@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CircleCollider2D))]
 public class Hand : MonoBehaviour
@@ -11,6 +12,8 @@ public class Hand : MonoBehaviour
     [SerializeField] private List<Weapon> _weaponsInRange = new();
     [SerializeField] private Weapon _currentWeapon;
     [SerializeField] private Sprite _baseSpriteImage;
+    [SerializeField] private float maxAngle = 70f;
+    [SerializeField] private bool _isFacingRight = true;
 
     private Camera _camera;
     private SpriteRenderer _sprite;
@@ -33,18 +36,34 @@ public class Hand : MonoBehaviour
         if (dir.magnitude > maxRadius)
             dir = dir.normalized * maxRadius;
 
-        transform.position = player.position + dir;
+
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-        Flip(dir);
+        float baseAngle = _isFacingRight ? 0f : 180f;
+        float delta = Mathf.DeltaAngle(baseAngle, angle);
+        delta = Mathf.Clamp(delta, -maxAngle, maxAngle);
+        float finalAngle = baseAngle + delta;
+        Vector3 clampedDir = new Vector3(
+    Mathf.Cos(finalAngle * Mathf.Deg2Rad),
+    Mathf.Sin(finalAngle * Mathf.Deg2Rad)
+) * Mathf.Min(dir.magnitude, maxRadius);
+
+        transform.position = player.position + clampedDir;
+        transform.rotation = Quaternion.Euler(0, 0, finalAngle);
+        Flip(clampedDir);
     }
     private void Flip(Vector3 dir)
     {
-        if (dir.x < 0)
+        if (dir.x < 0) 
+        {
             _sprite.transform.localScale = new Vector3(-1, 1, 1);
+        }
+
         else
+        {
             _sprite.transform.localScale = Vector3.one;
+        }
+            
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -99,6 +118,26 @@ public class Hand : MonoBehaviour
         }
 
         return _weaponsInRange[_weaponsInRange.Count - 1];
+    }
+    private void OnDrawGizmos()
+    {
+        if (player == null) return;
+
+        // радиус
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(player.position, maxRadius);
+
+        // направление вперёд (ось X)
+        Vector3 forward = _isFacingRight ? Vector3.right : Vector3.left;
+
+        // границы углов
+
+        Vector3 leftBorder = Quaternion.Euler(0, 0, -maxAngle) * forward;
+        Vector3 rightBorder = Quaternion.Euler(0, 0, maxAngle) * forward;
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(player.position, player.position + leftBorder * maxRadius);
+        Gizmos.DrawLine(player.position, player.position + rightBorder * maxRadius);
     }
 
 }

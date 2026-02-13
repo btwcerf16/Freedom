@@ -2,6 +2,7 @@ using System;
 using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MovementController : MonoBehaviour
 {
@@ -41,7 +42,8 @@ public class MovementController : MonoBehaviour
     }
     private void AddTestEffect(InputAction.CallbackContext context)
     {
-        _effectHandler.AddEffect(_testEffect);
+        //_effectHandler.AddEffect(_testEffect);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     
 

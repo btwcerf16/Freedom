@@ -37,19 +37,18 @@ public static class ProceduralGenerationAlgorithm
         }
         return corridor;
     }
-    public static class Direction2D
-    {
-        public static List<Vector2Int> cardinalDirectionList = new List<Vector2Int>()
+}
+public static class Direction2D
+{
+    public static List<Vector2Int> cardinalDirectionList = new List<Vector2Int>()
         {
             Vector2Int.left,
         Vector2Int.right,
         Vector2Int.up,
         Vector2Int.down
         };
-        public static Vector2Int GetRandomCardinalDirection()
-        {
-            return cardinalDirectionList[Random.Range(0, cardinalDirectionList.Count)];
-        }
+    public static Vector2Int GetRandomCardinalDirection()
+    {
+        return cardinalDirectionList[Random.Range(0, cardinalDirectionList.Count)];
     }
-
 }

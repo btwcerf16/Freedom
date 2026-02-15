@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DungeonSO
   Iterations: 100
   WalkLength: 100
-  StartRandomlyEachIteration: 1
+  StartRandomlyEachIteration: 0

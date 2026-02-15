@@ -5,16 +5,14 @@ using UnityEngine;
 
 public class DungeonGenerator : AbstractDungeonGenerator
 {
-
-    [SerializeField] private DungeonSO _data;
-
+    [SerializeField] protected DungeonSO _dungeonParametrs;
 
 
-    protected HashSet<Vector2Int> RunRandomWalk(DungeonSO data)
+    protected HashSet<Vector2Int> RunRandomWalk(DungeonSO data, Vector2Int position)
     {
         if (data == null)
             return null;
-        Vector2Int currentPosition = startPosition;
+        Vector2Int currentPosition = position;
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         for (int i = 0; i < data.Iterations; i++)
         {
@@ -28,7 +26,7 @@ public class DungeonGenerator : AbstractDungeonGenerator
 
     protected override void RunProceduralGeneration()
     {
-        HashSet<Vector2Int> floorPositions = RunRandomWalk(_data);
+        HashSet<Vector2Int> floorPositions = RunRandomWalk(_dungeonParametrs, startPosition);
         _tilemapVisualizer.Clear();
         _tilemapVisualizer.PaintFloorTiles(floorPositions);
         WallGenerator.CreateWalls(floorPositions, _tilemapVisualizer);

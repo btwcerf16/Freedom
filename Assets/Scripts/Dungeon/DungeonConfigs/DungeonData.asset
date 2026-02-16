@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9118d9f0a3a28234f9e247e3e9fe181c, type: 3}
   m_Name: DungeonData
   m_EditorClassIdentifier: Assembly-CSharp::DungeonSO
-  Iterations: 100
-  WalkLength: 100
+  Iterations: 50
+  WalkLength: 15
   StartRandomlyEachIteration: 0

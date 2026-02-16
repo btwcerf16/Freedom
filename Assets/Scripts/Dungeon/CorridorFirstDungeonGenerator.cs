@@ -17,7 +17,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     {
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         HashSet<Vector2Int> potentialRoomPositions = new HashSet<Vector2Int>();
-        CreateCorridors(floorPositions, potentialRoomPositions);
+        List<List<Vector2Int>> corridors = CreateCorridors(floorPositions, potentialRoomPositions);
 
         HashSet<Vector2Int> roomPositions = CreateRooms(potentialRoomPositions);
 
@@ -27,8 +27,74 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 
         floorPositions.UnionWith(roomPositions);
 
+        for (int i = 0; i < corridors.Count; i++)
+        {
+            //corridors[i] = IncreaseCorridorsSizeByOne(corridors[i]);
+            corridors[i] = IncreaseCorridorBrush3by3(corridors[i]);
+            floorPositions.UnionWith(corridors[i]);
+            
+        }
+
         _tilemapVisualizer.PaintFloorTiles(floorPositions);
         WallGenerator.CreateWalls(floorPositions, _tilemapVisualizer);
+    }
+
+    private List<Vector2Int> IncreaseCorridorBrush3by3(List<Vector2Int> corridor)
+    {
+        List<Vector2Int> newCorridor = new List<Vector2Int>();
+        for (int i = 1; i < corridor.Count; i++)
+        {
+            for (int x = -1; x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    newCorridor.Add(corridor[i-1] + new Vector2Int(x, y));
+                }
+            }
+        }
+        return newCorridor;
+    }
+
+    private List<Vector2Int> IncreaseCorridorsSizeByOne(List<Vector2Int> corridor)
+    {
+        List<Vector2Int> newCorridor = new List<Vector2Int>();
+        Vector2Int previousDirection = Vector2Int.zero;
+
+        for (int i = 1; i < corridor.Count; i++)
+        {
+            Vector2Int directionFromCell = corridor[i] - corridor[i-1];
+            if(previousDirection != Vector2Int.zero && directionFromCell != previousDirection)
+            {
+                for (int x = -1; x < 2; x++)
+                {
+                    for (int y =-1; y < 2; y++)
+                    {
+                        newCorridor.Add(corridor[i - 1] + new Vector2Int(x, y));
+                    }
+                }
+                previousDirection = directionFromCell;
+            }
+            else
+            {
+                Vector2Int newCorridorTileOffset = GetDirection90From(directionFromCell);
+                newCorridor.Add(corridor[i - 1]);
+                newCorridor.Add(corridor[i - 1] + newCorridorTileOffset);
+            }
+        }
+        return newCorridor;
+    }
+
+    private Vector2Int GetDirection90From(Vector2Int directionFromCell)
+    {
+        if(directionFromCell == Vector2Int.up)
+            return Vector2Int.right;
+        if (directionFromCell == Vector2Int.right)
+            return Vector2Int.down;
+        if (directionFromCell == Vector2Int.down)
+            return Vector2Int.left;
+        if (directionFromCell == Vector2Int.left)
+            return Vector2Int.up;
+        return Vector2Int.zero;
     }
 
     private void CreateRoomsAtDeadEnd(List<Vector2Int> deadEnds, HashSet<Vector2Int> roomFloors)
@@ -75,16 +141,19 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         return roomPositions;
     }
 
-    private void CreateCorridors(HashSet<Vector2Int> floorPositions, HashSet<Vector2Int> potentialRoomPositions)
+    private List<List<Vector2Int>> CreateCorridors(HashSet<Vector2Int> floorPositions, HashSet<Vector2Int> potentialRoomPositions)
     {
         var currentPosition = startPosition;
         potentialRoomPositions.Add(currentPosition);
+        List<List<Vector2Int>> corridors = new List<List<Vector2Int>>();
         for (int i = 0; i < corridorCount; i++)
         {
             var corridor = ProceduralGenerationAlgorithm.RandomWalkCorridor(currentPosition, corridorLength);
+            corridors.Add(corridor);
             currentPosition = corridor[corridor.Count - 1];
             potentialRoomPositions.Add(currentPosition);
             floorPositions.UnionWith(corridor);
         }
+        return corridors;
     }
 }

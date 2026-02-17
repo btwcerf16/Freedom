@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DungeonData
   m_EditorClassIdentifier: Assembly-CSharp::DungeonSO
   Iterations: 50
-  WalkLength: 15
+  WalkLength: 40
   StartRandomlyEachIteration: 0

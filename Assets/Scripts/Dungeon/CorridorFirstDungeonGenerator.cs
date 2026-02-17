@@ -7,7 +7,15 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 {
     [SerializeField] private int corridorLength = 10, corridorCount = 10;
     [SerializeField, Range(0.1f, 1f)] private float RoomPercent;
-    
+
+    private Dictionary<Vector2Int, HashSet<Vector2Int>> _roomsDictionary =
+        new Dictionary<Vector2Int, HashSet<Vector2Int>>();
+    private HashSet<Vector2Int> _floorPositions;
+    private HashSet<Vector2Int> _corridorsPositions;
+
+    [SerializeField] private List<Color> _roomColors = new List<Color>();
+    [SerializeField] private bool _showRoomGizmo = false;
+    [SerializeField] private bool _showCorridorGizmo = false;
     protected override void RunProceduralGeneration()
     {
         CorridorFirstGeneration();
@@ -145,6 +153,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     {
         var currentPosition = startPosition;
         potentialRoomPositions.Add(currentPosition);
+
         List<List<Vector2Int>> corridors = new List<List<Vector2Int>>();
         for (int i = 0; i < corridorCount; i++)
         {

@@ -8,14 +8,11 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     [SerializeField] private int corridorLength = 10, corridorCount = 10;
     [SerializeField, Range(0.1f, 1f)] private float RoomPercent;
 
-    private Dictionary<Vector2Int, HashSet<Vector2Int>> _roomsDictionary =
-        new Dictionary<Vector2Int, HashSet<Vector2Int>>();
-    private HashSet<Vector2Int> _floorPositions;
-    private HashSet<Vector2Int> _corridorsPositions;
+    private HashSet<Vector2Int> floorPositions;
+    private HashSet<Vector2Int> corridorsPositions;
 
-    [SerializeField] private List<Color> _roomColors = new List<Color>();
-    [SerializeField] private bool _showRoomGizmo = false;
-    [SerializeField] private bool _showCorridorGizmo = false;
+    [SerializeField]private Dictionary<HashSet<Vector2Int>, int> _roomFloors;
+
     protected override void RunProceduralGeneration()
     {
         CorridorFirstGeneration();
@@ -23,10 +20,11 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 
     private void CorridorFirstGeneration()
     {
+        _roomFloors = new Dictionary<HashSet<Vector2Int>, int>();
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         HashSet<Vector2Int> potentialRoomPositions = new HashSet<Vector2Int>();
         List<List<Vector2Int>> corridors = CreateCorridors(floorPositions, potentialRoomPositions);
-
+        
         HashSet<Vector2Int> roomPositions = CreateRooms(potentialRoomPositions);
 
         List<Vector2Int> deadEnds = FindAllDeadEnds(floorPositions);
@@ -107,11 +105,15 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 
     private void CreateRoomsAtDeadEnd(List<Vector2Int> deadEnds, HashSet<Vector2Int> roomFloors)
     {
+        int i = _roomFloors.Count;
         foreach (Vector2Int pos in deadEnds) 
         {
+            i++;
             if (!roomFloors.Contains(pos))
             {
                 var room = RunRandomWalk(_dungeonParametrs, pos);
+                _roomFloors.Add(room, i);
+                Debug.Log(" ќмната" + i);
                 roomFloors.UnionWith(room);
             }
         }
@@ -139,15 +141,22 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     {
         HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
         int roomToCreateCount = Mathf.RoundToInt(potentialRoomPositions.Count * RoomPercent);
-
+        _roomFloors.Clear();
         List<Vector2Int> roomsToCreate = potentialRoomPositions.OrderBy(x => Guid.NewGuid()).Take(roomToCreateCount).ToList();
+        int i = 0;
         foreach (var roomPosition in roomsToCreate)
         {
+            i++;
             var roomFloor = RunRandomWalk(_dungeonParametrs, roomPosition);
+            _roomFloors.Add(roomFloor, i);
+            Debug.Log(" ќмната" + i);
             roomPositions.UnionWith(roomFloor);
         }
+        
         return roomPositions;
     }
+
+
 
     private List<List<Vector2Int>> CreateCorridors(HashSet<Vector2Int> floorPositions, HashSet<Vector2Int> potentialRoomPositions)
     {

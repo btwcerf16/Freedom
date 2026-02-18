@@ -15,3 +15,9 @@ MonoBehaviour:
   Iterations: 50
   WalkLength: 40
   StartRandomlyEachIteration: 0
+  EnemyList:
+  - {fileID: 8218736555722471786, guid: d9663bf42a1031c43adcbf9ad8d1f26c, type: 3}
+  Bosses:
+  - {fileID: 8218736555722471786, guid: d9663bf42a1031c43adcbf9ad8d1f26c, type: 3}
+  minEnemiesInRoom: 3
+  maxEnemiesInRoom: 5

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CorridorFirstDungeonGenerator : DungeonGenerator
 {
@@ -11,18 +12,24 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     private HashSet<Vector2Int> floorPositions;
     private HashSet<Vector2Int> corridorsPositions;
 
-    [SerializeField]private Dictionary<HashSet<Vector2Int>, int> _roomFloors;
+    private Dictionary<int, HashSet<Vector2Int>> _roomFloors;
+    private Dictionary<int, ETypeRoom> _roomTypes;
 
+    [SerializeField] private EnemySummoner _enemySummoner;
     protected override void RunProceduralGeneration()
     {
+        
         CorridorFirstGeneration();
+        
     }
 
     private void CorridorFirstGeneration()
     {
-        _roomFloors = new Dictionary<HashSet<Vector2Int>, int>();
+        _enemySummoner.ClearAllEnemies();
+        _roomFloors = new Dictionary<int, HashSet<Vector2Int>>();
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         HashSet<Vector2Int> potentialRoomPositions = new HashSet<Vector2Int>();
+        _roomTypes = new Dictionary<int, ETypeRoom>();
         List<List<Vector2Int>> corridors = CreateCorridors(floorPositions, potentialRoomPositions);
         
         HashSet<Vector2Int> roomPositions = CreateRooms(potentialRoomPositions);
@@ -42,7 +49,45 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         }
 
         _tilemapVisualizer.PaintFloorTiles(floorPositions);
+        AssignRoomRoles(_roomFloors);
         WallGenerator.CreateWalls(floorPositions, _tilemapVisualizer);
+    }
+
+    private void AssignRoomRoles(Dictionary<int, HashSet<Vector2Int>> roomFloors)
+    {
+        foreach (int index in roomFloors.Keys) 
+        {
+            if(index == 0)
+            {
+                _roomTypes[index] = ETypeRoom.Start;
+
+            }
+            else if(index == roomFloors.Count - 1)
+            {
+                _roomTypes[index] = ETypeRoom.BossRoom;
+            }
+            else
+            {
+                float roll = Random.value;
+                if (roll < 0.4)
+                {
+                    _roomTypes[index] = ETypeRoom.EnemyPit;
+                    SummonEnemies(_roomFloors[index], ETypeRoom.EnemyPit);
+                    Debug.Log("Комната врагов");
+                }
+                else if(roll < 0.7)
+                    _roomTypes[index] = ETypeRoom.TreasureRoom;
+
+                else
+                    _roomTypes[index] = ETypeRoom.TrialRoom;
+
+            }
+        }
+    }
+
+    private void SummonEnemies(HashSet<Vector2Int> floor, ETypeRoom ETypeRoom)
+    {
+        _enemySummoner.SummonEnemies(_dungeonParametrs,floor,ETypeRoom);
     }
 
     private List<Vector2Int> IncreaseCorridorBrush3by3(List<Vector2Int> corridor)
@@ -103,6 +148,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         return Vector2Int.zero;
     }
 
+
     private void CreateRoomsAtDeadEnd(List<Vector2Int> deadEnds, HashSet<Vector2Int> roomFloors)
     {
         int i = _roomFloors.Count;
@@ -112,7 +158,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             if (!roomFloors.Contains(pos))
             {
                 var room = RunRandomWalk(_dungeonParametrs, pos);
-                _roomFloors.Add(room, i);
+                _roomFloors.Add(i, room);
                 Debug.Log("КОмната" + i);
                 roomFloors.UnionWith(room);
             }
@@ -148,7 +194,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         {
             i++;
             var roomFloor = RunRandomWalk(_dungeonParametrs, roomPosition);
-            _roomFloors.Add(roomFloor, i);
+            _roomFloors.Add(i, roomFloor);
             Debug.Log("КОмната" + i);
             roomPositions.UnionWith(roomFloor);
         }

@@ -104,6 +104,19 @@ public static class ProceduralGenerationAlgorithm
         roomsQueue.Enqueue(room1);
         roomsQueue.Enqueue(room2);
     }
+    public static Vector2Int GetRoomCenter(HashSet<Vector2Int> room)
+    {
+        int x = 0;
+        int y = 0;
+
+        foreach (var pos in room)
+        {
+            x += pos.x;
+            y += pos.y;
+        }
+
+        return new Vector2Int(x / room.Count, y / room.Count);
+    }
 }
 public static class Direction2D
 {

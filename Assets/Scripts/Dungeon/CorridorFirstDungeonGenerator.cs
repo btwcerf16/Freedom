@@ -16,6 +16,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     private Dictionary<int, ETypeRoom> _roomTypes;
 
     [SerializeField] private EnemySummoner _enemySummoner;
+    [SerializeField] private TresuareSpwaner _tresuareSummoner;
     protected override void RunProceduralGeneration()
     {
         
@@ -26,6 +27,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     private void CorridorFirstGeneration()
     {
         _enemySummoner.ClearAllEnemies();
+        _tresuareSummoner.ClearAllTreasuares();
         _roomFloors = new Dictionary<int, HashSet<Vector2Int>>();
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         HashSet<Vector2Int> potentialRoomPositions = new HashSet<Vector2Int>();
@@ -68,15 +70,29 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             }
             else
             {
-                float roll = Random.value;
-                if (roll < 0.4)
+                float roll = Random.Range(0,101);
+                
+                if(roll <= _dungeonParametrs.RoomChances[1])
+                {
+                    if (_roomTypes.ContainsValue(ETypeRoom.TreasureRoom))
+                    {
+                        _roomTypes[index] = ETypeRoom.EnemyPit;
+                        SummonEnemies(_roomFloors[index], ETypeRoom.EnemyPit);
+                        Debug.Log("Комната врагов стала");
+                    }
+                    else
+                    {
+                        _roomTypes[index] = ETypeRoom.TreasureRoom;
+                        _tresuareSummoner.SpawnTresuare(_dungeonParametrs, _roomFloors[index]);
+                    }
+                    
+                }
+                else if (roll <= _dungeonParametrs.RoomChances[0])
                 {
                     _roomTypes[index] = ETypeRoom.EnemyPit;
                     SummonEnemies(_roomFloors[index], ETypeRoom.EnemyPit);
                     Debug.Log("Комната врагов");
                 }
-                else if(roll < 0.7)
-                    _roomTypes[index] = ETypeRoom.TreasureRoom;
 
                 else
                     _roomTypes[index] = ETypeRoom.TrialRoom;
@@ -220,4 +236,5 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         }
         return corridors;
     }
+
 }

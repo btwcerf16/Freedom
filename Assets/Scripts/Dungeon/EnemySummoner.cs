@@ -10,7 +10,7 @@ public class EnemySummoner : MonoBehaviour
     public void SummonEnemies(DungeonSO data, HashSet<Vector2Int> room, ETypeRoom typeRoom)
     {
       
-        Vector2Int center = GetRoomCenter(room);
+        Vector2Int center =ProceduralGenerationAlgorithm.GetRoomCenter(room);
         Vector3 spawnPos = new Vector3(center.x + 0.5f, center.y + 0.5f, 0);
         if (typeRoom == ETypeRoom.BossRoom)
         {
@@ -28,19 +28,7 @@ public class EnemySummoner : MonoBehaviour
             
         }
     }
-    private Vector2Int GetRoomCenter(HashSet<Vector2Int> room)
-    {
-        int x = 0;
-        int y = 0;
-
-        foreach (var pos in room)
-        {
-            x += pos.x;
-            y += pos.y;
-        }
-
-        return new Vector2Int(x / room.Count, y / room.Count);
-    }
+    
     public void ClearAllEnemies()
     {
         foreach (var enemy in _enemies)

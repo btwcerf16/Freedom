@@ -21,3 +21,11 @@ MonoBehaviour:
   - {fileID: 8218736555722471786, guid: d9663bf42a1031c43adcbf9ad8d1f26c, type: 3}
   minEnemiesInRoom: 3
   maxEnemiesInRoom: 5
+  CommonTresuareItems:
+  - {fileID: 1811734188486134392, guid: 869a2bc541869bc49a4f9e166b6e4ac9, type: 3}
+  RareTresuareItems:
+  - {fileID: 3613084049771210362, guid: f8c61639f15ddcb44a390b9765e3dc16, type: 3}
+  MythicTresuareItems:
+  - {fileID: 6916346822475502227, guid: 22b5c75da5ec6124985fcceae17e5e14, type: 3}
+  TresuareChances: 64000000320000000a000000
+  RoomChances: 64000000320000001e000000

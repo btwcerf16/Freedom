@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AbstractDungeonGenerator : MonoBehaviour
@@ -10,4 +11,5 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
         RunProceduralGeneration();
     }
     protected abstract void RunProceduralGeneration();
+    
 }

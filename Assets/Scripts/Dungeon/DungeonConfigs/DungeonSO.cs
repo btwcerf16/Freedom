@@ -12,5 +12,10 @@ public class DungeonSO : ScriptableObject
     public List<GameObject> Bosses;
     public int minEnemiesInRoom;
     public int maxEnemiesInRoom;
+    public List<GameObject> CommonTresuareItems;
+    public List<GameObject> RareTresuareItems;
+    public List<GameObject> MythicTresuareItems;
+    public List<int> TresuareChances;
+    public List<int> RoomChances; //0 - EnemyPit, 1, Tresuare, 2 - Trial
 
 }

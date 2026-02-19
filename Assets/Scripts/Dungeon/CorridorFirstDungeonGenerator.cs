@@ -8,15 +8,14 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 {
     [SerializeField] private int corridorLength = 10, corridorCount = 10;
     [SerializeField, Range(0.1f, 1f)] private float RoomPercent;
-
-    private HashSet<Vector2Int> floorPositions;
-    private HashSet<Vector2Int> corridorsPositions;
-
     private Dictionary<int, HashSet<Vector2Int>> _roomFloors;
     private Dictionary<int, ETypeRoom> _roomTypes;
 
     [SerializeField] private EnemySummoner _enemySummoner;
-    [SerializeField] private TresuareSpwaner _tresuareSummoner;
+    [SerializeField] private TresuareSpawaner _tresuareSummoner;
+
+    [SerializeField, Range(0f, 1f)]
+    private float gizmoAlpha = 0.3f;
     protected override void RunProceduralGeneration()
     {
         
@@ -57,46 +56,44 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 
     private void AssignRoomRoles(Dictionary<int, HashSet<Vector2Int>> roomFloors)
     {
-        foreach (int index in roomFloors.Keys) 
+        int bossIndex = ProceduralGenerationAlgorithm.GetFarthestRoomIndex(roomFloors);
+
+        foreach (var kvp in roomFloors)
         {
-            if(index == 0)
+            int index = kvp.Key;
+
+            if (_roomTypes.ContainsKey(index))
+                continue;
+
+            if (index == 0)
             {
                 _roomTypes[index] = ETypeRoom.Start;
-
+                continue;
             }
-            else if(index == roomFloors.Count - 1)
+
+            if (index == bossIndex)
             {
                 _roomTypes[index] = ETypeRoom.BossRoom;
+                SummonEnemies(roomFloors[index], ETypeRoom.BossRoom);
+                continue;
             }
+
+            float roll = Random.Range(0, 101);
+
+            if (roll <= _dungeonParametrs.RoomChances[2])
+            {
+                _roomTypes[index] = ETypeRoom.TrialRoom;
+                
+            }
+            else if (roll <= _dungeonParametrs.RoomChances[1])
+            {
+                _roomTypes[index] = ETypeRoom.TreasureRoom;
+                _tresuareSummoner.SpawnTresuare(_dungeonParametrs, roomFloors[index]);
+            }   
             else
             {
-                float roll = Random.Range(0,101);
-                
-                if(roll <= _dungeonParametrs.RoomChances[1])
-                {
-                    if (_roomTypes.ContainsValue(ETypeRoom.TreasureRoom))
-                    {
-                        _roomTypes[index] = ETypeRoom.EnemyPit;
-                        SummonEnemies(_roomFloors[index], ETypeRoom.EnemyPit);
-                        Debug.Log("Комната врагов стала");
-                    }
-                    else
-                    {
-                        _roomTypes[index] = ETypeRoom.TreasureRoom;
-                        _tresuareSummoner.SpawnTresuare(_dungeonParametrs, _roomFloors[index]);
-                    }
-                    
-                }
-                else if (roll <= _dungeonParametrs.RoomChances[0])
-                {
-                    _roomTypes[index] = ETypeRoom.EnemyPit;
-                    SummonEnemies(_roomFloors[index], ETypeRoom.EnemyPit);
-                    Debug.Log("Комната врагов");
-                }
-
-                else
-                    _roomTypes[index] = ETypeRoom.TrialRoom;
-
+                _roomTypes[index] = ETypeRoom.EnemyPit;
+                SummonEnemies(roomFloors[index], ETypeRoom.EnemyPit);
             }
         }
     }
@@ -167,7 +164,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 
     private void CreateRoomsAtDeadEnd(List<Vector2Int> deadEnds, HashSet<Vector2Int> roomFloors)
     {
-        int i = _roomFloors.Count;
+        int i = _roomFloors.Count-1;
         foreach (Vector2Int pos in deadEnds) 
         {
             i++;
@@ -208,9 +205,10 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         int i = 0;
         foreach (var roomPosition in roomsToCreate)
         {
-            i++;
+            
             var roomFloor = RunRandomWalk(_dungeonParametrs, roomPosition);
             _roomFloors.Add(i, roomFloor);
+            i++;
             Debug.Log("КОмната" + i);
             roomPositions.UnionWith(roomFloor);
         }
@@ -236,5 +234,46 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         }
         return corridors;
     }
+    private void OnDrawGizmos()
+    {
+        if (_roomFloors == null) return;
 
+        foreach (var kvp in _roomFloors)
+        {
+            int index = kvp.Key;
+            var room = kvp.Value;
+
+            Color baseColor = Color.white;
+
+            if (_roomTypes != null && _roomTypes.ContainsKey(index))
+            {
+                switch (_roomTypes[index])
+                {
+                    case ETypeRoom.Start:
+                        baseColor = Color.green;
+                        break;
+                    case ETypeRoom.BossRoom:
+                        baseColor = Color.red;
+                        break;
+                    case ETypeRoom.EnemyPit:
+                        baseColor = Color.yellow;
+                        break;
+                    case ETypeRoom.TreasureRoom:
+                        baseColor = Color.cyan;
+                        break;
+                    case ETypeRoom.TrialRoom:
+                        baseColor = Color.magenta;
+                        break;
+                }
+            }
+            Color gizmoColor = new Color(baseColor.r, baseColor.g, baseColor.b, gizmoAlpha);
+            Gizmos.color = gizmoColor;
+
+            foreach (var pos in room)
+            {
+                Gizmos.DrawCube(new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0), Vector3.one);
+            }
+        }
+    }
 }
+

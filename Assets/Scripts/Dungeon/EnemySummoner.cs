@@ -14,7 +14,7 @@ public class EnemySummoner : MonoBehaviour
         Vector3 spawnPos = new Vector3(center.x + 0.5f, center.y + 0.5f, 0);
         if (typeRoom == ETypeRoom.BossRoom)
         {
-            Instantiate(data.Bosses[Random.Range(0, data.Bosses.Count)], spawnPos, Quaternion.identity);
+            _enemies.Add(Instantiate(data.Bosses[Random.Range(0, data.Bosses.Count)], spawnPos, Quaternion.identity));
             return;
         }
 

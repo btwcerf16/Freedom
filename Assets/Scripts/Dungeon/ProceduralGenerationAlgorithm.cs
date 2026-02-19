@@ -117,6 +117,31 @@ public static class ProceduralGenerationAlgorithm
 
         return new Vector2Int(x / room.Count, y / room.Count);
     }
+    public static int GetFarthestRoomIndex(Dictionary<int, HashSet<Vector2Int>> rooms)
+    {
+        if (rooms == null || rooms.Count == 0) return -1;
+        Vector2Int startCenter = GetRoomCenter(rooms[0]);
+
+        float maxDistance = 0f;
+        int farthestIndex = 0;
+
+        foreach (var kvp in rooms)
+        {
+            int index = kvp.Key;
+            if (index == 0) continue;
+
+            Vector2Int center = GetRoomCenter(kvp.Value);
+            float dist = Vector2Int.Distance(startCenter, center);
+
+            if (dist > maxDistance)
+            {
+                maxDistance = dist;
+                farthestIndex = index;
+            }
+        }
+
+        return farthestIndex;
+    }
 }
 public static class Direction2D
 {

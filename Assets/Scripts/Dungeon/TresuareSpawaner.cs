@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
-public class TresuareSpwaner : MonoBehaviour
+public class TresuareSpawaner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _tresuares = new List<GameObject>();
     public void SpawnTresuare(DungeonSO data, HashSet<Vector2Int> room)

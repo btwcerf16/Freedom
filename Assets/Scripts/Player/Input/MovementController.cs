@@ -38,11 +38,11 @@ public class MovementController : MonoBehaviour
     private void ReadMovement()
     {
         Vector2 inputDirection = _controls.Player.Move.ReadValue<Vector2>();
+        
         _rigidbody2D.linearVelocity = inputDirection * _moveSpeed;
     }
     private void AddTestEffect(InputAction.CallbackContext context)
     {
-        //_effectHandler.AddEffect(_testEffect);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     

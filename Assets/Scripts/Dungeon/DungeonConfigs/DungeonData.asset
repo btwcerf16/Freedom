@@ -28,4 +28,4 @@ MonoBehaviour:
   MythicTresuareItems:
   - {fileID: 6916346822475502227, guid: 22b5c75da5ec6124985fcceae17e5e14, type: 3}
   TresuareChances: 64000000320000000a000000
-  RoomChances: 64000000320000001e000000
+  RoomChances: 640000001e0000000a000000

@@ -12,8 +12,8 @@ public class Hand : MonoBehaviour
     [SerializeField] private List<Weapon> _weaponsInRange = new();
     [SerializeField] private Weapon _currentWeapon;
     [SerializeField] private Sprite _baseSpriteImage;
-    [SerializeField] private float maxAngle = 70f;
     [SerializeField] private bool _isFacingRight = true;
+    public bool IsRightSide => _isFacingRight;
 
     private Camera _camera;
     private SpriteRenderer _sprite;
@@ -24,6 +24,7 @@ public class Hand : MonoBehaviour
         _sprite = GetComponentInChildren<SpriteRenderer>();
         _sprite.sprite = _baseSpriteImage;
     }
+    
 
     private void Update()
     {
@@ -36,32 +37,28 @@ public class Hand : MonoBehaviour
         if (dir.magnitude > maxRadius)
             dir = dir.normalized * maxRadius;
 
-
-
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        float baseAngle = _isFacingRight ? 0f : 180f;
-        float delta = Mathf.DeltaAngle(baseAngle, angle);
-        delta = Mathf.Clamp(delta, -maxAngle, maxAngle);
-        float finalAngle = baseAngle + delta;
-        Vector3 clampedDir = new Vector3(
-    Mathf.Cos(finalAngle * Mathf.Deg2Rad),
-    Mathf.Sin(finalAngle * Mathf.Deg2Rad)
-) * Mathf.Min(dir.magnitude, maxRadius);
 
-        transform.position = player.position + clampedDir;
-        transform.rotation = Quaternion.Euler(0, 0, finalAngle);
-        Flip(clampedDir);
+        transform.position = player.position + dir;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+        _isFacingRight = dir.x >= 0;
+
+        Flip(dir);
     }
     private void Flip(Vector3 dir)
     {
         if (dir.x < 0) 
         {
             _sprite.transform.localScale = new Vector3(-1, 1, 1);
+            if(_currentWeapon != null)
+                _currentWeapon.transform.localScale = new Vector3(1, -1, 1);
         }
 
         else
         {
             _sprite.transform.localScale = Vector3.one;
+            if (_currentWeapon != null)
+                _currentWeapon.transform.localScale = Vector3.one;
         }
             
     }
@@ -104,7 +101,9 @@ public class Hand : MonoBehaviour
     public void HideWeapon()
     {
         if (_currentWeapon == null)
+        {
             return;
+        }
         _currentWeapon.HideFromHand();
         
         _sprite.enabled = true;
@@ -122,22 +121,8 @@ public class Hand : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (player == null) return;
-
-        // радиус
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(player.position, maxRadius);
-
-        // направление вперёд (ось X)
-        Vector3 forward = _isFacingRight ? Vector3.right : Vector3.left;
-
-        // границы углов
-
-        Vector3 leftBorder = Quaternion.Euler(0, 0, -maxAngle) * forward;
-        Vector3 rightBorder = Quaternion.Euler(0, 0, maxAngle) * forward;
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(player.position, player.position + leftBorder * maxRadius);
-        Gizmos.DrawLine(player.position, player.position + rightBorder * maxRadius);
     }
 
 }

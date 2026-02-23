@@ -11,6 +11,7 @@ public class Icicle : Weapon
     public override void OnRelease()
     {
         Debug.Log("Конец");
+        _isAttacking = false;
     }
 
     public void Hit()
@@ -20,6 +21,7 @@ public class Icicle : Weapon
 
     public override void OnPress()
     {
+        _isAttacking = true;
         Hit();
     }
 }

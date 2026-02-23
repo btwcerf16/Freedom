@@ -18,7 +18,6 @@ public class Arrow : Projectile
         _animator.SetBool("IsSticked", true);
         RB2D.linearVelocity = Vector2.zero;
         RB2D.simulated = false;
-
         transform.SetParent(collider.transform);
     }
 }

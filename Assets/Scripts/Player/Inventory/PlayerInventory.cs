@@ -7,14 +7,14 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private InventorySlot[] _inventorySlots = new InventorySlot[2];
     private Weapon _activeWeapon;
     private int _activeIndexSlot;
-    public Weapon ActiveWeapon { get { return _activeWeapon; }}
+    public Weapon ActiveWeapon { get { return _activeWeapon; } }
     [SerializeField] private Hand _hand;
 
     public void PickupWeapon(Weapon weapon)
     {
         if (!_inventorySlots[_activeIndexSlot].IsBusy)
         {
-            
+
             _inventorySlots[_activeIndexSlot].SetWeapon(weapon);
             ChooseSlot(_activeIndexSlot);
             return;
@@ -28,11 +28,15 @@ public class PlayerInventory : MonoBehaviour
                 return;
             }
         }
-            Debug.Log("Инвентарь полон");
-        
+        Debug.Log("Инвентарь полон");
+
     }
     public void ThrowWeapon()
     {
+        if (_activeWeapon.IsAttacking || _activeWeapon != null)
+        {
+            return;
+        }
         _hand.UnequipWeapon();
         _activeWeapon = null;   
         _inventorySlots[_activeIndexSlot].UnsetWeapon();
@@ -44,7 +48,9 @@ public class PlayerInventory : MonoBehaviour
         if (weapon != null)
         {
             _activeWeapon = weapon;
+            //gameObject.GetComponent<ActorStats>().SetAttackDamage(_activeWeapon.AttackDamage);
             _hand.EquipWeapon(weapon);
+
         }
         else
         {

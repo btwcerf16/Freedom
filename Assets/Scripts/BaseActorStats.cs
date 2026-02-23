@@ -1,9 +1,8 @@
 using UnityEngine;
-
+[CreateAssetMenu(menuName ="ActorStats/Create new actor stats", fileName = "NewActorStats")]
 public class BaseActorStats : ScriptableObject
 {
     public float MaxHealh;
-    public float AttackDamage;
     public float CritChance;
     public float CritDamageMultiplier;
     public float PiercingDamageMultiplier;

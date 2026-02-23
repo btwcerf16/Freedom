@@ -57,6 +57,8 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     private void AssignRoomRoles(Dictionary<int, HashSet<Vector2Int>> roomFloors)
     {
         int bossIndex = ProceduralGenerationAlgorithm.GetFarthestRoomIndex(roomFloors);
+        int currentTresuareRoomCount = 0;
+        int currentTrialRoomCount = 0;
 
         foreach (var kvp in roomFloors)
         {
@@ -80,15 +82,17 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 
             float roll = Random.Range(0, 101);
 
-            if (roll <= _dungeonParametrs.RoomChances[2])
+            if (roll <= _dungeonParametrs.RoomChances[2] && currentTrialRoomCount < _dungeonParametrs.TrialRoomCount)
             {
                 _roomTypes[index] = ETypeRoom.TrialRoom;
+                currentTrialRoomCount++;
                 
             }
-            else if (roll <= _dungeonParametrs.RoomChances[1])
+            else if (roll <= _dungeonParametrs.RoomChances[1] && currentTresuareRoomCount < _dungeonParametrs.TresuareRoomCount)
             {
                 _roomTypes[index] = ETypeRoom.TreasureRoom;
                 _tresuareSummoner.SpawnTresuare(_dungeonParametrs, roomFloors[index]);
+                currentTresuareRoomCount++;
             }   
             else
             {

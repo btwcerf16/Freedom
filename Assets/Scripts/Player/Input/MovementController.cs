@@ -14,6 +14,9 @@ public class MovementController : MonoBehaviour
     private Vector2 moveInput;
     private EffectHandler _effectHandler;
     [SerializeField] private EffectData _testEffect;
+    [SerializeField] private float backwardMultiplier = 0.6f;
+    [SerializeField] private Hand _hand;
+    [SerializeField] private Transform _visual;
 
     private void Awake()
     {
@@ -24,6 +27,7 @@ public class MovementController : MonoBehaviour
     private void Update()
     {
         ReadMovement();
+        UpdateFacing();
     }
     private void OnEnable()
     {
@@ -38,13 +42,26 @@ public class MovementController : MonoBehaviour
     private void ReadMovement()
     {
         Vector2 inputDirection = _controls.Player.Move.ReadValue<Vector2>();
-        
-        _rigidbody2D.linearVelocity = inputDirection * _moveSpeed;
+
+        float speed = _moveSpeed;
+
+        float handDir = _hand.IsRightSide ? 1f : -1f;
+
+        if (Mathf.Sign(inputDirection.x) == -handDir && inputDirection.x != 0)
+            speed *= backwardMultiplier;
+
+        _rigidbody2D.linearVelocity = inputDirection * speed;
     }
     private void AddTestEffect(InputAction.CallbackContext context)
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    
+    private void UpdateFacing()
+    {
+        if (_hand.IsRightSide)
+            _visual.localScale = new Vector3(1, 1, 1);
+        else
+            _visual.localScale = new Vector3(-1, 1, 1);
+    }
 
 }

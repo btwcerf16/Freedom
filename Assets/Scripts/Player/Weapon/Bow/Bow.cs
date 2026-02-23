@@ -29,7 +29,7 @@ public class Bow : Weapon
     }
     public override void OnHold()
     {
-        
+        _isAttacking = true;
         _animator.SetBool("IsCharging", true);
         _currentChargeTime += Time.deltaTime * _chargeSpeed;
         if(_currentChargeTime >= _maxChargeTime)
@@ -50,7 +50,8 @@ public class Bow : Weapon
         Shoot();
         _currentChargeTime = 0;
         Debug.Log("Выстрел на чарж" + _currentChargeTime);
-        
+        _isAttacking = false;
+
     }
     private void Shoot()
     {

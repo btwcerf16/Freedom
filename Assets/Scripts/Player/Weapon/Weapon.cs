@@ -2,12 +2,17 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
+    public float AttackDamage;
+    public EAttackType AttackType;
+    public  EDamageType DamageType;
     protected Rigidbody2D _rb;
     protected Collider2D _collider;
     [SerializeField] protected SpriteRenderer _spriteRenderer;
     protected Animator _animator;
     [SerializeField] protected float zRotationOffset;
     protected Hand _hand;
+    protected bool _isAttacking;
+    public bool IsAttacking => _isAttacking;
     public virtual bool CanHold => false;
     protected virtual void Awake()
     {
@@ -40,6 +45,7 @@ public abstract class Weapon : MonoBehaviour
 
     public void AttachToHand(Transform hand)
     {
+        _animator.enabled = true;
         _hand = hand.GetComponent<Hand>();
         _rb.simulated = false;
         _collider.enabled = false;
@@ -52,6 +58,7 @@ public abstract class Weapon : MonoBehaviour
 
     public void DetachFromHand()
     {
+        
         transform.SetParent(null);
         _spriteRenderer.enabled = true;
         _rb.simulated = true;

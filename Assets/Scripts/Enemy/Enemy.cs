@@ -1,9 +1,16 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour
 {
-    public void GetDamage(float Damage)
+    public ActorStats EnemyActorStats;
+    protected Rigidbody2D _rigidBody2D;
+    protected BoxCollider2D _boxCollider;
+
+
+    private void InitializeEnemy()
     {
-        Debug.Log("Получил урон " + Damage);
+        EnemyActorStats = GetComponent<ActorStats>();
+        _rigidBody2D = GetComponent<Rigidbody2D>();
+        _boxCollider = GetComponent<BoxCollider2D>();
     }
 }

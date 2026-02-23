@@ -17,5 +17,6 @@ public class DungeonSO : ScriptableObject
     public List<GameObject> MythicTresuareItems;
     public List<int> TresuareChances;
     public List<int> RoomChances; //0 - EnemyPit, 1, Tresuare, 2 - Trial
-
+    public int TresuareRoomCount = 1;
+    public int TrialRoomCount = 1;
 }

@@ -30,6 +30,7 @@ public class ActorStats : MonoBehaviour, IDamageable
         CurrentRangeDamageMultiplier = _config.RangeDamageMultiplier;
         CurrentMeleeDamageMultiplier = _config.MeleeDamageMultiplier;
         CurrentCooldownReduction = _config.CooldownReduction;
+        
     }
     public void ResetAttackDamage()
     {

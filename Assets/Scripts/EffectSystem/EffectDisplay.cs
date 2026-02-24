@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +29,7 @@ public class EffectDisplay : MonoBehaviour
         }
         else
         {
-            InstanceParticles();
+            InstanceParticles(effect.EffectData.EffectColor, effect.EffectData.EffectDuration);
         }
     }
     public void ClearEffectSprite(Effect effect)
@@ -55,10 +56,13 @@ public class EffectDisplay : MonoBehaviour
         
 
     }
-    private void InstanceParticles()
+    private void InstanceParticles(UnityEngine.Color color, float duration)
     {
-        ParticleSystem particle = Instantiate(_particleSystem, transform);
-        particle.startColor = Color.blue;
+        ParticleSystem particle = Instantiate(_particleSystem, transform.position, Quaternion.identity, transform);
+        var main = particle.main;
+        main.duration = duration;
+        main.startColor = new ParticleSystem.MinMaxGradient(color);
+
         _particleInstances.Add(particle);
     }
 

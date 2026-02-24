@@ -9,7 +9,9 @@ public abstract class EffectData : ScriptableObject
     public float EffectDuration;
     [TextArea] public string EffectDescription;
     public Sprite SpriteIcon;
-
+    public Color EffectColor;
+    public bool IsBuff;
+    public bool CanPurged = true;
     public abstract Effect CreateEffect(GameObject owner);
 
 }

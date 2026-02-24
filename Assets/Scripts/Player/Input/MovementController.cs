@@ -54,7 +54,8 @@ public class MovementController : MonoBehaviour
     }
     private void AddTestEffect(InputAction.CallbackContext context)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        _effectHandler.AddEffect(_testEffect);
     }
     private void UpdateFacing()
     {

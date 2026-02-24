@@ -14,7 +14,7 @@ public class Hand : MonoBehaviour
     [SerializeField] private Sprite _baseSpriteImage;
     [SerializeField] private bool _isFacingRight = true;
     public bool IsRightSide => _isFacingRight;
-
+    public Transform Player => player;
     private Camera _camera;
     private SpriteRenderer _sprite;
 

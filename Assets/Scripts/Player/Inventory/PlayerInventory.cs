@@ -33,7 +33,7 @@ public class PlayerInventory : MonoBehaviour
     }
     public void ThrowWeapon()
     {
-        if (_activeWeapon.IsAttacking || _activeWeapon != null)
+        if (_activeWeapon.IsAttacking || _activeWeapon == null)
         {
             return;
         }

@@ -1,13 +1,14 @@
 using UnityEngine;
 public static class DamageCalculator
 {
-    public static float Calculate(
+    public static float CalculateDamage(
+        float baseDamage,
         EAttackType attackType,
         EDamageType damageType,
         ActorStats actorStats,
         out bool isCrit)
     {
-        float damage = Mathf.Max(0, actorStats.CurrentDamageAttack);
+        float damage = Mathf.Max(0, baseDamage);
 
         damage *= GetAttackModifier(attackType, actorStats);
         damage *= GetDamageModifier(damageType, actorStats);

@@ -47,6 +47,7 @@ public abstract class Weapon : MonoBehaviour
     {
         _animator.enabled = true;
         _hand = hand.GetComponent<Hand>();
+        _hand.Player.GetComponent<ActorStats>().SetAttackDamage(AttackDamage, AttackType, DamageType);
         _rb.simulated = false;
         _collider.enabled = false;
         _spriteRenderer.enabled = true;
@@ -54,11 +55,12 @@ public abstract class Weapon : MonoBehaviour
         transform.localScale = Vector3.one;
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(0, 0, hand.rotation.z);
+
     }
 
     public void DetachFromHand()
     {
-        
+        _hand.Player.GetComponent<ActorStats>().ResetAttackDamage();
         transform.SetParent(null);
         _spriteRenderer.enabled = true;
         _rb.simulated = true;
@@ -68,6 +70,7 @@ public abstract class Weapon : MonoBehaviour
     }
     public void HideFromHand()
     {
+        _hand.Player.GetComponent<ActorStats>().ResetAttackDamage();
         _spriteRenderer.enabled = false;
         _rb.simulated = false;
         _collider.enabled = false;

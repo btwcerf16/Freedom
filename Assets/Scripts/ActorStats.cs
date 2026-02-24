@@ -31,11 +31,14 @@ public class ActorStats : MonoBehaviour, IDamageable
         CurrentMeleeDamageMultiplier = _config.MeleeDamageMultiplier;
         CurrentCooldownReduction = _config.CooldownReduction;
     }
+    public void ResetAttackDamage()
+    {
+        CurrentDamageAttack = 0;
+    }
     public void SetAttackDamage(float attackDamage, EAttackType attackType, EDamageType damageType)
     {
         if(attackDamage < 0)
             attackDamage = 0;
-
         CurrentDamageAttack = attackDamage;
     }
     public void GetDamage(float damage)
@@ -45,7 +48,7 @@ public class ActorStats : MonoBehaviour, IDamageable
             CurrentHealth = 0;
             return;
         }
-            
+        
         CurrentHealth -= damage;
     }
 

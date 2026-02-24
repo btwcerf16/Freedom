@@ -8,9 +8,10 @@ using UnityEngine.UI;
 public class EffectDisplay : MonoBehaviour
 {
     [SerializeField] private bool _isPlayer;
-    [SerializeField]private GameObject _effectPanel;
+    [SerializeField] private GameObject _effectPanel;
     [SerializeField] private GameObject _effectImagePrefab;
-
+    [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] private List<ParticleSystem> _particleInstances;
     [SerializeField] private List<GameObject> _effectImage;
 
     public void AddEffectSprite(Effect effect)
@@ -27,7 +28,7 @@ public class EffectDisplay : MonoBehaviour
         }
         else
         {
-            //партиклы создает
+            InstanceParticles();
         }
     }
     public void ClearEffectSprite(Effect effect)
@@ -53,6 +54,12 @@ public class EffectDisplay : MonoBehaviour
         }
         
 
+    }
+    private void InstanceParticles()
+    {
+        ParticleSystem particle = Instantiate(_particleSystem, transform);
+        particle.startColor = Color.blue;
+        _particleInstances.Add(particle);
     }
 
 }

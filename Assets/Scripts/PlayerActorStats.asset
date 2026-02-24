@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: PlayerActorStats
   m_EditorClassIdentifier: Assembly-CSharp::BaseActorStats
   MaxHealh: 0
-  AttackDamage: 0
   CritChance: 0
-  CritDamageMultiplier: 0
-  PiercingDamageMultiplier: 0
-  SlashingDamageMultiplier: 0
-  BludgeoningDamageMultiplier: 0
-  MagicDamageMultiplier: 0
-  RangeDamageMultiplier: 0
-  MeleeDamageMultiplier: 0
+  CritDamageMultiplier: 1
+  PiercingDamageMultiplier: 1
+  SlashingDamageMultiplier: 1
+  BludgeoningDamageMultiplier: 1
+  MagicDamageMultiplier: 1
+  RangeDamageMultiplier: 1
+  MeleeDamageMultiplier: 1
   CooldownReduction: 0

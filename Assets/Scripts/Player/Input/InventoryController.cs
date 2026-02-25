@@ -7,10 +7,11 @@ public class InventoryController : MonoBehaviour
 
     private Controls _controls;
 
-    [SerializeField] private Hand _hand;
+    private PlayableActor _playerActor;
 
     private void Awake()
     {
+        _playerActor = GetComponent<PlayableActor>();
         _controls = new Controls();
         _playerInventory = GetComponent<PlayerInventory>();
     }
@@ -34,12 +35,12 @@ public class InventoryController : MonoBehaviour
     }
     private void OnPickup(InputAction.CallbackContext context)
     {
-        if(_hand == null) 
+        if(_playerActor == null) 
         {
             Debug.Log("Рука не найдена");
             return;
         }
-        Weapon weapon = _hand.GetLastWeaponInRange();
+        Weapon weapon = _playerActor.PlayerHand.GetLastWeaponInRange();
         if (weapon != null) 
         {
             _playerInventory.PickupWeapon(weapon);

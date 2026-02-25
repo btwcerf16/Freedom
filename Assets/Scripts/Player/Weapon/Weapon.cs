@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
@@ -47,7 +48,7 @@ public abstract class Weapon : MonoBehaviour
     {
         _animator.enabled = true;
         _hand = hand.GetComponent<Hand>();
-        _hand.Player.GetComponent<ActorStats>().SetAttackDamage(AttackDamage, AttackType, DamageType);
+        _hand.Player.PlayerActorStats.SetAttackDamage(AttackDamage, AttackType, DamageType);
         _rb.simulated = false;
         _collider.enabled = false;
         _spriteRenderer.enabled = true;
@@ -60,7 +61,7 @@ public abstract class Weapon : MonoBehaviour
 
     public void DetachFromHand()
     {
-        _hand.Player.GetComponent<ActorStats>().ResetAttackDamage();
+        _hand.Player.PlayerActorStats.ResetAttackDamage();
         transform.SetParent(null);
         _spriteRenderer.enabled = true;
         _rb.simulated = true;
@@ -70,7 +71,7 @@ public abstract class Weapon : MonoBehaviour
     }
     public void HideFromHand()
     {
-        _hand.Player.GetComponent<ActorStats>().ResetAttackDamage();
+        _hand.Player.PlayerActorStats.ResetAttackDamage();
         _spriteRenderer.enabled = false;
         _rb.simulated = false;
         _collider.enabled = false;

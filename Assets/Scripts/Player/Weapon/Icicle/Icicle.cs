@@ -16,6 +16,7 @@ public class Icicle : Weapon
 
     public void Hit()
     {
+        _hand.Player.PlayerCinemachineCamera.GetComponent<CinemachineShake>().ShakeCamera(0.3f, 0.2f);
         _animator.SetTrigger("Hit");
     }
 

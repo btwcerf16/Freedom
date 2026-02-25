@@ -7,19 +7,24 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(CircleCollider2D))]
 public class Hand : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    [SerializeField] private PlayableActor _player;
     [SerializeField] private float maxRadius = 1.5f;
     [SerializeField] private List<Weapon> _weaponsInRange = new();
     [SerializeField] private Weapon _currentWeapon;
     [SerializeField] private Sprite _baseSpriteImage;
     [SerializeField] private bool _isFacingRight = true;
     public bool IsRightSide => _isFacingRight;
-    public Transform Player => player;
+    public PlayableActor Player => _player;
     private Camera _camera;
     private SpriteRenderer _sprite;
 
+    public void Initialize(PlayableActor playableActor)
+    {
+        _player = playableActor;
+    }
     private void Awake()
     {
+        
         _camera = Camera.main;
         _sprite = GetComponentInChildren<SpriteRenderer>();
         _sprite.sprite = _baseSpriteImage;
@@ -28,18 +33,20 @@ public class Hand : MonoBehaviour
 
     private void Update()
     {
+        if (_player == null)
+            return;
         Vector3 mouseWorld =
             _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         mouseWorld.z = 0;
 
-        Vector3 dir = mouseWorld - player.position;
+        Vector3 dir = mouseWorld - _player.transform.position;
 
         if (dir.magnitude > maxRadius)
             dir = dir.normalized * maxRadius;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-        transform.position = player.position + dir;
+        transform.position = _player.transform.position + dir;
         transform.rotation = Quaternion.Euler(0, 0, angle);
         _isFacingRight = dir.x >= 0;
 
@@ -120,9 +127,9 @@ public class Hand : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        if (player == null) return;
+        if (_player == null) return;
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(player.position, maxRadius);
+        Gizmos.DrawWireSphere(_player.transform.position, maxRadius);
     }
 
 }

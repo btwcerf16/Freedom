@@ -9,6 +9,7 @@ public class RustyScrap : Weapon
 
     public override void OnPress()
     {
+        _hand.Player.PlayerCinemachineCamera.GetComponent<CinemachineShake>().ShakeCamera(0.8f, 0.2f);
         _isAttacking = true;
         _animator.SetTrigger("Attack");
     }

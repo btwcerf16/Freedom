@@ -10,7 +10,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     [SerializeField, Range(0.1f, 1f)] private float RoomPercent;
     private Dictionary<int, HashSet<Vector2Int>> _roomFloors;
     private Dictionary<int, ETypeRoom> _roomTypes;
-
+    public static HashSet<Vector2Int> WalkableTiles;
     [SerializeField] private EnemySummoner _enemySummoner;
     [SerializeField] private TresuareSpawaner _tresuareSummoner;
 
@@ -50,6 +50,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         }
 
         _tilemapVisualizer.PaintFloorTiles(floorPositions);
+        WalkableTiles = new HashSet<Vector2Int>(floorPositions);
         AssignRoomRoles(_roomFloors);
         WallGenerator.CreateWalls(floorPositions, _tilemapVisualizer);
     }

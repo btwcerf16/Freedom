@@ -162,6 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cafb34f84076bf419975c000c09da24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RustyScrap
+  AttackDamage: 5
+  AttackType: 2
+  DamageType: 2
   _spriteRenderer: {fileID: 0}
   zRotationOffset: 0
 --- !u!61 &2855712388327240936

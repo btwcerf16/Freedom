@@ -1,35 +1,111 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class MeleeEnemy : Enemy
 {
-    public float attackRange = 1.2f;
+    [Header("Combat")]
+    [SerializeField] private float attackDistance = 1.4f;
+    [SerializeField] private float attackCooldown = 1.8f;
+    [SerializeField] private float orbitRadius = 2.5f;
 
-    protected override void Act(float distance)
+    private float cooldownTimer;
+
+    private void Update()
     {
-        if (!agent.isOnNavMesh) return;
-
-        if (distance > attackRange)
+        if (!_agent.isOnNavMesh) { Debug.Log("YTQWEQF"); return; } 
+        if (!IsAgroed)
         {
-            agent.SetDestination(target.position);
+            Idle();
+            return;
         }
-        else
-        {
-            agent.ResetPath();
 
-            if (canAttack && _enemyController.CanAttack(this))
-            {
+        switch (_state)
+        {
+            case EEnemyState.Idle:
+                Idle();
+                break;
+
+            case EEnemyState.WaitingTurn:
+                WaitingTurn();
+                break;
+
+            case EEnemyState.Chase:
+                Chase();
+                break;
+
+            case EEnemyState.Attack:
                 Attack();
-                StartCoroutine(AttackCooldownRoutine());
-            }
+                break;
+
+            case EEnemyState.Cooldown:
+                Cooldown();
+                break;
         }
     }
 
-    protected override void Attack()
+    public override void StartAttackPermission()
     {
-        base.Attack();
-        Debug.Log($"{name} наносит удар игроку!");
-        // TODO: урон игроку
-        _enemyController.EnemyDoneAttacking(this);
+        base.StartAttackPermission();
+        _state = EEnemyState.Chase;
     }
 
+    public override bool CanAttack()
+    {
+        return IsAgroed && !IsCombatActive;
+    }
+
+    public override void Idle()
+    {
+        _agent.isStopped = true;
+    }
+
+    public override void WaitingTurn()
+    {
+        OrbitMovement(orbitRadius);
+
+        float dist = Vector3.Distance(transform.position, _target.position);
+
+       
+        if (IsCombatActive)
+            _state = EEnemyState.Chase;
+    }
+
+    public override void Chase()
+    {
+        _agent.isStopped = false;
+        _agent.SetDestination(_target.position);
+
+        float dist = Vector3.Distance(transform.position, _target.position);
+
+        if (dist <= attackDistance)
+        {
+            _agent.isStopped = true;  
+            _state = EEnemyState.Attack;
+        }
+    }
+
+    public override void Attack()
+    {
+        _agent.isStopped = true;
+
+        // С‚СѓС‚ С‚СЂРёРіРіРµСЂ Р°РЅРёРјР°С†РёРё
+        // Animator.SetTrigger("Attack");
+
+        DealDamage();
+
+        cooldownTimer = attackCooldown;
+        _state = EEnemyState.Cooldown;
+    }
+
+    private void Cooldown()
+    {
+        cooldownTimer -= Time.deltaTime;
+
+        if (cooldownTimer <= 0f)
+            _state = EEnemyState.Chase;
+    }
+
+    private void DealDamage()
+    {
+        //РЅР°РїРёС€Рё СѓСЂРѕРЅ
+    }
 }

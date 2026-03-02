@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.AI.Navigation;
+
 using UnityEngine;
 using UnityEngine.UI;
-
+using NavMeshPlus;
 using Random = UnityEngine.Random;
+using NavMeshPlus.Components;
 
 public class CorridorFirstDungeonGenerator : DungeonGenerator
 {
@@ -19,14 +20,15 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     public static HashSet<Vector2Int> WalkableTiles;
     [SerializeField] private EnemySummoner _enemySummoner;
     [SerializeField] private TresuareSpawaner _tresuareSummoner;
-
+    [SerializeField] private RoomTrigger _roomTriggerPrefab;
+    [SerializeField] private EnemyController _enemyController;
     [SerializeField, Range(0f, 1f)]
     private float gizmoAlpha = 0.3f;
     protected override void RunProceduralGeneration()
     {
         
         CorridorFirstGeneration();
-        
+        _navMeshSurface.BuildNavMeshAsync();
 
     }
 
@@ -57,10 +59,10 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             floorPositions.UnionWith(corridors[i]);
             
         }
-
+        floorPositions.UnionWith(SmoothFloor(floorPositions, 2));
         _tilemapVisualizer.PaintFloorTiles(floorPositions);
         WalkableTiles = new HashSet<Vector2Int>(floorPositions);
-        _navMeshSurface.BuildNavMesh();
+        //_navMeshSurface.BuildNavMesh();
         Debug.Log("Сделано");
         AssignRoomRoles(_roomFloors);
         
@@ -111,14 +113,20 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             {
                 _roomTypes[index] = ETypeRoom.EnemyPit;
                 SummonEnemies(roomFloors[index], ETypeRoom.EnemyPit);
+
             }
         }
         
     }
 
-    private void SummonEnemies(HashSet<Vector2Int> floor, ETypeRoom ETypeRoom)
+    private void SummonEnemies(HashSet<Vector2Int> floor, ETypeRoom typeRoom)
     {
-        _enemySummoner.SummonEnemies(_dungeonParametrs,floor,ETypeRoom);
+        List<Enemy> enemies = _enemySummoner.SummonEnemies(_dungeonParametrs, floor, typeRoom);
+
+        if (enemies == null || enemies.Count == 0) return;
+
+
+        CreateRoomTrigger(floor, enemies);
     }
 
     private List<Vector2Int> IncreaseCorridorBrush3by3(List<Vector2Int> corridor)
@@ -251,6 +259,79 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             floorPositions.UnionWith(corridor);
         }
         return corridors;
+    }
+    private void CreateRoomTrigger(HashSet<Vector2Int> floor, List<Enemy> enemies)
+    {
+        Vector2Int center = ProceduralGenerationAlgorithm.GetRoomCenter(floor);
+
+        var trigger = Instantiate(
+            _roomTriggerPrefab,
+            new Vector3(center.x + 0.5f, center.y + 0.5f, 0),
+            Quaternion.identity
+        ).GetComponent<RoomTrigger>();
+
+        Vector2Int min = floor.First();
+        Vector2Int max = floor.First();
+
+        foreach (var p in floor)
+        {
+            min = Vector2Int.Min(min, p);
+            max = Vector2Int.Max(max, p);
+        }
+
+        Vector2 size = new Vector2(
+            (max.x - min.x) + 1,
+            (max.y - min.y) + 1
+        );
+
+        trigger.SetSize(size);
+
+        // инициализация
+        trigger.Initialize(enemies, _enemyController);
+    }
+    private HashSet<Vector2Int> SmoothFloor(HashSet<Vector2Int> floor, int iterations = 1)
+    {
+        HashSet<Vector2Int> result = new HashSet<Vector2Int>(floor);
+
+        for (int i = 0; i < iterations; i++)
+        {
+            result = Dilate(result);
+            result = Erode(result);
+        }
+
+        return result;
+    }
+    private HashSet<Vector2Int> Dilate(HashSet<Vector2Int> floor)
+    {
+        HashSet<Vector2Int> expanded = new HashSet<Vector2Int>(floor);
+
+        foreach (var pos in floor)
+        {
+            foreach (var dir in Direction2D.cardinalDirectionList)
+                expanded.Add(pos + dir);
+        }
+
+        return expanded;
+    }
+    private HashSet<Vector2Int> Erode(HashSet<Vector2Int> floor)
+    {
+        HashSet<Vector2Int> result = new HashSet<Vector2Int>();
+
+        foreach (var pos in floor)
+        {
+            int neighbours = 0;
+
+            foreach (var dir in Direction2D.cardinalDirectionList)
+            {
+                if (floor.Contains(pos + dir))
+                    neighbours++;
+            }
+
+            if (neighbours >= 3)
+                result.Add(pos);
+        }
+
+        return result;
     }
     private void OnDrawGizmos()
     {

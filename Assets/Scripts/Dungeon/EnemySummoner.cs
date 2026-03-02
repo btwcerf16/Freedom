@@ -9,11 +9,11 @@ public class EnemySummoner : MonoBehaviour
     [SerializeField] private List<GameObject> _spawnedEnemies = new();
     [SerializeField] private Transform _player;
     [SerializeField] private EnemyController _enemyController;
-    public void SummonEnemies(DungeonSO data,HashSet<Vector2Int> room,ETypeRoom typeRoom)
+    public List<Enemy> SummonEnemies(DungeonSO data, HashSet<Vector2Int> room, ETypeRoom typeRoom)
     {
+        List<Enemy> roomEnemies = new();
 
         Vector2Int center = ProceduralGenerationAlgorithm.GetRoomCenter(room);
-
         Vector3 spawnPos = new Vector3(center.x + 0.5f, center.y + 0.5f, 0);
 
         if (typeRoom == ETypeRoom.BossRoom)
@@ -23,9 +23,11 @@ public class EnemySummoner : MonoBehaviour
                 spawnPos,
                 Quaternion.identity);
 
-            InitializeEnemy(obj);
+            Enemy enemy = InitializeEnemy(obj);
+            if (enemy != null) roomEnemies.Add(enemy);
+
             _spawnedEnemies.Add(obj);
-            return;
+            return roomEnemies;
         }
 
         int enemyCount = Random.Range(data.minEnemiesInRoom, data.maxEnemiesInRoom);
@@ -37,24 +39,26 @@ public class EnemySummoner : MonoBehaviour
                 new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0),
                 Quaternion.identity);
 
-            InitializeEnemy(obj);
+            Enemy enemy = InitializeEnemy(obj);
+            if (enemy != null) roomEnemies.Add(enemy);
+
             _spawnedEnemies.Add(obj);
-            
         }
+
+        return roomEnemies;
     }
 
-    private void InitializeEnemy(GameObject enemyObj)
+    private Enemy InitializeEnemy(GameObject enemyObj)
     {
         Enemy enemy = enemyObj.GetComponent<Enemy>();
         if (enemy == null)
         {
-            Debug.LogWarning($"У {enemyObj.name} нет компонента Enemy");
-            return;
+            Debug.LogWarning($"У {enemyObj.name} нет Enemy");
+            return null;
         }
 
-        enemy.SetTarget(_player);
-        enemy.TriggerAggro();        
-        _enemyController.RegisterEnemy(enemy);
+        enemy.Initialize(_enemyController, _player);
+        return enemy;
     }
 
     public void ClearAllEnemies()
@@ -63,6 +67,5 @@ public class EnemySummoner : MonoBehaviour
             DestroyImmediate(enemy);
 
         _spawnedEnemies.Clear();
-        _enemyController.ClearRegisteredEnemy();
     }
 }

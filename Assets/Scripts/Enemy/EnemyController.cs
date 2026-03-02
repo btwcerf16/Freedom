@@ -3,32 +3,59 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public List<Enemy> enemies = new List<Enemy>();
-    private Enemy activeEnemy;
 
+    [SerializeField] private List<Enemy> _attackQueue = new List<Enemy>();
+    [SerializeField] private List<Enemy> _enemiesIsAgroed = new List<Enemy>();//все враги в 1 комнате
+    [Range(0.0f, 1)] public float AttackPressure;
+
+    private void Update()
+    {
+        CombatLogic();
+    }
+    private void CombatLogic()
+    {
+        if (_enemiesIsAgroed.Count == 0) return;
+
+        int maxAttackers = Mathf.CeilToInt(_enemiesIsAgroed.Count * AttackPressure);
+
+        // текущие атакующие
+        _attackQueue.RemoveAll(e => e == null || !e.IsAgroed);
+
+        if (_attackQueue.Count < maxAttackers)
+        {
+            TryAddAttackers(maxAttackers - _attackQueue.Count);
+        }
+    }
+
+    private void TryAddAttackers(int count)
+    {
+        foreach (var enemy in _enemiesIsAgroed)
+        {
+            if (_attackQueue.Contains(enemy)) continue;
+            if (!enemy.CanAttack()) continue;
+
+            _attackQueue.Add(enemy);
+            enemy.StartAttackPermission();
+
+            count--;
+            if (count <= 0) break;
+        }
+    }
+    public int GetEnemyIndex(Enemy enemy)
+    {
+        return _enemiesIsAgroed.IndexOf(enemy);
+    }
+
+    public int GetEnemiesCount()
+    {
+        return _enemiesIsAgroed.Count;
+    }
     public void RegisterEnemy(Enemy enemy)
     {
-        enemies.Add(enemy);
-        enemy.SetManager(this);
+        _enemiesIsAgroed.Add(enemy);
     }
-
-    public bool CanAttack(Enemy enemy)
+    public void UnregisterEnemy(Enemy enemy)
     {
-        if (activeEnemy == null || activeEnemy == enemy)
-        {
-            activeEnemy = enemy;
-            return true;
-        }
-        return false;
-    }
-
-    public void EnemyDoneAttacking(Enemy enemy)
-    {
-        if (activeEnemy == enemy)
-            activeEnemy = null;
-    }
-    public void ClearRegisteredEnemy()
-    {
-        enemies.Clear();
+        _enemiesIsAgroed.Remove(enemy);
     }
 }

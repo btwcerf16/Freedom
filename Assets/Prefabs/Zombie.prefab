@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8191688242195286549}
   - component: {fileID: 4774668198019988392}
   - component: {fileID: 3206273799222855567}
-  - component: {fileID: 2498713695677203925}
+  - component: {fileID: -7558082627737597483}
   m_Layer: 7
   m_Name: Zombie
   m_TagString: Untagged
@@ -216,7 +216,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2498713695677203925
+--- !u!114 &-7558082627737597483
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -228,7 +228,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c61677687daa4244860a74b61be0512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeEnemy
-  detectionRadius: 5
-  attackCooldown: 1.5
-  target: {fileID: 0}
-  attackRange: 1.2
+  EnemyStats: {fileID: 0}
+  EnemyEffectHandler: {fileID: 0}
+  _agent: {fileID: 3206273799222855567}
+  IsAgroed: 0
+  IsCombatActive: 0
+  EnemyType: 0
+  attackDistance: 1.4
+  attackCooldown: 1.8
+  orbitRadius: 2.5

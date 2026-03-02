@@ -1,80 +1,73 @@
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public abstract class Enemy : MonoBehaviour
 {
-    [Header("Common Settings")]
-    public float detectionRadius = 5f;
-    public float attackCooldown = 1.5f;
-    public Transform target;
-
-    protected NavMeshAgent agent;
-    protected bool canAttack = true;
-    [SerializeField]protected bool isAggro = false;
+    protected Transform _target;
+    public ActorStats EnemyStats;
+    public EffectHandler EnemyEffectHandler;
+    [SerializeField]protected NavMeshAgent _agent;
+    public bool IsAgroed;
+    public bool IsCombatActive;
+    public EEnemyType EnemyType;
     protected EnemyController _enemyController;
+    protected EEnemyState _state;
+    public EEnemyState CurrentState => _state;
 
-    protected virtual void Awake()
+    private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
+
+        _agent.updateRotation = false;
+        _agent.updateUpAxis = false;
     }
-
-    public void SetManager(EnemyController enemyController)
+    public void Initialize(EnemyController enemyController, Transform target)
     {
+        EnemyStats = GetComponent<ActorStats>();
+        _agent = GetComponent<NavMeshAgent>();
+        _target = target;
         _enemyController = enemyController;
+        
     }
-
-    public void SetTarget(Transform player)
+    public virtual void StartAttackPermission()
     {
-        target = player;
+        IsCombatActive = true;
+        _state = EEnemyState.Chase;
     }
-
-    public void TriggerAggro()
+    public virtual void WaitingTurn() { }
+    public virtual void Attack() { }
+    public virtual void Chase() { }
+    public virtual void Idle() { }
+    public virtual bool CanAttack()
     {
-        isAggro = true;
-        Aggro();
+        return false;
     }
-
-    protected virtual void Update()
+    protected Vector3 GetOrbitPosition(float radius)
     {
-        if (!isAggro || target == null)
-        {
-            Idle();
-            return;
-        }
+        int index = _enemyController.GetEnemyIndex(this);
+        int total = _enemyController.GetEnemiesCount();
 
-        float distance = Vector3.Distance(transform.position, target.position);
-        Act(distance);
+        if (total == 0) return transform.position;
+
+        float angle = (360f / total) * index;
+        float rad = angle * Mathf.Deg2Rad;
+
+        Vector3 offset = new Vector3(
+            Mathf.Cos(rad) * radius,
+            Mathf.Sin(rad) * radius,
+            0f
+        );
+
+        return _target.position + offset;
     }
-
-    protected IEnumerator AttackCooldownRoutine()
+    protected void OrbitMovement(float radius)
     {
-        canAttack = false;
-        yield return new WaitForSeconds(attackCooldown);
-        canAttack = true;
+        Vector3 orbitPos = GetOrbitPosition(radius);
+        _agent.isStopped = false;
+        _agent.SetDestination(orbitPos);
     }
-
-
-    protected abstract void Act(float distance);
-
-    protected virtual void Idle()
+    protected virtual void OnDestroy() 
     {
-        if (agent.isOnNavMesh)
-            agent.ResetPath();
-        // TODO: добавить анимацию idle
-    }
-
-    protected virtual void Aggro()
-    {
-
-        Debug.Log($"{name} агрится на игрока!");
-    }
-
-    protected virtual void Attack()
-    {
-        Debug.Log($"{name} атакует!");
+        _enemyController.UnregisterEnemy(this);
     }
 }

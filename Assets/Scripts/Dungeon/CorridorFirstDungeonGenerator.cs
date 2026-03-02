@@ -1,11 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.UI;
+
 using Random = UnityEngine.Random;
 
 public class CorridorFirstDungeonGenerator : DungeonGenerator
 {
+    
+
+    [SerializeField] private NavMeshSurface _navMeshSurface;
     [SerializeField] private int corridorLength = 10, corridorCount = 10;
     [SerializeField, Range(0.1f, 1f)] private float RoomPercent;
     private Dictionary<int, HashSet<Vector2Int>> _roomFloors;
@@ -21,11 +27,14 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         
         CorridorFirstGeneration();
         
+
     }
 
     private void CorridorFirstGeneration()
     {
+
         _enemySummoner.ClearAllEnemies();
+        
         _tresuareSummoner.ClearAllTreasuares();
         _roomFloors = new Dictionary<int, HashSet<Vector2Int>>();
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
@@ -51,7 +60,10 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 
         _tilemapVisualizer.PaintFloorTiles(floorPositions);
         WalkableTiles = new HashSet<Vector2Int>(floorPositions);
+        _navMeshSurface.BuildNavMesh();
+        Debug.Log("Сделано");
         AssignRoomRoles(_roomFloors);
+        
         WallGenerator.CreateWalls(floorPositions, _tilemapVisualizer);
     }
 
@@ -60,7 +72,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         int bossIndex = ProceduralGenerationAlgorithm.GetFarthestRoomIndex(roomFloors);
         int currentTresuareRoomCount = 0;
         int currentTrialRoomCount = 0;
-
+        
         foreach (var kvp in roomFloors)
         {
             int index = kvp.Key;
@@ -87,20 +99,21 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             {
                 _roomTypes[index] = ETypeRoom.TrialRoom;
                 currentTrialRoomCount++;
-                
+
             }
             else if (roll <= _dungeonParametrs.RoomChances[1] && currentTresuareRoomCount < _dungeonParametrs.TresuareRoomCount)
             {
                 _roomTypes[index] = ETypeRoom.TreasureRoom;
                 _tresuareSummoner.SpawnTresuare(_dungeonParametrs, roomFloors[index]);
                 currentTresuareRoomCount++;
-            }   
+            }
             else
             {
                 _roomTypes[index] = ETypeRoom.EnemyPit;
                 SummonEnemies(roomFloors[index], ETypeRoom.EnemyPit);
             }
         }
+        
     }
 
     private void SummonEnemies(HashSet<Vector2Int> floor, ETypeRoom ETypeRoom)

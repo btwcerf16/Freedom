@@ -12,7 +12,7 @@ public abstract class Enemy : MonoBehaviour
     public bool IsCombatActive;
     public EEnemyType EnemyType;
     protected EnemyController _enemyController;
-    protected EEnemyState _state;
+    [SerializeField]protected EEnemyState _state;
     public EEnemyState CurrentState => _state;
 
     private void Start()
@@ -65,6 +65,10 @@ public abstract class Enemy : MonoBehaviour
         Vector3 orbitPos = GetOrbitPosition(radius);
         _agent.isStopped = false;
         _agent.SetDestination(orbitPos);
+    }
+    public void SetState(EEnemyState state)
+    {
+        _state = state;
     }
     protected virtual void OnDestroy() 
     {

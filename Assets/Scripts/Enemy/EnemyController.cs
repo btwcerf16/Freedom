@@ -25,6 +25,10 @@ public class EnemyController : MonoBehaviour
         {
             TryAddAttackers(maxAttackers - _attackQueue.Count);
         }
+        if(_attackQueue.Count > maxAttackers)
+        {
+            DiscardAttacker(maxAttackers);
+        }
     }
 
     private void TryAddAttackers(int count)
@@ -40,6 +44,15 @@ public class EnemyController : MonoBehaviour
             count--;
             if (count <= 0) break;
         }
+    }
+    private void DiscardAttacker(int maxAttackers)
+    {
+        foreach(var enemy in _attackQueue)
+        {
+            enemy.SetState(EEnemyState.WaitingTurn);
+        }
+        _attackQueue.Clear();
+        TryAddAttackers(maxAttackers);
     }
     public int GetEnemyIndex(Enemy enemy)
     {

@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour
     {
         foreach(var enemy in _attackQueue)
         {
-            enemy.SetState(EEnemyState.WaitingTurn);
+            enemy.EndAttackPermission();
         }
         _attackQueue.Clear();
         TryAddAttackers(maxAttackers);
@@ -66,6 +66,7 @@ public class EnemyController : MonoBehaviour
     public void RegisterEnemy(Enemy enemy)
     {
         _enemiesIsAgroed.Add(enemy);
+        enemy.SetState(EEnemyState.WaitingTurn);
     }
     public void UnregisterEnemy(Enemy enemy)
     {

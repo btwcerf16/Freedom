@@ -234,6 +234,7 @@ MonoBehaviour:
   IsAgroed: 0
   IsCombatActive: 0
   EnemyType: 0
+  _state: 0
   attackDistance: 1.4
   attackCooldown: 1.8
-  orbitRadius: 2.5
+  orbitRadius: 4

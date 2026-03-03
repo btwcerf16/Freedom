@@ -12,7 +12,14 @@ public abstract class Enemy : MonoBehaviour
     public bool IsCombatActive;
     public EEnemyType EnemyType;
     protected EnemyController _enemyController;
-    [SerializeField]protected EEnemyState _state;
+    [SerializeField] protected EEnemyState _state;
+    [SerializeField] protected float orbitRadius = 2.5f;
+    [SerializeField] protected float orbitSpeed = 20f;
+    [SerializeField] protected float angleRandomOffset = 25f;
+    private float _currentAngle;
+
+    private float _baseAngle;
+    private float _randomOffset;
     public EEnemyState CurrentState => _state;
 
     private void Start()
@@ -27,7 +34,13 @@ public abstract class Enemy : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _target = target;
         _enemyController = enemyController;
-        
+        _baseAngle = (360f / _enemyController.GetEnemiesCount())
+                     * _enemyController.GetEnemyIndex(this);
+
+        _randomOffset = Random.Range(-angleRandomOffset, angleRandomOffset);
+
+        _currentAngle = _baseAngle + _randomOffset;
+
     }
     public virtual void StartAttackPermission()
     {
@@ -38,9 +51,10 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Attack() { }
     public virtual void Chase() { }
     public virtual void Idle() { }
+    public virtual void EndAttackPermission() { }
     public virtual bool CanAttack()
     {
-        return false;
+        return true;
     }
     protected Vector3 GetOrbitPosition(float radius)
     {
@@ -60,11 +74,35 @@ public abstract class Enemy : MonoBehaviour
 
         return _target.position + offset;
     }
-    protected void OrbitMovement(float radius)
+    protected void OrbitMovement()
     {
-        Vector3 orbitPos = GetOrbitPosition(radius);
-        _agent.isStopped = false;
-        _agent.SetDestination(orbitPos);
+        if (_target == null) return;
+        if (!_agent.isOnNavMesh) return;
+
+        _currentAngle += orbitSpeed * Time.deltaTime;
+
+   
+        if (_currentAngle > 360f)
+            _currentAngle -= 360f;
+
+        float rad = _currentAngle * Mathf.Deg2Rad;
+
+        float radiusOffset = Mathf.Sin(Time.time * 2f) * 0.3f;
+        float currentRadius = orbitRadius + radiusOffset;
+
+        Vector3 offset = new Vector3(
+            Mathf.Cos(rad) * currentRadius,
+            Mathf.Sin(rad) * currentRadius,
+            0f
+        );
+
+        Vector3 orbitPos = _target.position + offset;
+
+        if (!float.IsNaN(orbitPos.x) && !float.IsNaN(orbitPos.y))
+        {
+            _agent.isStopped = false;
+            _agent.SetDestination(orbitPos);
+        }
     }
     public void SetState(EEnemyState state)
     {

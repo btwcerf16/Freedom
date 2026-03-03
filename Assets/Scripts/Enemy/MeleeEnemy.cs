@@ -5,7 +5,7 @@ public class MeleeEnemy : Enemy
     [Header("Combat")]
     [SerializeField] private float attackDistance = 1.4f;
     [SerializeField] private float attackCooldown = 1.8f;
-    [SerializeField] private float orbitRadius = 2.5f;
+
 
     private float cooldownTimer;
 
@@ -44,8 +44,12 @@ public class MeleeEnemy : Enemy
 
     public override void StartAttackPermission()
     {
-        base.StartAttackPermission();
-        _state = EEnemyState.Chase;
+
+        SetState(EEnemyState.Chase);
+    }
+    public override void EndAttackPermission()
+    {
+        SetState(EEnemyState.WaitingTurn);
     }
 
     public override bool CanAttack()
@@ -60,13 +64,13 @@ public class MeleeEnemy : Enemy
 
     public override void WaitingTurn()
     {
-        OrbitMovement(orbitRadius);
+        OrbitMovement();
 
         float dist = Vector3.Distance(transform.position, _target.position);
 
        
         if (IsCombatActive)
-            _state = EEnemyState.Chase;
+            SetState(EEnemyState.Chase);
     }
 
     public override void Chase()
@@ -78,13 +82,14 @@ public class MeleeEnemy : Enemy
 
         if (dist <= attackDistance)
         {
-            _agent.isStopped = true;  
-            _state = EEnemyState.Attack;
+            _agent.isStopped = true;
+            SetState(EEnemyState.Attack);
         }
     }
 
     public override void Attack()
     {
+        if (!CanAttack()) return;
         _agent.isStopped = true;
 
         // тут триггер анимации
@@ -93,7 +98,7 @@ public class MeleeEnemy : Enemy
         DealDamage();
 
         cooldownTimer = attackCooldown;
-        _state = EEnemyState.Cooldown;
+        SetState(EEnemyState.Cooldown);
     }
 
     private void Cooldown()
@@ -101,7 +106,7 @@ public class MeleeEnemy : Enemy
         cooldownTimer -= Time.deltaTime;
 
         if (cooldownTimer <= 0f)
-            _state = EEnemyState.Chase;
+            SetState(EEnemyState.Chase);
     }
 
     private void DealDamage()

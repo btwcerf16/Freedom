@@ -11,12 +11,17 @@ public class EnemyController : MonoBehaviour
     public int activated;
     public void ActiveRoom(List<Enemy> enemies)
     {
-        
+
+        foreach (var e in enemies)
+        {
+            if (e == null)
+                Debug.LogError("NULL ENEMY FOUND IN LIST");
+        }
+
         foreach (Enemy enemy in enemies)
         {
             _agroedEnemies.Add(enemy);
             enemy.IsAgroed = true;
-            enemy.SetState(EEnemyState.WaitingTurn);
         }
         _attackersInWave = ((int)Mathf.Max(1, _agroedEnemies.Count * AttackPermission));
         AriseEnemies(enemies);
@@ -32,10 +37,11 @@ public class EnemyController : MonoBehaviour
             {
                 Debug.Log("Восстают1");
                 _agroedEnemies.Remove(enemy);
+                
+                _activeEnemies.Add(enemy);
+                enemy.IsCombatActive = true;
                 enemy.gameObject.SetActive(true);
                 enemy.EnableAfterSpawn();
-                enemy.IsCombatActive = true;
-
             }
             if (activated >= _attackersInWave) {
                 break;
@@ -44,6 +50,7 @@ public class EnemyController : MonoBehaviour
     }
     public void ReArise()
     {
+        activated--;
         if(activated == 0 && _agroedEnemies.Count > 0)
         {
             AriseEnemies(_agroedEnemies);

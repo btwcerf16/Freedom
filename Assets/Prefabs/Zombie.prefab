@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4774668198019988392}
   - component: {fileID: 3206273799222855567}
   - component: {fileID: -7558082627737597483}
+  - component: {fileID: 128139792803002729}
   m_Layer: 7
   m_Name: Zombie
   m_TagString: Untagged
@@ -266,7 +267,29 @@ MonoBehaviour:
   IsAgroed: 0
   IsCombatActive: 0
   EnemyType: 0
-  _state: 0
+  _state: 1
   IsDead: 0
   attackDistance: 1.4
   attackCooldown: 1.8
+--- !u!95 &128139792803002729
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8218736555722471786}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 045c806f6f5efc44f97fd2ef70f6d1c0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

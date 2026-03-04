@@ -11,67 +11,48 @@ public class MeleeEnemy : Enemy
 
     private void Update()
     {
-        if (!_agent.isOnNavMesh) { Debug.Log("YTQWEQF"); return; } 
-        if (!IsAgroed)
-        {
-            Idle();
-            return;
-        }
+        if (cooldownTimer > 0f)
+            cooldownTimer -= Time.deltaTime;
+
+        if (!_agent.isOnNavMesh) return;
 
         switch (_state)
         {
-            case EEnemyState.Idle:
-                Idle();
-                break;
-
-            case EEnemyState.WaitingTurn:
-                WaitingTurn();
-                break;
-
-            case EEnemyState.Chase:
-                Chase();
-                break;
-
-            case EEnemyState.Attack:
-                Attack();
-                break;
-
-            case EEnemyState.Cooldown:
-                Cooldown();
-                break;
-
-        }
-        if (IsDead)
-        {
-         
+            case EEnemyState.Arise: Arise(); break;
+            case EEnemyState.WaitingTurn: WaitingTurn(); break;
+            case EEnemyState.Chase: Chase(); break;
+            case EEnemyState.Attack: Attack(); break;
         }
     }
 
     public override bool CanAttack()
     {
-        return IsAgroed && !IsCombatActive;
+        return IsAgroed && IsCombatActive && cooldownTimer <= 0.0f;
     }
 
     public override void Idle()
     {
         _agent.isStopped = true;
+        SetState(EEnemyState.Chase);
     }
 
     public override void WaitingTurn()
     {
 
         if (IsCombatActive)
-            SetState(EEnemyState.Chase);
+            SetState(EEnemyState.Chase);    
     }
 
     public override void Chase()
     {
+        _animator.SetBool("Chase", true);
         _agent.isStopped = false;
         _agent.SetDestination(_target.position);
+       
 
         float dist = Vector3.Distance(transform.position, _target.position);
 
-        if (dist <= attackDistance)
+        if (dist <= attackDistance && CanAttack())
         {
             _agent.isStopped = true;
             SetState(EEnemyState.Attack);
@@ -80,26 +61,16 @@ public class MeleeEnemy : Enemy
 
     public override void Attack()
     {
-        if (!CanAttack()) return;
+        _animator.SetTrigger("Attack");
+        cooldownTimer = attackCooldown;
         _agent.isStopped = true;
-
-        // тут триггер анимации
-        // Animator.SetTrigger("Attack");
-
         DealDamage();
 
-        cooldownTimer = attackCooldown;
-        SetState(EEnemyState.Cooldown);
     }
-
-    private void Cooldown()
+    public override void Arise()
     {
-        cooldownTimer -= Time.deltaTime;
-
-        if (cooldownTimer <= 0f)
-            SetState(EEnemyState.Chase);
+        SetState(EEnemyState.Chase);
     }
-
     private void DealDamage()
     {
         //напиши урон

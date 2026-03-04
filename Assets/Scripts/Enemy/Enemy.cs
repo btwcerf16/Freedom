@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public abstract class Enemy : MonoBehaviour
 {
     protected Transform _target;
+    protected Animator _animator;
     public ActorStats EnemyStats;
     public EffectHandler EnemyEffectHandler;
     [SerializeField]protected NavMeshAgent _agent;
@@ -29,7 +30,8 @@ public abstract class Enemy : MonoBehaviour
         EnemyStats = GetComponent<ActorStats>();
         _target = target;
         _enemyController = enemyController;
-       
+        _animator = GetComponent<Animator>();
+
 
     }
     public virtual void Death()
@@ -40,7 +42,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Attack() { }
     public virtual void Chase() { }
     public virtual void Idle() { }
-
+    public virtual void Arise() {}
     public virtual bool CanAttack()
     {
         return true;
@@ -49,9 +51,10 @@ public abstract class Enemy : MonoBehaviour
     {
         if (_agent == null)
             _agent = GetComponent<NavMeshAgent>();
-
+        
         _agent.enabled = false;
-        Invoke(nameof(EnableAgent), 0.05f);
+        Invoke(nameof(EnableAgent), 0.2f);
+        SetState(EEnemyState.Chase);
     }
 
     private void EnableAgent()

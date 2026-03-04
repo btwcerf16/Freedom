@@ -12,6 +12,11 @@ public class RoomTrigger : MonoBehaviour
     {
         _roomEnemies = roomEnemies;
         _enemyController = enemyController;
+        if (_enemyController == null)
+        {
+            Debug.LogError("ENEMY CONTROLLER IS NULL");
+            return;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

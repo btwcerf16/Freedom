@@ -24,6 +24,7 @@ public class EnemySummoner : MonoBehaviour
                 Quaternion.identity);
 
             Enemy enemy = InitializeEnemy(obj);
+            obj.SetActive(false);
             if (enemy != null) roomEnemies.Add(enemy);
 
             _spawnedEnemies.Add(obj);
@@ -40,6 +41,7 @@ public class EnemySummoner : MonoBehaviour
                 Quaternion.identity);
 
             Enemy enemy = InitializeEnemy(obj);
+            obj.SetActive(false);
             if (enemy != null) roomEnemies.Add(enemy);
 
             _spawnedEnemies.Add(obj);

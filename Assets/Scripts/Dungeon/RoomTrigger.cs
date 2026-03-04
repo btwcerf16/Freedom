@@ -3,31 +3,30 @@ using UnityEngine;
 
 public class RoomTrigger : MonoBehaviour
 {
-    private List<Enemy> _enemies;
-    private EnemyController _enemyController;
+    [SerializeField] private EnemyController _enemyController;
+
+    private List<Enemy> _roomEnemies;
     private bool _activated;
 
-    public void Initialize(List<Enemy> enemies, EnemyController controller)
+    public void Initialize(List<Enemy> roomEnemies, EnemyController enemyController)
     {
-        _enemies = enemies;
-        _enemyController = controller;
+        _roomEnemies = roomEnemies;
+        _enemyController = enemyController;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (_activated) return;
-        if (!other.CompareTag("Player")) return;
 
-        _activated = true;
-
-        foreach (var enemy in _enemies)
+        if (other.CompareTag("Player"))
         {
-            if (enemy == null) continue;
+            _activated = true;
 
-            enemy.IsAgroed = true;
-            _enemyController.RegisterEnemy(enemy);
+            _enemyController.ActiveRoom(_roomEnemies);
+            
         }
     }
+
     public void SetSize(Vector2 size)
     {
         BoxCollider2D colider = GetComponent<BoxCollider2D>();

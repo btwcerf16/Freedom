@@ -39,17 +39,12 @@ public class MeleeEnemy : Enemy
             case EEnemyState.Cooldown:
                 Cooldown();
                 break;
+
         }
-    }
-
-    public override void StartAttackPermission()
-    {
-
-        SetState(EEnemyState.Chase);
-    }
-    public override void EndAttackPermission()
-    {
-        SetState(EEnemyState.WaitingTurn);
+        if (IsDead)
+        {
+         
+        }
     }
 
     public override bool CanAttack()
@@ -64,11 +59,7 @@ public class MeleeEnemy : Enemy
 
     public override void WaitingTurn()
     {
-        OrbitMovement();
 
-        float dist = Vector3.Distance(transform.position, _target.position);
-
-       
         if (IsCombatActive)
             SetState(EEnemyState.Chase);
     }

@@ -1,75 +1,52 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-
-    [SerializeField] private List<Enemy> _attackQueue = new List<Enemy>();
-    [SerializeField] private List<Enemy> _enemiesIsAgroed = new List<Enemy>();//все враги в 1 комнате
-    [Range(0.0f, 1)] public float AttackPressure;
-
-    private void Update()
+    [SerializeField] private List<Enemy> _activeEnemies= new List<Enemy>();
+    [SerializeField] private List<Enemy> _agroedEnemies= new List<Enemy>();
+    [Range(0.0f, 1.0f)] public float AttackPermission;
+    [SerializeField] private int _attackersInWave;
+    public int activated;
+    public void ActiveRoom(List<Enemy> enemies)
     {
-        CombatLogic();
-    }
-    private void CombatLogic()
-    {
-        if (_enemiesIsAgroed.Count == 0) return;
-
-        int maxAttackers = Mathf.CeilToInt(_enemiesIsAgroed.Count * AttackPressure);
-
-        // текущие атакующие
-        _attackQueue.RemoveAll(e => e == null || !e.IsAgroed);
-
-        if (_attackQueue.Count < maxAttackers)
+        
+        foreach (Enemy enemy in enemies)
         {
-            TryAddAttackers(maxAttackers - _attackQueue.Count);
+            _agroedEnemies.Add(enemy);
+            enemy.IsAgroed = true;
+            enemy.SetState(EEnemyState.WaitingTurn);
         }
-        if(_attackQueue.Count > maxAttackers)
-        {
-            DiscardAttacker(maxAttackers);
-        }
+        _attackersInWave = ((int)Mathf.Max(1, _agroedEnemies.Count * AttackPermission));
+        AriseEnemies(enemies);
     }
-
-    private void TryAddAttackers(int count)
+    private void AriseEnemies(List<Enemy> enemies)
     {
-        foreach (var enemy in _enemiesIsAgroed)
+        Debug.Log("Восстают");
+       
+        foreach (Enemy enemy in enemies)
         {
-            if (_attackQueue.Contains(enemy)) continue;
-            if (!enemy.CanAttack()) continue;
+            activated++;
+            if (_agroedEnemies.Contains(enemy) && activated <= _attackersInWave)
+            {
+                Debug.Log("Восстают1");
+                _agroedEnemies.Remove(enemy);
+                enemy.gameObject.SetActive(true);
+                enemy.EnableAfterSpawn();
+                enemy.IsCombatActive = true;
 
-            _attackQueue.Add(enemy);
-            enemy.StartAttackPermission();
-
-            count--;
-            if (count <= 0) break;
+            }
+            if (activated >= _attackersInWave) {
+                break;
+            }
         }
     }
-    private void DiscardAttacker(int maxAttackers)
+    public void ReArise()
     {
-        foreach(var enemy in _attackQueue)
+        if(activated == 0 && _agroedEnemies.Count > 0)
         {
-            enemy.EndAttackPermission();
-        }
-        _attackQueue.Clear();
-        TryAddAttackers(maxAttackers);
-    }
-    public int GetEnemyIndex(Enemy enemy)
-    {
-        return _enemiesIsAgroed.IndexOf(enemy);
-    }
-
-    public int GetEnemiesCount()
-    {
-        return _enemiesIsAgroed.Count;
-    }
-    public void RegisterEnemy(Enemy enemy)
-    {
-        _enemiesIsAgroed.Add(enemy);
-        enemy.SetState(EEnemyState.WaitingTurn);
-    }
-    public void UnregisterEnemy(Enemy enemy)
-    {
-        _enemiesIsAgroed.Remove(enemy);
+            AriseEnemies(_agroedEnemies);
+        } 
     }
 }

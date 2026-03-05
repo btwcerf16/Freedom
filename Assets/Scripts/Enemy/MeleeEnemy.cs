@@ -18,6 +18,7 @@ public class MeleeEnemy : Enemy
 
         switch (_state)
         {
+            case EEnemyState.Idle: Idle(); break;
             case EEnemyState.Arise: Arise(); break;
             case EEnemyState.WaitingTurn: WaitingTurn(); break;
             case EEnemyState.Chase: Chase(); break;
@@ -32,8 +33,15 @@ public class MeleeEnemy : Enemy
 
     public override void Idle()
     {
+        _animator.SetTrigger("Idle");
         _agent.isStopped = true;
-        SetState(EEnemyState.Chase);
+        float dist = Vector3.Distance(transform.position, _target.position);
+        if (dist <= attackDistance && CanAttack())
+        {
+            SetState(EEnemyState.Attack);
+        }
+        else { SetStateDelayed(EEnemyState.Chase, attackCooldown); }
+          
     }
 
     public override void WaitingTurn()
@@ -54,6 +62,7 @@ public class MeleeEnemy : Enemy
 
         if (dist <= attackDistance && CanAttack())
         {
+            _animator.SetBool("Chase", false);
             _agent.isStopped = true;
             SetState(EEnemyState.Attack);
         }
@@ -64,7 +73,7 @@ public class MeleeEnemy : Enemy
         _animator.SetTrigger("Attack");
         cooldownTimer = attackCooldown;
         _agent.isStopped = true;
-        DealDamage();
+       SetState(EEnemyState.Idle);
 
     }
     public override void Arise()

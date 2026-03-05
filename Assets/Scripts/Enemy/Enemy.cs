@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -65,5 +66,16 @@ public abstract class Enemy : MonoBehaviour
     public void SetState(EEnemyState state)
     {
         _state = state;
+    }
+    public void SetStateDelayed(EEnemyState state, float delay)
+    {
+        Debug.Log("Coroutine started");
+        StartCoroutine(SetStateCoroutine(state, delay));
+    }
+    IEnumerator SetStateCoroutine(EEnemyState state, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Debug.Log("Coroutine ended> " + state.ToString() );
+        SetState(state);
     }
 }

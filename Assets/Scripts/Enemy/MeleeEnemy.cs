@@ -36,11 +36,7 @@ public class MeleeEnemy : Enemy
         _animator.SetTrigger("Idle");
         _agent.isStopped = true;
         float dist = Vector3.Distance(transform.position, _target.position);
-        if (dist <= attackDistance && CanAttack())
-        {
-            SetState(EEnemyState.Attack);
-        }
-        else { SetStateDelayed(EEnemyState.Chase, attackCooldown); }
+        SetStateDelayed(EEnemyState.Chase, attackCooldown); 
           
     }
 

@@ -1,5 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public abstract class Weapon : MonoBehaviour
 {
@@ -12,9 +13,12 @@ public abstract class Weapon : MonoBehaviour
     protected Animator _animator;
     [SerializeField] protected float zRotationOffset;
     protected Hand _hand;
+    public bool IsRaised;
     protected bool _isAttacking;
     public bool IsAttacking => _isAttacking;
     public virtual bool CanHold => false;
+    [SerializeField, TextArea] private string _description;
+    public string Description => _description;
     protected virtual void Awake()
     {
 
@@ -46,6 +50,7 @@ public abstract class Weapon : MonoBehaviour
 
     public void AttachToHand(Transform hand)
     {
+        IsRaised = true;
         _animator.enabled = true;
         _hand = hand.GetComponent<Hand>();
         _hand.Player.PlayerActorStats.SetAttackDamage(AttackDamage, AttackType, DamageType);
@@ -61,6 +66,7 @@ public abstract class Weapon : MonoBehaviour
 
     public void DetachFromHand()
     {
+        IsRaised = false;
         _hand.Player.PlayerActorStats.ResetAttackDamage();
         transform.SetParent(null);
         _spriteRenderer.enabled = true;
@@ -80,5 +86,14 @@ public abstract class Weapon : MonoBehaviour
     {
         return _spriteRenderer;
     }
+    private void OnMouseEnter()
+    {
+        
+            ControlTooltip.Instance.Show(_description,transform.position, this);
+    }
 
+    private void OnMouseExit()
+    {
+        ControlTooltip.Instance.Hide(this);
+    }
 }

@@ -11,6 +11,7 @@ public class Hand : MonoBehaviour
     [SerializeField] private float maxRadius = 1.5f;
     [SerializeField] private List<Weapon> _weaponsInRange = new();
     [SerializeField] private Weapon _currentWeapon;
+    public Weapon CurrentWeapon => _currentWeapon;
     [SerializeField] private Sprite _baseSpriteImage;
     [SerializeField] private bool _isFacingRight = true;
     public bool IsRightSide => _isFacingRight;

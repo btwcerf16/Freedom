@@ -112,7 +112,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 6
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8391371535203745847, guid: ad63b7c3a533c204499120305d0314fd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 6646860488684645435}
   - component: {fileID: 7168838104749758696}
   - component: {fileID: 204505305294911848}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,11 +193,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113844ad9811f524f8b6e95e935dd9de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bow
+  AttackDamage: 10
+  AttackType: 1
+  DamageType: 1
   _spriteRenderer: {fileID: 0}
   zRotationOffset: 0
+  IsRaised: 0
+  _description: "\u0416\u0435\u0441\u0442\u043A\u0438\u0439 \u043B\u0443\u043A. \u0422\u0438\u043F
+    \u0443\u0440\u043E\u043D\u0430 \u043F\u0440\u043E\u043D\u0437\u0430\u044E\u0449\u0438\u0439(\u043D\u0435\u0442),
+    \u0443\u0440\u043E\u043D \u0437\u0430\u0432\u0438\u0441\u0438\u0442 \u043E\u0442
+    \u0442\u043E\u0433\u043E \u043D\u0430\u0441\u043A\u043E\u043B\u044C\u043A\u043E
+    \u043D\u0430\u0442\u044F\u043D\u0443\u0442\u0430 \u0442\u0435\u0442\u0438\u0432\u0430.
+    \u041C\u0430\u043A\u0441 \u0443\u0440\u043E\u043D 10."
   _minChargeTime: 0.55
   _maxChargeTime: 1
-  _chargeSpeed: 100
+  _chargeSpeed: 1
   _arrow: {fileID: 7709979429739622650, guid: 5c700b10ecc2f394e90e850be72614c7, type: 3}
   _shootPoint: {fileID: 6741914505187429553}
   minArrowSpeed: 20
@@ -322,6 +332,10 @@ PrefabInstance:
     - target: {fileID: 2218225983317648895, guid: ab34fd0d5778a5b49809f95f755ce347, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4259896923001233554, guid: ab34fd0d5778a5b49809f95f755ce347, type: 3}
+      propertyPath: m_SortingOrder
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5215309447982486739, guid: ab34fd0d5778a5b49809f95f755ce347, type: 3}
       propertyPath: m_Name

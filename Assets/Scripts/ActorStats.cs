@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ActorStats : MonoBehaviour, IDamageable
+public class ActorStats : MonoBehaviour
 {
 
     [SerializeField] private BaseActorStats _config;
@@ -30,7 +30,8 @@ public class ActorStats : MonoBehaviour, IDamageable
         CurrentRangeDamageMultiplier = _config.RangeDamageMultiplier;
         CurrentMeleeDamageMultiplier = _config.MeleeDamageMultiplier;
         CurrentCooldownReduction = _config.CooldownReduction;
-        
+        CurrentDamageAttack = _config.AttackDamage;
+
     }
     public void ResetAttackDamage()
     {
@@ -42,15 +43,6 @@ public class ActorStats : MonoBehaviour, IDamageable
             attackDamage = 0;
         CurrentDamageAttack = attackDamage;
     }
-    public void GetDamage(float damage)
-    {
-        if(damage > CurrentHealth)
-        {
-            CurrentHealth = 0;
-            return;
-        }
-        
-        CurrentHealth -= damage;
-    }
+
 
 }

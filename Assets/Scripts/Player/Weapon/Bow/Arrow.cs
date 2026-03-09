@@ -3,11 +3,13 @@ using UnityEngine;
 public class Arrow : Projectile
 {
     [SerializeField] private Animator _animator;
+
+
     public override void OnHit(Collider2D collider)
     {
         if (collider.TryGetComponent<IDamageable>(out var damageable))
         {
-            damageable.GetDamage(Damage);
+            damageable.GetDamage(Damage, false);
         }
 
         StickIntoTarget(collider);

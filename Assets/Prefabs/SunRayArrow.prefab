@@ -80,7 +80,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8523042967544162892, guid: 597b09448bbd2aa44a9512b4b9a11779, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -193,7 +193,7 @@ MonoBehaviour:
   Damage: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
   _animator: {fileID: 2486701433053957760}
 --- !u!61 &5566085537787866968
 BoxCollider2D:

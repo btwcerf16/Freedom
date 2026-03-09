@@ -1,0 +1,28 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class TooltipRaycast : MonoBehaviour
+{
+    [SerializeField] private LayerMask _weaponLayer;
+
+    private void Update()
+    {
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, Mathf.Infinity, _weaponLayer);
+
+        if (hit.collider != null)
+        {
+            Weapon weapon = hit.collider.GetComponent<Weapon>();
+            if (weapon != null && !weapon.IsRaised)
+            {
+                ControlTooltip.Instance.Show(weapon.Description, weapon.transform.position, weapon);
+            }
+        }
+        else
+        {
+            ControlTooltip.Instance.HideAll();
+        }
+    }
+}

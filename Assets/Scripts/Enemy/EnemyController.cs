@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour
     private void AriseEnemies(List<Enemy> enemies)
     {
         Debug.Log("Восстают");
-       
+        
         foreach (Enemy enemy in enemies)
         {
             activated++;

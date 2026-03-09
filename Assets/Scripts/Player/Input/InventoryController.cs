@@ -30,7 +30,6 @@ public class InventoryController : MonoBehaviour
         _controls.Player.Throw.performed -= OnThrow;
         _controls.Player.Slot1.performed -= OnChooseFirstSlot;
         _controls.Player.Slot2.performed -= OnChooseSecondSlot;
-
         _controls.Player.Disable();
     }
     private void OnPickup(InputAction.CallbackContext context)
@@ -45,11 +44,12 @@ public class InventoryController : MonoBehaviour
         {
             _playerInventory.PickupWeapon(weapon);
         }
-        
     }
     private void OnThrow(InputAction.CallbackContext context)
     {
-        _playerInventory.ThrowWeapon();
+        Weapon weapon = _playerActor.PlayerHand.CurrentWeapon;
+        if (weapon != null)
+            _playerInventory.ThrowWeapon();
     }
     private void OnChooseFirstSlot(InputAction.CallbackContext context)
     {

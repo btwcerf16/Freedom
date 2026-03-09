@@ -1,6 +1,7 @@
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.Android;
 
 public class Bow : Weapon
 {
@@ -63,9 +64,11 @@ public class Bow : Weapon
         
         
         float chargePercent = Mathf.InverseLerp(_minChargeTime, _maxChargeTime, _currentChargeTime);
+       
         float speed = Mathf.Lerp(minArrowSpeed, maxArrowSpeed, chargePercent);
-        float damage = maxArrowSpeed * chargePercent / 8;
-        projectile.Launch(direction, speed, damage);
+        float damage = AttackDamage * chargePercent;
+        bool isCritical;
+        projectile.Launch(direction, speed, DamageCalculator.CalculateDamage(damage, AttackType, DamageType, _hand.Player.PlayerActorStats, out isCritical));
     }
 
 

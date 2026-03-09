@@ -29,7 +29,7 @@ public abstract class Projectile : MonoBehaviour
     {
         if (collider2D.TryGetComponent<IDamageable>(out IDamageable enemy) )
         {
-            enemy.GetDamage(Damage);
+            enemy.GetDamage(Damage, false);
         }
         Destroy(gameObject);
     }
@@ -40,6 +40,7 @@ public abstract class Projectile : MonoBehaviour
 
         OnHit(collision);
     }
+    
     protected bool IsInLayerMask(int layer, LayerMask mask)
     {
         return (mask.value & (1 << layer)) != 0;

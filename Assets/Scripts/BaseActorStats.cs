@@ -12,5 +12,5 @@ public class BaseActorStats : ScriptableObject
     public float RangeDamageMultiplier;
     public float MeleeDamageMultiplier;
     public float CooldownReduction;
-    
+    public float AttackDamage; //выставляй только для врагов, игрок урон от оружия получает
 }

@@ -10,20 +10,31 @@ public abstract class Enemy : MonoBehaviour
     public ActorStats EnemyStats;
     public EffectHandler EnemyEffectHandler;
     [SerializeField]protected NavMeshAgent _agent;
-    public bool IsAgroed;
-    public bool IsCombatActive;
     public EEnemyType EnemyType;
     protected EnemyController _enemyController;
+    [SerializeField] protected Transform _attackPoint;
+
+    [SerializeField] protected GameObject _floatingDamage;
+    
+    [Header("States")]
     [SerializeField] protected EEnemyState _state;
+    public bool IsAgroed;
+    public bool IsCombatActive;
     public bool IsDead;
- 
+    //[Header ("Separation Settings")]
+    //[SerializeField] private float _separationRadius = 0.7f;
+    //[SerializeField] private float _separationForce = 2f;
+    //[SerializeField] private LayerMask _enemyLayer;
     public EEnemyState CurrentState => _state;
+    [Header("Combat")]
+    [SerializeField] protected float _attackDistance = 1.4f;
 
     private void Start()
     {
-
+  
         _agent.updateRotation = false;
         _agent.updateUpAxis = false;
+        
     }
     public void Initialize(EnemyController enemyController, Transform target)
     {
@@ -38,6 +49,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Death()
     {
         _enemyController.ReArise();
+        
     }
     public virtual void WaitingTurn() { }
     public virtual void Attack() { }
@@ -69,13 +81,43 @@ public abstract class Enemy : MonoBehaviour
     }
     public void SetStateDelayed(EEnemyState state, float delay)
     {
-        Debug.Log("Coroutine started");
+        
         StartCoroutine(SetStateCoroutine(state, delay));
     }
     IEnumerator SetStateCoroutine(EEnemyState state, float delay)
     {
         yield return new WaitForSeconds(delay);
-        Debug.Log("Coroutine ended> " + state.ToString() );
+
         SetState(state);
     }
+    //protected Vector2 CalculateSeparation()
+    //{
+    //    Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _separationRadius, _enemyLayer);
+
+    //    Vector2 push = Vector2.zero;
+    //    int count = 0;
+
+    //    foreach (var hit in hits)
+    //    {
+    //        if (hit.transform == transform)
+    //            continue;
+
+    //        Vector2 diff = (Vector2)(transform.position - hit.transform.position);
+    //        float dist = diff.magnitude;
+
+    //        if (dist > 0)
+    //        {
+    //            push += diff.normalized / dist;
+    //            count++;
+    //        }
+    //    }
+
+    //    if (count > 0)
+    //        push /= count;
+
+    //    return push * _separationForce;
+    //}
+    public virtual void Flip() { }
+
+
 }

@@ -22,7 +22,12 @@ public class ControlTooltip : MonoBehaviour
 
     public void Hide(Object source)
     {
-        if(_currentSource == source)
+        if (_currentSource == source)
             _tooltip.Hide();
+    }
+    public void HideAll()
+    {
+        _tooltip.Hide();
+        _currentSource = null;
     }
 }

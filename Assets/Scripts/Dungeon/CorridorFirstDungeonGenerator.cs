@@ -10,8 +10,8 @@ using NavMeshPlus.Components;
 
 public class CorridorFirstDungeonGenerator : DungeonGenerator
 {
-    
-
+    [SerializeField] private GameObject _player;
+    [SerializeField] private Vector2 _startRoom;
     [SerializeField] private NavMeshSurface _navMeshSurface;
     [SerializeField] private int corridorLength = 10, corridorCount = 10;
     [SerializeField, Range(0.1f, 1f)] private float RoomPercent;
@@ -24,12 +24,21 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     [SerializeField] private EnemyController _enemyController;
     [SerializeField, Range(0f, 1f)]
     private float gizmoAlpha = 0.3f;
+    private void Start()
+    {
+        _tilemapVisualizer.Clear();
+        CorridorFirstGeneration();
+        
+        _player.transform.position = _startRoom;
+        _navMeshSurface.BuildNavMesh();
+    }
+
     protected override void RunProceduralGeneration()
     {
         
         CorridorFirstGeneration();
         _navMeshSurface.BuildNavMeshAsync();
-
+        _player.transform.position = _startRoom;
     }
 
     private void CorridorFirstGeneration()
@@ -85,6 +94,8 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             if (index == 0)
             {
                 _roomTypes[index] = ETypeRoom.Start;
+                _startRoom = ProceduralGenerationAlgorithm.GetRoomCenter(kvp.Value);
+                _tresuareSummoner.SpawnTresuare(_dungeonParametrs, roomFloors[index]);
                 continue;
             }
 

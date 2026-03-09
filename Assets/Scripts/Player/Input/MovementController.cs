@@ -1,10 +1,11 @@
 using System;
+using System.Collections;
 using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody2D))]
-public class MovementController : MonoBehaviour
+public class MovementController : MonoBehaviour, IForceReceiver
 {
     [SerializeField] private float _moveSpeed = 5f;
 
@@ -65,4 +66,19 @@ public class MovementController : MonoBehaviour
             _visual.localScale = new Vector3(-1, 1, 1);
     }
 
+    public void ApplyForce(Vector2 direction, float force, float duration)
+    {
+        StartCoroutine(ForceCoroutine(direction, force, duration));
+    }
+    IEnumerator ForceCoroutine(Vector2 direction, float force, float duration)
+    {
+        float timer = 0;
+
+        while (timer < duration)
+        {
+            _rigidbody2D.linearVelocity = direction * force;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
 }

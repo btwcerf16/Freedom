@@ -1,8 +1,11 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Robin : PlayableActor
+public class Robin : PlayableActor, IDamageable
 {
+
+
     private void Awake()
     {
         PlayerInventory = GetComponent<PlayerInventory>();
@@ -13,5 +16,15 @@ public class Robin : PlayableActor
         PlayerCinemachineCamera = GetComponentInChildren<CinemachineCamera>();
         if(PlayerHand != null)
             PlayerHand.Initialize(this);
+    }
+    public void GetDamage(float damage, bool isCrit)
+    {
+        if (PlayerActorStats.CurrentHealth <= damage)
+        {
+            SceneTransition.SwitchScene("MainMenu");
+            gameObject.SetActive(false);
+
+        }
+        PlayerActorStats.CurrentHealth -= damage;
     }
 }

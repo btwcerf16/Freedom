@@ -29,6 +29,7 @@ public abstract class Enemy : MonoBehaviour
     [Header("Combat")]
     [SerializeField] protected float _attackDistance = 1.4f;
 
+    [SerializeField] protected bool _isBoss = false;
     private void Start()
     {
   
@@ -90,33 +91,6 @@ public abstract class Enemy : MonoBehaviour
 
         SetState(state);
     }
-    //protected Vector2 CalculateSeparation()
-    //{
-    //    Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _separationRadius, _enemyLayer);
-
-    //    Vector2 push = Vector2.zero;
-    //    int count = 0;
-
-    //    foreach (var hit in hits)
-    //    {
-    //        if (hit.transform == transform)
-    //            continue;
-
-    //        Vector2 diff = (Vector2)(transform.position - hit.transform.position);
-    //        float dist = diff.magnitude;
-
-    //        if (dist > 0)
-    //        {
-    //            push += diff.normalized / dist;
-    //            count++;
-    //        }
-    //    }
-
-    //    if (count > 0)
-    //        push /= count;
-
-    //    return push * _separationForce;
-    //}
     public virtual void Flip() { }
 
 

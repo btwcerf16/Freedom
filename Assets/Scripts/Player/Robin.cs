@@ -16,6 +16,8 @@ public class Robin : PlayableActor, IDamageable
         PlayerCinemachineCamera = GetComponentInChildren<CinemachineCamera>();
         if(PlayerHand != null)
             PlayerHand.Initialize(this);
+        if (PlayerHealthBar != null)
+            PlayerHealthBar.SetHealthData(PlayerActorStats.CurrentHealth, PlayerActorStats.CurrentMaxHealth);
     }
     public void GetDamage(float damage, bool isCrit)
     {
@@ -25,6 +27,11 @@ public class Robin : PlayableActor, IDamageable
             gameObject.SetActive(false);
 
         }
+        
         PlayerActorStats.CurrentHealth -= damage;
+        if (PlayerHealthBar != null)
+        {
+            PlayerHealthBar.SetHealthData(PlayerActorStats.CurrentHealth, PlayerActorStats.CurrentMaxHealth);
+        }
     }
 }

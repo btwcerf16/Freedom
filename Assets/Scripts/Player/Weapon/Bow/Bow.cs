@@ -68,7 +68,10 @@ public class Bow : Weapon
         float speed = Mathf.Lerp(minArrowSpeed, maxArrowSpeed, chargePercent);
         float damage = AttackDamage * chargePercent;
         bool isCritical;
-        projectile.Launch(direction, speed, DamageCalculator.CalculateDamage(damage, AttackType, DamageType, _hand.Player.PlayerActorStats, out isCritical));
+        float calculatedDamage = DamageCalculator.CalculateDamage(damage, AttackType, DamageType, _hand.Player.PlayerActorStats, out isCritical);
+        Debug.Log(isCritical);
+
+        projectile.Launch(direction, speed, calculatedDamage, isCritical, 10.0f);
     }
 
 

@@ -52,6 +52,7 @@ public class MovementController : MonoBehaviour, IForceReceiver
             speed *= backwardMultiplier;
 
         _rigidbody2D.linearVelocity = inputDirection * speed;
+        _hand.Player.PlayerAnimator.SetFloat("velocity", _rigidbody2D.linearVelocity.magnitude);
     }
     private void AddTestEffect(InputAction.CallbackContext context)
     {

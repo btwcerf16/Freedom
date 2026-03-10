@@ -125,7 +125,8 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
 
     public void ApplyForce(Vector2 direction, float force, float duration)
     {
-        StartCoroutine(KnockbackCoroutine(direction, force, duration));
+        if(!IsDead)
+            StartCoroutine(KnockbackCoroutine(direction, force, duration));
     }
     IEnumerator KnockbackCoroutine(Vector2 direction, float force, float duration)
     {
@@ -151,11 +152,15 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
         if (damage >= EnemyStats.CurrentHealth)
         {
             Debug.Log("ПОМЕР");
+            IsDead = true;
+            _animator.SetBool("IsDead", true);
+            _agent.enabled = false;
             SetState(EEnemyState.Death);
 
         }
-        Vector2 damagePos = new Vector2(transform.position.x + 2.5f, transform.position.y + 2.5f);
+        Vector2 damagePos = new Vector2(transform.position.x + .5f, transform.position.y + 1.0f);
         FloatingDamage floatingDamage = (Instantiate(_floatingDamage, damagePos, Quaternion.identity)).GetComponent<FloatingDamage>();
+        floatingDamage.Damage = damage; 
         if (isCrit)
             floatingDamage.Text.color = Color.darkRed;
         else
@@ -166,8 +171,11 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
     {
         _enemyController.ReArise();
 
-        _agent.enabled = false;
+      
         _animator.SetTrigger("Death");
+       
         this.enabled = false;
+        if(_isBoss)
+            SceneTransition.SwitchScene("MainMenu");
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -7,6 +9,7 @@ public abstract class Projectile : MonoBehaviour
     [SerializeField] protected float ProjectileSpeed;
     [SerializeField] protected float Damage;
     [SerializeField] protected LayerMask layerMask;
+    [SerializeField] protected bool _isCrit;
     protected Rigidbody2D RB2D;
 
     private void Awake()
@@ -15,15 +18,13 @@ public abstract class Projectile : MonoBehaviour
         RB2D.gravityScale = 0;
         RB2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
-
-    private void Start()
-    {
-        Destroy(gameObject, LifeTime);
-    }
-    public virtual void Launch(Vector2 direction, float speed, float damage)    {
+    public virtual void Launch(Vector2 direction, float speed, float damage, bool isCrit, float lifeTime)    {
         RB2D.linearVelocity = direction.normalized * speed;
         RotateToVelocity();
         Damage = damage;
+        _isCrit = isCrit;
+        LifeTime = lifeTime;
+        StartCoroutine(destroyAfterLaunch(LifeTime));
     }
     public virtual void OnHit(Collider2D collider2D)
     {
@@ -53,5 +54,10 @@ public abstract class Projectile : MonoBehaviour
         float angle = Mathf.Atan2(RB2D.linearVelocity.y, RB2D.linearVelocity.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
         Debug.Log(RB2D.linearVelocity);
+    }
+    IEnumerator destroyAfterLaunch(float lifeTime)
+    {
+        yield return new WaitForSeconds(lifeTime);
+        Destroy(gameObject);
     }
 }

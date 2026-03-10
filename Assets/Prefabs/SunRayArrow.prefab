@@ -142,7 +142,7 @@ Transform:
   m_GameObject: {fileID: 152725858802762639}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.2715163, y: 1.1147571, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -188,12 +188,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e48cff097236054390ea601e5e07309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Arrow
-  LifeTime: 2
+  LifeTime: 100
   ProjectileSpeed: 0
   Damage: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 640
+  _isCrit: 0
   _animator: {fileID: 2486701433053957760}
 --- !u!61 &5566085537787866968
 BoxCollider2D:

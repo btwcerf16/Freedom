@@ -8,5 +8,6 @@ public abstract class PlayableActor : MonoBehaviour
     public PlayerInventory PlayerInventory;
     public EffectHandler PlayerEffectHandler;
     public ActorStats PlayerActorStats;
-    public CinemachineCamera PlayerCinemachineCamera;   
+    public CinemachineCamera PlayerCinemachineCamera;
+    public HealthBar PlayerHealthBar;
 }

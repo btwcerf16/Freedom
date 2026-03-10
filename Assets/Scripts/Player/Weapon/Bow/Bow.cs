@@ -59,10 +59,11 @@ public class Bow : Weapon
        
         Vector3 direction = _hand.transform.right;
         Debug.DrawRay(_shootPoint.position, direction * 2f, Color.red, 1f);
-        Projectile projectile =
-          Instantiate(_arrow, _shootPoint.position, Quaternion.identity);
-        
-        
+        //Projectile projectile =
+        //  Instantiate(_arrow, _shootPoint.position, Quaternion.identity);
+        Arrow arrow = PoolsController.Instance.ArrowPool.GetObject();
+        arrow.transform.position = _shootPoint.position;
+        arrow.transform.rotation = Quaternion.identity;
         float chargePercent = Mathf.InverseLerp(_minChargeTime, _maxChargeTime, _currentChargeTime);
        
         float speed = Mathf.Lerp(minArrowSpeed, maxArrowSpeed, chargePercent);
@@ -71,7 +72,7 @@ public class Bow : Weapon
         float calculatedDamage = DamageCalculator.CalculateDamage(damage, AttackType, DamageType, _hand.Player.PlayerActorStats, out isCritical);
         Debug.Log(isCritical);
 
-        projectile.Launch(direction, speed, calculatedDamage, isCritical, 10.0f);
+        arrow.Launch(direction, speed, calculatedDamage, isCritical, 10.0f);
     }
 
 

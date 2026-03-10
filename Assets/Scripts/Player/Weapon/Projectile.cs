@@ -24,7 +24,7 @@ public abstract class Projectile : MonoBehaviour
         Damage = damage;
         _isCrit = isCrit;
         LifeTime = lifeTime;
-        StartCoroutine(destroyAfterLaunch(LifeTime));
+        
     }
     public virtual void OnHit(Collider2D collider2D)
     {
@@ -32,7 +32,7 @@ public abstract class Projectile : MonoBehaviour
         {
             enemy.GetDamage(Damage, false);
         }
-        Destroy(gameObject);
+       
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -55,9 +55,5 @@ public abstract class Projectile : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle);
         Debug.Log(RB2D.linearVelocity);
     }
-    IEnumerator destroyAfterLaunch(float lifeTime)
-    {
-        yield return new WaitForSeconds(lifeTime);
-        Destroy(gameObject);
-    }
+
 }

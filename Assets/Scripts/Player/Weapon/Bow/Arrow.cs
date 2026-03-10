@@ -6,6 +6,11 @@ public class Arrow : Projectile
     [SerializeField] private Animator _animator;
 
 
+    public override void Launch(Vector2 direction, float speed, float damage, bool isCrit, float lifeTime)
+    {
+        base.Launch(direction, speed, damage, isCrit, lifeTime);
+        StartCoroutine(destroyAfterLaunch(LifeTime));
+    }
     public override void OnHit(Collider2D collider)
     {
         if (collider.TryGetComponent<IDamageable>(out var damageable))
@@ -24,5 +29,10 @@ public class Arrow : Projectile
         RB2D.simulated = false;
         transform.SetParent(collider.transform);
     }
-
+    IEnumerator destroyAfterLaunch(float lifeTime)
+    {
+        yield return new WaitForSeconds(lifeTime);
+        PoolsController.Instance.ArrowPool.ReturnObject(this);
+    }
+    
 }

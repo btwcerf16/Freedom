@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public interface IDamageable 
+public interface IDamageable
 {
     void GetDamage(float damage, bool isCrit);
+
 }

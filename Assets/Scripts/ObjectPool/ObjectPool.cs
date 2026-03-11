@@ -21,7 +21,7 @@ public class ObjectPool<T> where T : Component
 
     private T CreateObject()
     {
-        T obj = GameObject.Instantiate(_prefab, _parent);
+        T obj = Component.Instantiate(_prefab, _parent);
         obj.gameObject.SetActive(false);
         _pool.Enqueue(obj);
         return obj;

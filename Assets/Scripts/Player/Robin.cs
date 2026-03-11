@@ -1,12 +1,15 @@
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Robin : PlayableActor, IDamageable
+public class Robin : PlayableActor, IDamageable,IDisposable
 {
+    private List<IDisposable> _disposable = new();
 
-
-    private void Awake()
+    private void Start()
     {
         PlayerInventory = GetComponent<PlayerInventory>();
         PlayerEffectHandler = GetComponent<EffectHandler>();
@@ -16,22 +19,28 @@ public class Robin : PlayableActor, IDamageable
         PlayerCinemachineCamera = GetComponentInChildren<CinemachineCamera>();
         if(PlayerHand != null)
             PlayerHand.Initialize(this);
-        if (PlayerHealthBar != null)
-            PlayerHealthBar.SetHealthData(PlayerActorStats.CurrentHealth, PlayerActorStats.CurrentMaxHealth);
+        IDisposable maxHealthDisposable = PlayerActorStats.CurrentMaxHealth.Subscribe(PlayerHealthBar.SetMaxHealth);
+        IDisposable currentHealthDisposable = PlayerActorStats.CurrentHealth.Subscribe(PlayerHealthBar.SetHealthData);
+        _disposable.Add(currentHealthDisposable);
+        _disposable.Add(maxHealthDisposable);
     }
     public void GetDamage(float damage, bool isCrit)
     {
-        if (PlayerActorStats.CurrentHealth <= damage)
+        if (PlayerActorStats.CurrentHealth.Value <= damage)
         {
             SceneTransition.SwitchScene("MainMenu");
             gameObject.SetActive(false);
 
         }
         
-        PlayerActorStats.CurrentHealth -= damage;
-        if (PlayerHealthBar != null)
+        PlayerActorStats.CurrentHealth.Value -= damage;
+    }
+
+    public void Dispose()
+    {
+        foreach(var disp in _disposable)
         {
-            PlayerHealthBar.SetHealthData(PlayerActorStats.CurrentHealth, PlayerActorStats.CurrentMaxHealth);
+            disp.Dispose();
         }
     }
 }

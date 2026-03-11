@@ -5,8 +5,10 @@ public class ActorStats : MonoBehaviour
 
     [SerializeField] private BaseActorStats _config;
     public float CurrentDamageAttack;
-    public float CurrentHealth;
-    public float CurrentMaxHealth;
+    public ReactiveVariable<float> CurrentMaxHealth = new();
+    public ReactiveVariable<float> CurrentHealth = new();
+    public float _visibleCurrentHealth => CurrentHealth.Value;
+    public float _visibleMaxHealth => CurrentMaxHealth.Value;
     public float CurrentCritChance;
     public float CurrentCritDamageMultiplier;
     public float CurrentPiercingDamageMultiplier;
@@ -19,8 +21,8 @@ public class ActorStats : MonoBehaviour
 
     private void Awake()
     {
-        CurrentMaxHealth = _config.MaxHealh;
-        CurrentHealth = _config.MaxHealh;
+        CurrentMaxHealth.Value = _config.MaxHealh;
+        CurrentHealth.Value =_config.MaxHealh;
         CurrentCritChance = _config.CritChance;
         CurrentCritChance = _config.CritDamageMultiplier;
         CurrentPiercingDamageMultiplier = _config.PiercingDamageMultiplier;

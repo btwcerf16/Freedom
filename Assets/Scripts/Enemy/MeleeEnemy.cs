@@ -148,22 +148,26 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
 
     public void GetDamage(float damage, bool isCrit)
     {
-        if (damage >= EnemyStats.CurrentHealth)
+        if (damage >= EnemyStats.CurrentHealth.Value)
         {
             Debug.Log("ПОМЕР");
-           
+
             SetState(EEnemyState.Death);
 
         }
+        //(Instantiate(_floatingDamage, damagePos, Quaternion.identity)).GetComponent<FloatingDamage>();
         Vector2 damagePos = new Vector2(transform.position.x + .5f, transform.position.y + 1.0f);
-        FloatingDamage floatingDamage = (Instantiate(_floatingDamage, damagePos, Quaternion.identity)).GetComponent<FloatingDamage>();
-        floatingDamage.Damage = damage; 
+        FloatingDamage floatingDamage = PoolsController.Instance.DamageTextPool.GetObject();
+        floatingDamage.transform.position = damagePos;
+
+        floatingDamage.Damage = damage;
         if (isCrit)
             floatingDamage.Text.color = Color.darkRed;
         else
             floatingDamage.Text.color = Color.whiteSmoke;
-        EnemyStats.CurrentHealth -= damage;
+        EnemyStats.CurrentHealth.Value -= damage;
     }
+
     public void MeleeDeath()
     {
         IsDead = true;
@@ -177,4 +181,6 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
         this.enabled = false;
 
     }
+
+
 }

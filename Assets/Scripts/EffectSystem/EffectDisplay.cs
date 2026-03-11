@@ -53,7 +53,7 @@ public class EffectDisplay : MonoBehaviour
 
             if (_particleInstances.TryGetValue(effect, out var particle))
             {
-                particle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                particle.Stop();
                 PoolsController.Instance.ParticleSystemPool.ReturnObject(particle);
                 _particleInstances.Remove(effect);
 
@@ -66,7 +66,7 @@ public class EffectDisplay : MonoBehaviour
     {
         foreach(var instance in _particleInstances)
         {
-            instance.Value.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            instance.Value.Stop();
             PoolsController.Instance.ParticleSystemPool.ReturnObject(instance.Value);
             
         }
@@ -79,7 +79,7 @@ public class EffectDisplay : MonoBehaviour
 
         particle.transform.SetParent(transform);
         particle.transform.position = transform.position;
-        particle.transform.rotation = Quaternion.identity;
+        particle.transform.localScale = transform.localScale;
 
         var main = particle.main;
         main.duration = duration;

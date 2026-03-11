@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,11 +7,15 @@ public class HealthBar : MonoBehaviour
 {
     public Image HealthImage;
     public TextMeshProUGUI HealthText;
-
-    public void SetHealthData(float currentHealth, float maxHealth)
+    private float _maxHealth;
+    public void SetMaxHealth(float oldMaxHealth, float newMaxHealth)
+    {
+        _maxHealth = newMaxHealth;
+    }
+    public void SetHealthData(float oldHealth, float currentHealth)
     {
         
-        HealthImage.fillAmount = currentHealth/maxHealth;
-        HealthText.text = Mathf.RoundToInt(currentHealth) + "/" + maxHealth;
+        HealthImage.fillAmount = currentHealth/ _maxHealth;
+        HealthText.text = Mathf.RoundToInt(currentHealth) + "/" + _maxHealth;
     }
 }

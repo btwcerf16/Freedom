@@ -138,6 +138,8 @@ GameObject:
   - component: {fileID: -7558082627737597483}
   - component: {fileID: 128139792803002729}
   - component: {fileID: -6174118891057469916}
+  - component: {fileID: -2386971005170259050}
+  - component: {fileID: -100822708659774803}
   m_Layer: 7
   m_Name: Zombie
   m_TagString: Enemy
@@ -305,6 +307,7 @@ MonoBehaviour:
   IsCombatActive: 0
   IsDead: 0
   _attackDistance: 1.4
+  _isBoss: 0
   _attackCooldown: 1.8
   _attackRadius: 1
 --- !u!95 &128139792803002729
@@ -341,3 +344,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0788a6d09a957934aad72a09e9e16d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestroyMe
+--- !u!114 &-2386971005170259050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8218736555722471786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8504167271fd7d24c827dff93654b07b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectDisplay
+  _isPlayer: 0
+  _effectPanel: {fileID: 0}
+  _effectImagePrefab: {fileID: 0}
+  _particleSystem: {fileID: 8038050701500899541, guid: 676a8165fa4f94d4ca77de06ab9b71b4, type: 3}
+  _effectImage: []
+--- !u!114 &-100822708659774803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8218736555722471786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 912be84f33d0ced40bf165b88338c8b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectHandler
+  OwnerActorStats: {fileID: 8191688242195286549}
+  ActiveEffects: []
+  CharacterEffectDisplay: {fileID: -2386971005170259050}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -30,6 +31,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float _attackDistance = 1.4f;
 
     [SerializeField] protected bool _isBoss = false;
+
+    public event Action OnEnemyDeath;
     private void Start()
     {
   
@@ -44,13 +47,16 @@ public abstract class Enemy : MonoBehaviour
         _target = target;
         _enemyController = enemyController;
         _animator = GetComponent<Animator>();
-
+        EnemyEffectHandler = GetComponent<EffectHandler>();
 
     }
-    public virtual void Death()
+    public void Death()
     {
+        OnEnemyDeath?.Invoke();
         _enemyController.ReArise();
-        
+        if (_isBoss)
+            SceneTransition.SwitchScene("MainMenu");
+
     }
     public virtual void WaitingTurn() { }
     public virtual void Attack() { }

@@ -5,7 +5,7 @@ using UnityEngine.InputSystem.Android;
 
 public class Bow : Weapon
 {
-    
+
     private float _currentChargeTime;
     [SerializeField] private float _minChargeTime;
     [SerializeField] private float _maxChargeTime;

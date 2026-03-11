@@ -138,6 +138,8 @@ GameObject:
   - component: {fileID: -7558082627737597483}
   - component: {fileID: 128139792803002729}
   - component: {fileID: 877964036030982696}
+  - component: {fileID: -8996570312079187206}
+  - component: {fileID: -5526970442332407673}
   m_Layer: 7
   m_Name: ZombieBoss
   m_TagString: Enemy
@@ -342,3 +344,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0788a6d09a957934aad72a09e9e16d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestroyMe
+--- !u!114 &-8996570312079187206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8218736555722471786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8504167271fd7d24c827dff93654b07b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectDisplay
+  _isPlayer: 0
+  _effectPanel: {fileID: 0}
+  _effectImagePrefab: {fileID: 0}
+  _particleSystem: {fileID: 8038050701500899541, guid: 676a8165fa4f94d4ca77de06ab9b71b4, type: 3}
+  _effectImage: []
+--- !u!114 &-5526970442332407673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8218736555722471786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 912be84f33d0ced40bf165b88338c8b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectHandler
+  OwnerActorStats: {fileID: 8191688242195286549}
+  ActiveEffects: []
+  CharacterEffectDisplay: {fileID: -8996570312079187206}

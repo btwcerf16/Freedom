@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,12 +13,12 @@ public class EffectDisplay : MonoBehaviour
     [SerializeField] private GameObject _effectPanel;
     [SerializeField] private GameObject _effectImagePrefab;
     [SerializeField] private ParticleSystem _particleSystem;
-    [SerializeField] private List<ParticleSystem> _particleInstances;
+    private Dictionary<Effect,ParticleSystem> _particleInstances = new();
     [SerializeField] private List<GameObject> _effectImage;
 
-    public void AddEffectSprite(Effect effect)
+    public void AddEffectSprite(Effect effect, Action deathAction = null)
     {
-
+        deathAction += OnDestroyClear;
         if (_isPlayer)
         {
             GameObject iconPrefab = Instantiate(_effectImagePrefab,_effectPanel.transform);
@@ -29,7 +30,7 @@ public class EffectDisplay : MonoBehaviour
         }
         else
         {
-            InstanceParticles(effect.EffectData.EffectColor, effect.EffectData.EffectDuration);
+            InstanceParticles(effect.EffectData.EffectColor, effect.EffectData.EffectDuration, effect);
         }
     }
     public void ClearEffectSprite(Effect effect)
@@ -44,26 +45,49 @@ public class EffectDisplay : MonoBehaviour
                     GameObject cleanable = _effectImage[i];
                     _effectImage.Remove(_effectImage[i]);
                     Destroy(cleanable);
-
-
                 }
             }
         }
         else
         {
-            //партиклы удаляет
+
+            if (_particleInstances.TryGetValue(effect, out var particle))
+            {
+                particle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                PoolsController.Instance.ParticleSystemPool.ReturnObject(particle);
+                _particleInstances.Remove(effect);
+
+            }
         }
-        
+
 
     }
-    private void InstanceParticles(UnityEngine.Color color, float duration)
+    private void OnDestroyClear()
     {
-        ParticleSystem particle = Instantiate(_particleSystem, transform.position, Quaternion.identity, transform);
+        foreach(var instance in _particleInstances)
+        {
+            instance.Value.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            PoolsController.Instance.ParticleSystemPool.ReturnObject(instance.Value);
+            
+        }
+    }
+    private void InstanceParticles(Color32 color, float duration, Effect effect)
+    {
+        ParticleSystem particle = PoolsController.Instance.ParticleSystemPool.GetObject();
+
+        particle.Stop();
+
+        particle.transform.SetParent(transform);
+        particle.transform.position = transform.position;
+        particle.transform.rotation = Quaternion.identity;
+
         var main = particle.main;
         main.duration = duration;
         main.startColor = new ParticleSystem.MinMaxGradient(color);
 
-        _particleInstances.Add(particle);
+        particle.Play();
+
+        _particleInstances.Add(effect, particle);
     }
 
 }

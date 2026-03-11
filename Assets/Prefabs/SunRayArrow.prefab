@@ -196,6 +196,8 @@ MonoBehaviour:
     m_Bits: 640
   _isCrit: 0
   _animator: {fileID: 2486701433053957760}
+  target: {fileID: 0}
+  _effectData: {fileID: 11400000, guid: cbc7d424c03c9c643ab050d6c5ab8d38, type: 2}
 --- !u!61 &5566085537787866968
 BoxCollider2D:
   m_ObjectHideFlags: 0

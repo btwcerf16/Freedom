@@ -26,7 +26,7 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
             case EEnemyState.WaitingTurn: WaitingTurn(); break;
             case EEnemyState.Chase: Chase(); break;
             case EEnemyState.Attack: Attack(); break;
-            case EEnemyState.Death: Death(); break;
+            case EEnemyState.Death: MeleeDeath(); break;
         }
         Flip();
     }
@@ -57,7 +57,6 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
 
     public override void Chase()
     {
-        Debug.Log("Чейзим");
         _animator.SetBool("Chase", true);
         _agent.isStopped = false;
         _agent.SetDestination(_target.position);
@@ -152,9 +151,7 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
         if (damage >= EnemyStats.CurrentHealth)
         {
             Debug.Log("ПОМЕР");
-            IsDead = true;
-            _animator.SetBool("IsDead", true);
-            _agent.enabled = false;
+           
             SetState(EEnemyState.Death);
 
         }
@@ -167,15 +164,17 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
             floatingDamage.Text.color = Color.whiteSmoke;
         EnemyStats.CurrentHealth -= damage;
     }
-    public override void Death()
+    public void MeleeDeath()
     {
-        _enemyController.ReArise();
-
+        IsDead = true;
+        _animator.SetBool("IsDead", true);
+        _agent.enabled = false;
+        Death();
+        Debug.Log("Вызвал смерть");
       
         _animator.SetTrigger("Death");
        
         this.enabled = false;
-        if(_isBoss)
-            SceneTransition.SwitchScene("MainMenu");
+
     }
 }

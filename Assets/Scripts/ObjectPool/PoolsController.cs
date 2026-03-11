@@ -15,7 +15,7 @@ public class PoolsController : MonoBehaviour
     {
         Instance = this;
 
-        ArrowPool = new ObjectPool<Arrow>(transform, _arrowPrefab, 10);
+        ArrowPool = new ObjectPool<Arrow>(transform, _arrowPrefab, 20);
         DamageTextPool = new ObjectPool<FloatingDamage>(transform, _floatingDamagePrefab, 20);
         ParticleSystemPool = new ObjectPool<ParticleSystem>(transform, _particleSystemPrefab, 20);
     }

@@ -151,7 +151,7 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
         if (damage >= EnemyStats.CurrentHealth.Value)
         {
             Debug.Log("ПОМЕР");
-
+            IsDead = true;
             SetState(EEnemyState.Death);
 
         }
@@ -170,7 +170,7 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
 
     public void MeleeDeath()
     {
-        IsDead = true;
+        
         _animator.SetBool("IsDead", true);
         _agent.enabled = false;
         Death();

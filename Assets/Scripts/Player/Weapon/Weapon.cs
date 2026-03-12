@@ -1,6 +1,5 @@
 using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public abstract class Weapon : MonoBehaviour
 {

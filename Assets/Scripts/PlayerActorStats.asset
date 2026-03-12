@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c5fa4995f5dcd6429fa23052a505a55, type: 3}
   m_Name: PlayerActorStats
   m_EditorClassIdentifier: Assembly-CSharp::BaseActorStats
-  MaxHealh: 100
+  MaxHealh: 20
   CritChance: 0
   CritDamageMultiplier: 1
   PiercingDamageMultiplier: 1

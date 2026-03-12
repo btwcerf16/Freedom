@@ -1,7 +1,6 @@
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.Android;
+
 
 public class Bow : Weapon
 {

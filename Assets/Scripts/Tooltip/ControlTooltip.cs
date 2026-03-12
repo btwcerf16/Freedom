@@ -7,6 +7,7 @@ public class ControlTooltip : MonoBehaviour
 
     [SerializeField] private Tooltip _tooltip;
     private Object _currentSource;
+    public Object CurrentSource => _currentSource;
     private void Awake()
     {
         Instance = this;

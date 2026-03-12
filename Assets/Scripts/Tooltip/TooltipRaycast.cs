@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class TooltipRaycast : MonoBehaviour
 {
     [SerializeField] private LayerMask _weaponLayer;
-
+    [SerializeField] private bool _isActive;
     private void Update()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
@@ -18,7 +18,17 @@ public class TooltipRaycast : MonoBehaviour
             if (weapon != null && !weapon.IsRaised)
             {
                 ControlTooltip.Instance.Show(weapon.Description, weapon.transform.position, weapon);
+                _isActive = true;
             }
+        }
+        else
+        {
+            if (_isActive)
+            {
+                ControlTooltip.Instance.HideAll();
+                _isActive = false;
+            }
+
         }
 
     }

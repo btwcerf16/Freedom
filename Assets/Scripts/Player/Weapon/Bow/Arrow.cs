@@ -16,15 +16,13 @@ public class Arrow : Projectile
         if (collider.TryGetComponent<IDamageable>(out var damageable))
         {
             damageable.GetDamage(Damage, _isCrit);
-            if(collider.TryGetComponent<Enemy>(out var enemy))
+            if (collider.TryGetComponent<Enemy>(out var enemy))
             {
 
                 target = enemy;
                 if (_effectData != null)
                     enemy.EnemyEffectHandler.AddEffect(_effectData);
-                else
-                    Debug.Log("НЕТ");
-                
+
                 target.OnEnemyDeath += ReturnIntoPool;
             }
             Debug.Log("Вышел");
@@ -35,6 +33,7 @@ public class Arrow : Projectile
 
     private void StickIntoTarget(Collider2D collider)
     {
+
         Debug.Log("Застрял " + collider.name);
         _animator.SetBool("IsSticked", true);
         RB2D.linearVelocity = Vector2.zero;
@@ -44,12 +43,19 @@ public class Arrow : Projectile
     IEnumerator returnAfterLaunch(float lifeTime)
     {
         yield return new WaitForSeconds(lifeTime);
-        PoolsController.Instance.ArrowPool.ReturnObject(this);
+
+        ReturnIntoPool();
+        Debug.Log("Вернулся в пул");
     }
     private void ReturnIntoPool()
     {
-        PoolsController.Instance.ArrowPool.ReturnObject(this);
-        target.OnEnemyDeath -= ReturnIntoPool;
-    }
+        if (target != null)
+        {
+            target.OnEnemyDeath -= ReturnIntoPool;
+            target = null;
+            PoolsController.Instance.ArrowPool.ReturnObject(this);
 
+        }
+
+    }
 }

@@ -19,6 +19,7 @@ public abstract class Projectile : MonoBehaviour
         RB2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
     public virtual void Launch(Vector2 direction, float speed, float damage, bool isCrit, float lifeTime)    {
+        RB2D.simulated = true;
         RB2D.linearVelocity = direction.normalized * speed;
         RotateToVelocity();
         Damage = damage;

@@ -53,6 +53,7 @@ public abstract class Enemy : MonoBehaviour
     public void Death()
     {
         OnEnemyDeath?.Invoke();
+        Debug.Log("Умер");
         _enemyController.ReArise();
         if (_isBoss)
             SceneTransition.SwitchScene("MainMenu");

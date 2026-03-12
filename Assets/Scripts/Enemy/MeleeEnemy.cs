@@ -89,7 +89,18 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
     }
     public override void Arise()
     {
-        SetState(EEnemyState.Chase);
+        float dist = Vector2.Distance(transform.position, _target.position);
+        if (dist > _attackDistance)
+        {
+            SetState(EEnemyState.Chase);
+
+        }
+        else
+        {
+            SetState(EEnemyState.Attack);
+        }
+       
+
     }
     public override void Flip()
     {

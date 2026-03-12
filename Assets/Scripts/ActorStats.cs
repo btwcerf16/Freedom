@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Android;
 
 public class ActorStats : MonoBehaviour
 {
@@ -19,12 +20,13 @@ public class ActorStats : MonoBehaviour
     public float CurrentMeleeDamageMultiplier;
     public float CurrentCooldownReduction;
 
-    private void Awake()
+    private void Initialize()
     {
+
         CurrentMaxHealth.Value = _config.MaxHealh;
-        CurrentHealth.Value =_config.MaxHealh;
+        CurrentHealth.Value = _config.MaxHealh;
         CurrentCritChance = _config.CritChance;
-        CurrentCritChance = _config.CritDamageMultiplier;
+        CurrentCritDamageMultiplier = _config.CritDamageMultiplier;
         CurrentPiercingDamageMultiplier = _config.PiercingDamageMultiplier;
         CurrentSlashingDamageMultiplier = _config.SlashingDamageMultiplier;
         CurrentBludgeoningDamageMultiplier = _config.BludgeoningDamageMultiplier;
@@ -33,8 +35,14 @@ public class ActorStats : MonoBehaviour
         CurrentMeleeDamageMultiplier = _config.MeleeDamageMultiplier;
         CurrentCooldownReduction = _config.CooldownReduction;
         CurrentDamageAttack = _config.AttackDamage;
+    }
+    private void Start()
+    {
+        Initialize();
+
 
     }
+    
     public void ResetAttackDamage()
     {
         CurrentDamageAttack = 0;

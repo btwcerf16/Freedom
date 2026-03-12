@@ -20,9 +20,6 @@ public class TooltipRaycast : MonoBehaviour
                 ControlTooltip.Instance.Show(weapon.Description, weapon.transform.position, weapon);
             }
         }
-        else
-        {
-            ControlTooltip.Instance.HideAll();
-        }
+
     }
 }

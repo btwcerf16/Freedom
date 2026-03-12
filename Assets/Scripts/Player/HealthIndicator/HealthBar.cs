@@ -11,6 +11,7 @@ public class HealthBar : MonoBehaviour
     public void SetMaxHealth(float oldMaxHealth, float newMaxHealth)
     {
         _maxHealth = newMaxHealth;
+        Debug.Log(_maxHealth);
     }
     public void SetHealthData(float oldHealth, float currentHealth)
     {

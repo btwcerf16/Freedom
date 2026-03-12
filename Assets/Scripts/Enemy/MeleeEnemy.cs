@@ -182,5 +182,8 @@ public class MeleeEnemy : Enemy, IForceReceiver, IDamageable
 
     }
 
-
+    public void GetHeal(float heal)
+    {
+        EnemyStats.CurrentHealth.Value = Mathf.Clamp(EnemyStats.CurrentHealth.Value + heal, 0, EnemyStats.CurrentMaxHealth.Value);
+    }
 }

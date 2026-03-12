@@ -37,7 +37,8 @@ public class EffectIcon : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ControlTooltip.Instance.Show(IconEffectData.EffectDescription,transform.position, this);
+        ControlTooltip.Instance.Show(IconEffectData.EffectDescription, transform.position, this);
+        Debug.Log("Õ‡¬≈À—ﬂ");
     }
 
     public void OnPointerExit(PointerEventData eventData)

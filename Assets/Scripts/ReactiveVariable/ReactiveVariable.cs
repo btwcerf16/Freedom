@@ -37,10 +37,13 @@ public class ReactiveVariable<T>
             }
         }
     }
-    public IDisposable Subscribe(Action<T, T> action)
+    public IDisposable Subscribe(Action<T, T> action, bool invokeImmediately = true)
     {
         Subscriber<T, T> subscriber = new Subscriber<T, T>(action, Remove);
         _subscribers.Add(subscriber);
+        if (invokeImmediately) {
+            action(_value, _value);
+        }
         return subscriber;
     }
     public void Remove(Subscriber<T, T> subscriber) => _subscribers.Remove(subscriber);

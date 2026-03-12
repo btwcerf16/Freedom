@@ -9,8 +9,8 @@ public class HealBuff : Effect
 
     public override void EffectTick(ActorStats owner)
     {
-        Debug.Log("Хилл" + ((HealBuffData)EffectData).HealCount * Time.deltaTime);
-        owner.CurrentHealth.Value += ((HealBuffData)EffectData).HealCount * Time.deltaTime;
+        //Debug.Log("Хилл" + ((HealBuffData)EffectData).HealCount * Time.deltaTime);
+        owner.GetComponent<IDamageable>().GetHeal(((HealBuffData)EffectData).HealCount * Time.deltaTime);
         TimeRemaining -= Time.deltaTime;
     }
 }

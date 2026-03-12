@@ -23,6 +23,7 @@ public class Robin : PlayableActor, IDamageable,IDisposable
         IDisposable currentHealthDisposable = PlayerActorStats.CurrentHealth.Subscribe(PlayerHealthBar.SetHealthData);
         _disposable.Add(currentHealthDisposable);
         _disposable.Add(maxHealthDisposable);
+        
     }
     public void GetDamage(float damage, bool isCrit)
     {
@@ -35,7 +36,10 @@ public class Robin : PlayableActor, IDamageable,IDisposable
         
         PlayerActorStats.CurrentHealth.Value -= damage;
     }
-
+    public void GetHeal(float heal)
+    {
+        PlayerActorStats.CurrentHealth.Value = Mathf.Clamp(PlayerActorStats.CurrentHealth.Value + heal, 0, PlayerActorStats.CurrentMaxHealth.Value);
+    }
     public void Dispose()
     {
         foreach(var disp in _disposable)

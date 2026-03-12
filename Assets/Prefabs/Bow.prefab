@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113844ad9811f524f8b6e95e935dd9de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bow
-  AttackDamage: 1
+  AttackDamage: 10
   AttackType: 1
   DamageType: 1
   _spriteRenderer: {fileID: 0}

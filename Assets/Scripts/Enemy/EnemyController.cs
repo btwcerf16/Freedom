@@ -28,14 +28,14 @@ public class EnemyController : MonoBehaviour
     }
     private void AriseEnemies(List<Enemy> enemies)
     {
-        Debug.Log("Восстают");
+        
         
         foreach (Enemy enemy in enemies)
         {
             activated++;
             if (_agroedEnemies.Contains(enemy) && activated <= _attackersInWave)
             {
-                Debug.Log("Восстают1");
+                
                 _agroedEnemies.Remove(enemy);
                 
                 _activeEnemies.Add(enemy);

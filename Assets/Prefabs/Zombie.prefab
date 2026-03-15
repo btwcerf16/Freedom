@@ -135,11 +135,11 @@ GameObject:
   - component: {fileID: 8191688242195286549}
   - component: {fileID: 4774668198019988392}
   - component: {fileID: 3206273799222855567}
-  - component: {fileID: -7558082627737597483}
   - component: {fileID: 128139792803002729}
   - component: {fileID: -6174118891057469916}
   - component: {fileID: -2386971005170259050}
   - component: {fileID: -100822708659774803}
+  - component: {fileID: 726873593797017937}
   m_Layer: 7
   m_Name: Zombie
   m_TagString: Enemy
@@ -224,8 +224,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActorStats
   _config: {fileID: 11400000, guid: ac4a2b7211866e34fb37d761d5baa2e1, type: 2}
   CurrentDamageAttack: 0
-  CurrentHealth: 0
-  CurrentMaxHealth: 0
   CurrentCritChance: 0
   CurrentCritDamageMultiplier: 0
   CurrentPiercingDamageMultiplier: 0
@@ -284,32 +282,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 1
---- !u!114 &-7558082627737597483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8218736555722471786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c61677687daa4244860a74b61be0512, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MeleeEnemy
-  EnemyStats: {fileID: 0}
-  EnemyEffectHandler: {fileID: 0}
-  _agent: {fileID: 3206273799222855567}
-  EnemyType: 0
-  _attackPoint: {fileID: 5934173791933713153}
-  _floatingDamage: {fileID: 2643932370117367702, guid: f1777aee0ddc3bc47a2ec8a9311f7f26, type: 3}
-  _state: 2
-  IsAgroed: 0
-  IsCombatActive: 0
-  IsDead: 0
-  _attackDistance: 1.4
-  _isBoss: 0
-  _attackCooldown: 1.8
-  _attackRadius: 1
 --- !u!95 &128139792803002729
 Animator:
   serializedVersion: 7
@@ -376,3 +348,27 @@ MonoBehaviour:
   OwnerActorStats: {fileID: 8191688242195286549}
   ActiveEffects: []
   CharacterEffectDisplay: {fileID: -2386971005170259050}
+--- !u!114 &726873593797017937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8218736555722471786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a7a1e38162c4a34492e535c7de4fba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FrozenZombie
+  EnemyAnimator: {fileID: 0}
+  EnemyEffectHandler: {fileID: 0}
+  _floatingDamage: {fileID: 2643932370117367702, guid: f1777aee0ddc3bc47a2ec8a9311f7f26, type: 3}
+  IsAgroed: 0
+  IsCombatActive: 0
+  IsDead: 0
+  EnemyType: 0
+  _attackDistance: 1.4
+  _attackPoint: {fileID: 5934173791933713153}
+  EnemyStats: {fileID: 0}
+  _isBoss: 0
+  _agent: {fileID: 3206273799222855567}

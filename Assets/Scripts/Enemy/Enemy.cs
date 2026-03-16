@@ -25,7 +25,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected Transform _attackPoint;
     public ActorStats EnemyStats;
     [SerializeField] protected bool _isBoss = false;
-
+    [SerializeField] protected bool _isArised;
     [Header("Controller")]
     [SerializeField] protected NavMeshAgent _agent;
     protected EnemyController _enemyController;

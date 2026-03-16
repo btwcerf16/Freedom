@@ -6,9 +6,7 @@ public class FrozenZombie : Enemy, IDisalable
 
     #region States
 
-    private AriseEnemyState _ariseState;
-    private ChaseEnemyState _chaseState;
-    private AttackEnemyState _attackState;
+
 
     #endregion
 
@@ -16,18 +14,26 @@ public class FrozenZombie : Enemy, IDisalable
     private void Start()
     {
         EnemyStateMachine = new StateMachine();
-        
-        _chaseState = new ChaseEnemyState(this, _agent, EnemyStateMachine, _attackState);
-        _attackState = new AttackEnemyState(this, EnemyStateMachine, _attackState, _chaseState);
 
-        _ariseState = new AriseEnemyState(EnemyStateMachine, this, _attackState, _chaseState);
 
-        Debug.Log(_attackState == null ? "Yes" : " Не нал");
+        //Debug.Log(_attackState == null ? "Yes" : " Не нал");
     }
     public void Update()
     {
         Debug.Log(EnemyStateMachine.CurrentState?.ToString());
-        EnemyStateMachine.CurrentState?.Update();
+        if (_isArised)
+        {
+            if (CanAttack())
+            {
+                
+            }
+            if(!CanAttack() && !_agent.isStopped)
+            {
+                
+            }
+        }
+            EnemyStateMachine.CurrentState?.Update();
+
     }
     public override void EnableAfterSpawn()
     {
@@ -49,6 +55,8 @@ public class FrozenZombie : Enemy, IDisalable
     {
 
         yield return new WaitForSeconds(0.2f);
-        EnemyStateMachine.Initialize(_ariseState);
+        //EnemyStateMachine.Initialize(_ariseState);
+        yield return new WaitForSeconds(0.2f);
+        _isArised = true;
     }
 }

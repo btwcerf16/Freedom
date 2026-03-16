@@ -4,14 +4,14 @@ public class AttackEnemyState : State
 {
     private Enemy _enemy;
     private StateMachine _stateMachine;
-    private State _chaseState;
     private State _attackState;
-    public AttackEnemyState(Enemy enemy, StateMachine stateMachine, State chaseState, State AttackState)
+    private State _chaseState;
+    public AttackEnemyState(Enemy enemy, StateMachine stateMachine, State attackState, State chaseState)
     {
         _enemy = enemy;
         _stateMachine = stateMachine;
-        _chaseState = chaseState;
-        _attackState = AttackState;
+        _attackState = attackState;
+        _chaseState = chaseState;   
     }
 
     public override void Enter()

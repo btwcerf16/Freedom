@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class FrozenZombie : Enemy, IDisalable
@@ -12,14 +13,16 @@ public class FrozenZombie : Enemy, IDisalable
     #endregion
 
 
-    private void Awake()
+    private void Start()
     {
         EnemyStateMachine = new StateMachine();
-        _attackState = new AttackEnemyState(this, EnemyStateMachine, _chaseState, _attackState);
-        _chaseState = new ChaseEnemyState(this, _agent, EnemyStateMachine, _attackState);
         
+        _chaseState = new ChaseEnemyState(this, _agent, EnemyStateMachine, _attackState);
+        _attackState = new AttackEnemyState(this, EnemyStateMachine, _attackState, _chaseState);
 
-        _ariseState = new AriseEnemyState(EnemyStateMachine, _attackState, _chaseState, this);
+        _ariseState = new AriseEnemyState(EnemyStateMachine, this, _attackState, _chaseState);
+
+        Debug.Log(_attackState == null ? "Yes" : " Не нал");
     }
     public void Update()
     {
@@ -29,7 +32,7 @@ public class FrozenZombie : Enemy, IDisalable
     public override void EnableAfterSpawn()
     {
         base.EnableAfterSpawn();
-        EnemyStateMachine.Initialize(_ariseState);
+        StartCoroutine(StartAriseState());
     }
 
     public override bool CanAttack()
@@ -41,5 +44,11 @@ public class FrozenZombie : Enemy, IDisalable
     public void Disable()
     {
         
+    }
+    IEnumerator StartAriseState()
+    {
+
+        yield return new WaitForSeconds(0.2f);
+        EnemyStateMachine.Initialize(_ariseState);
     }
 }

@@ -20,13 +20,12 @@ public class ChaseEnemyState : State
         Debug.Log("Начало погони");
         _enemy.EnemyAnimator.SetBool("Chase", true);
         _agent.isStopped = false;
-        _agent.enabled = true;
-
     }
 
     public override void Exit()
     {
         base.Exit();
+        _agent.isStopped = true;
         _enemy.EnemyAnimator.SetBool("Chase", false);
     }
 

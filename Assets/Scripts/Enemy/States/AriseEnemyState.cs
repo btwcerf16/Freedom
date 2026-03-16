@@ -3,15 +3,16 @@ using UnityEngine;
 public class AriseEnemyState : State
 {
     private StateMachine _stateMachine;
+    private Enemy _enemy;
     private State _attackState;
     private State _chaseState;
-    private Enemy _enemy;
-    public AriseEnemyState(StateMachine stateMachine, State attackState, State chaseState,Enemy enemy)
+    public AriseEnemyState(StateMachine stateMachine, Enemy enemy, State attackState, State chaseState)
     {
         _stateMachine = stateMachine;
+        _enemy = enemy;
         _attackState = attackState;
         _chaseState = chaseState;
-        _enemy = enemy;
+
     }
 
     public override void Enter()

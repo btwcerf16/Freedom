@@ -5,13 +5,12 @@ public class ChaseEnemyState : State
 {
     private Enemy _enemy;
     private NavMeshAgent _agent;
-    private StateMachine _stateMachine;
+
  
-    public ChaseEnemyState(Enemy enemy, NavMeshAgent agent, StateMachine stateMachine)
+    public ChaseEnemyState(Enemy enemy, NavMeshAgent agent)
     {
         _enemy = enemy;
         _agent = agent;
-        _stateMachine = stateMachine;
 
     }
 
@@ -31,7 +30,12 @@ public class ChaseEnemyState : State
 
     public override void Update()
     {
+        if (!_agent.enabled || !_agent.isOnNavMesh)
+            return;
         _agent.SetDestination(_enemy.EnemyTarget.position);
-
+        if (_enemy.CanAttack())
+        {
+            _enemy.ChangeState<AttackEnemyState>();
+        }
     }
 }

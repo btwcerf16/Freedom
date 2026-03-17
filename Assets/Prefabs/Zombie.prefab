@@ -366,9 +366,12 @@ MonoBehaviour:
   IsAgroed: 0
   IsCombatActive: 0
   IsDead: 0
+  IsDisabled: 0
   EnemyType: 0
   _attackDistance: 1.4
   _attackPoint: {fileID: 5934173791933713153}
   EnemyStats: {fileID: 0}
   _isBoss: 0
+  _isArised: 0
   _agent: {fileID: 3206273799222855567}
+  _attackRadius: 1

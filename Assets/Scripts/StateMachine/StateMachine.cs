@@ -9,7 +9,10 @@ public class StateMachine
         CurrentState = startingState;
         CurrentState.Enter();
     }
-    public void ChangeState(State state)
+    /// <summary>
+    /// Не использовать прямо через ссылку на машину состояний. Ищи реализацию для Dictionary в классе используеющем StateMachine
+    /// </summary>
+    public void ChangeState(State state) // НЕ РАБОТАЙ С ЭТИМ МЕТОДОМ, ИСПОЛЬЗУЙ ChangeState через джинерик в Enemy
     {
         CurrentState?.Exit();
         CurrentState = state;

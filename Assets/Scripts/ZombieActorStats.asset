@@ -22,4 +22,4 @@ MonoBehaviour:
   RangeDamageMultiplier: 1
   MeleeDamageMultiplier: 1
   CooldownReduction: 1
-  AttackDamage: 2
+  AttackDamage: 0.5

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +18,7 @@ public abstract class Enemy : MonoBehaviour
     public bool IsAgroed;
     public bool IsCombatActive;
     public bool IsDead;
+    public bool IsDisabled;
 
     [Header("Combat")]
     public EEnemyType EnemyType;
@@ -33,7 +35,7 @@ public abstract class Enemy : MonoBehaviour
 
     public event Action OnEnemyDeath;
 
-
+    private Dictionary<Type, State> _states = new();
     public void Initialize(EnemyController enemyController, Transform target)
     {
         EnemyStats = GetComponent<ActorStats>();
@@ -48,6 +50,19 @@ public abstract class Enemy : MonoBehaviour
         _enemyController = enemyController;
 
     }
+    protected void RegisterState(State state)
+    {
+        _states[state.GetType()] = state;
+    }
+    protected T GetState<T>() where T: State
+    {
+        return (T)_states[typeof(T)];
+    }
+    public void ChangeState<T>() where T : State
+    {
+        EnemyStateMachine.ChangeState(GetState<T>());
+    }
+
     public void Death()
     {
         OnEnemyDeath?.Invoke();
@@ -67,6 +82,7 @@ public abstract class Enemy : MonoBehaviour
             _agent = GetComponent<NavMeshAgent>();
         
         _agent.enabled = false;
+        
         Invoke(nameof(EnableAgent), 0.2f);
     }
 

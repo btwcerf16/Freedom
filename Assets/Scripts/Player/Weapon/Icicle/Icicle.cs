@@ -24,7 +24,7 @@ public class Icicle : Weapon
             if (target.CompareTag("Enemy"))
             {
                 Debug.Log("Попал");
-                target.GetComponent<IDamageable>().GetDamage(_hand.Player.PlayerActorStats.CurrentDamageAttack, false);
+                target.GetComponent<IDamageable>()?.GetDamage(_hand.Player.PlayerActorStats.CurrentDamageAttack, false);
             }
 
         }

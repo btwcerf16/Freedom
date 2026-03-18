@@ -16,9 +16,11 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable
     {
         EnemyStateMachine = new StateMachine();
 
+        RegisterState(new DeathEnemyState(this, _agent));
         RegisterState(new AriseEnemyState(this));
         RegisterState(new ChaseEnemyState(this, _agent));
         RegisterState(new AttackEnemyState(this));
+        RegisterState(new DisabledEnemyState(this, _agent));
 
     }
     public void Update()
@@ -60,10 +62,8 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable
 
     IEnumerator KnockbackCoroutine(Vector2 direction, float force, float duration)
     {
-        _agent.enabled = false;
-        //_animator.SetBool("Pushed", true);
-        //_animator.SetBool("Chase", false);
-        //SetState(EEnemyState.Gag);
+
+
         float timer = 0;
 
         while (timer < duration)
@@ -73,7 +73,7 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable
             yield return null;
         }
        // _animator.SetBool("Pushed", false);
-        //SetState(EEnemyState.Chase);
+
         _agent.enabled = true;
     }
 
@@ -83,7 +83,7 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable
         {
             Debug.Log("ПОМЕР");
             IsDead = true;
-            MeleeDeath();
+            ChangeState<DeathEnemyState>();
 
         }
         //(Instantiate(_floatingDamage, damagePos, Quaternion.identity)).GetComponent<FloatingDamage>();
@@ -98,19 +98,7 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable
             floatingDamage.Text.color = Color.whiteSmoke;
         EnemyStats.CurrentHealth.Value -= damage;
     }
-    public void MeleeDeath()
-    {
 
-        //_animator.SetBool("IsDead", true);
-        _agent.enabled = false;
-        Death();
-        Debug.Log("Вызвал смерть");
-
-        //_animator.SetTrigger("Death");
-
-        enabled = false;
-
-    }
     private void DealDamage()
     {
         Collider2D[] targets = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRadius);

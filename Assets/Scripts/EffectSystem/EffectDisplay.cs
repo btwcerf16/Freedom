@@ -12,7 +12,6 @@ public class EffectDisplay : MonoBehaviour
     [SerializeField] private bool _isPlayer;
     [SerializeField] private GameObject _effectPanel;
     [SerializeField] private GameObject _effectImagePrefab;
-    [SerializeField] private ParticleSystem _particleSystem;
     private Dictionary<Effect,ParticleSystem> _particleInstances = new();
     [SerializeField] private List<GameObject> _effectImage;
 

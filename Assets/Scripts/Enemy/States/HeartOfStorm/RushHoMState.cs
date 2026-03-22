@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class RushHoMState : MonoBehaviour
+public class RushHoMState : State
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public RushHoMState()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

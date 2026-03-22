@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class RightAttackHoMState : MonoBehaviour
+public class RightAttackHoMState : State
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public RightAttackHoMState()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class LeftAttackHoMState : MonoBehaviour
+public class LeftAttackHoMState : State
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public LeftAttackHoMState()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

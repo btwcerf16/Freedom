@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class IdleHoMState : MonoBehaviour
+public class IdleHoMState : State
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public IdleHoMState()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

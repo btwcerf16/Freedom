@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class DeathHoMState : MonoBehaviour
+public class DeathHoMState : State
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public DeathHoMState()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

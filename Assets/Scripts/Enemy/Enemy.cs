@@ -63,11 +63,14 @@ public abstract class Enemy : MonoBehaviour
         EnemyStateMachine.ChangeState(GetState<T>());
     }
 
-    public void Death()
+    /// <summary>
+    /// Только если враг связан с контроллером врагов
+    /// </summary>
+    public virtual void Death()
     {
         OnEnemyDeath?.Invoke();
         Debug.Log("Умер");
-        _enemyController.ReArise();
+
         if (_isBoss)
             SceneTransition.SwitchScene("MainMenu");
 

@@ -15,6 +15,7 @@ public class RoomFirstDungeonGenerator : DungeonGenerator
 
     protected override void RunProceduralGeneration()
     {
+        _tilemapVisualizer.Clear();
         CreateRooms();
     }
 

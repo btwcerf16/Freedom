@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,7 +18,7 @@ public class DeathEnemyState : State
         base.Enter();
         _enemy.EnemyAnimator.SetBool("IsDead", true);
         _agent.enabled = false;
-        _enemy.Death();
+        _enemy.GetComponent<IDisposable>().Dispose();
         Debug.Log("Вызвал смерть");
         _enemy.enabled = false;
     }

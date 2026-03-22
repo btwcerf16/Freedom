@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable
+public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDisposable
 {
     [SerializeField] private float _attackRadius = 1.4f;
 
@@ -98,7 +99,11 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable
             floatingDamage.Text.color = Color.whiteSmoke;
         EnemyStats.CurrentHealth.Value -= damage;
     }
-
+    public override void Death()
+    {
+        base.Death();
+        _enemyController.ReArise();
+    }
     private void DealDamage()
     {
         Collider2D[] targets = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRadius);
@@ -121,5 +126,10 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable
     public void GetHeal(float heal)
     {
         EnemyStats.CurrentHealth.Value = Mathf.Clamp(EnemyStats.CurrentHealth.Value + heal, 0, EnemyStats.CurrentMaxHealth.Value);
+    }
+
+    public void Dispose()
+    {
+        Death();
     }
 }

@@ -1,16 +1,33 @@
 using UnityEngine;
+using UnityEngine.AI;
 
-public class ChaseHoMState : MonoBehaviour
+
+public class ChaseHoMState : State
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Enemy _enemy;
+    private NavMeshAgent _agent;
+
+
+    public ChaseHoMState(Enemy enemy, NavMeshAgent agent)
     {
-        
+        _enemy = enemy;
+        _agent = agent;
+
+    }
+    public override void Enter()
+    {
+        Debug.Log("Начало погони");
+        _enemy.EnemyAnimator.SetBool("Chase", true);
+        _agent.isStopped = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Exit()
     {
-        
+        base.Exit();
+        _agent.isStopped = true;
+        _enemy.EnemyAnimator.SetBool("Chase", false);
     }
+
 }
+
+

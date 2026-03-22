@@ -8,6 +8,7 @@ using NavMeshPlus;
 using Random = UnityEngine.Random;
 using NavMeshPlus.Components;
 
+
 public class CorridorFirstDungeonGenerator : DungeonGenerator
 {
     [SerializeField] private GameObject _player;
@@ -21,6 +22,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     [SerializeField] private EnemySummoner _enemySummoner;
     [SerializeField] private TresuareSpawaner _tresuareSummoner;
     [SerializeField] private RoomTrigger _roomTriggerPrefab;
+    [SerializeField] private List<RoomTrigger> _roomTriggers;
     [SerializeField] private EnemyController _enemyController;
     [SerializeField, Range(0f, 1f)]
     private float gizmoAlpha = 0.3f;
@@ -43,10 +45,22 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 
     private void CorridorFirstGeneration()
     {
-
+        if(_roomTriggers.Count > 0)
+        {
+            foreach (RoomTrigger trigger in _roomTriggers)
+            {
+                if(trigger != null)
+                    DestroyImmediate(trigger.gameObject);
+            }
+            _roomTriggers.Clear();
+        }
+       
+        
         _enemySummoner.ClearAllEnemies();
         
         _tresuareSummoner.ClearAllTreasuares();
+
+
         _roomFloors = new Dictionary<int, HashSet<Vector2Int>>();
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         HashSet<Vector2Int> potentialRoomPositions = new HashSet<Vector2Int>();
@@ -280,7 +294,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             new Vector3(center.x + 0.5f, center.y + 0.5f, 0),
             Quaternion.identity
         ).GetComponent<RoomTrigger>();
-
+        _roomTriggers.Add(trigger);
         Vector2Int min = floor.First();
         Vector2Int max = floor.First();
 

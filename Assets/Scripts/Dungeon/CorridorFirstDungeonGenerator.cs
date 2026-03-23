@@ -25,6 +25,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     [SerializeField] private List<RoomTrigger> _roomTriggers;
     [SerializeField] private BossTriggerPlate _bossTriggerPlate;
     [SerializeField] private List<BossTriggerPlate> _bossTriggers;
+    [SerializeField] private BossRoomGenerator _bossRoomGenerator;
     [SerializeField] private EnemyController _enemyController;
     [SerializeField, Range(0f, 1f)]
     private float gizmoAlpha = 0.3f;
@@ -58,7 +59,12 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         }
         if (_bossTriggers.Count > 0) 
         {
-        
+            foreach (BossTriggerPlate trigger in _bossTriggers)
+            {
+                if (trigger != null)
+                    DestroyImmediate(trigger.gameObject);
+            }
+            _bossTriggers.Clear();
         }
         
         _enemySummoner.ClearAllEnemies();
@@ -79,7 +85,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         CreateRoomsAtDeadEnd(deadEnds, roomPositions);
 
         floorPositions.UnionWith(roomPositions);
-
+        floorPositions.UnionWith(SmoothFloor(floorPositions, 3));
         for (int i = 0; i < corridors.Count; i++)
         {
             //corridors[i] = IncreaseCorridorsSizeByOne(corridors[i]);
@@ -87,9 +93,9 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             floorPositions.UnionWith(corridors[i]);
             
         }
-        floorPositions.UnionWith(SmoothFloor(floorPositions, 2));
+        
         _tilemapVisualizer.PaintFloorTiles(floorPositions);
-        WalkableTiles = new HashSet<Vector2Int>(floorPositions);
+        
         //_navMeshSurface.BuildNavMesh();
         Debug.Log("Сделано");
         AssignRoomRoles(_roomFloors);
@@ -121,7 +127,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             if (index == bossIndex)
             {
                 _roomTypes[index] = ETypeRoom.BossRoom;
-                //TODO сделай тут плиту на которую нужно будет наступить, в ней инфа сколько мобов убито
+                CreateBossTriggerPlate(roomFloors[index]);
                 continue;
             }
 
@@ -159,6 +165,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         {
             CreateRoomTrigger(floor, enemies);
         }
+
     }
 
     private List<Vector2Int> IncreaseCorridorBrush3by3(List<Vector2Int> corridor)
@@ -301,6 +308,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
                 Quaternion.identity
         ).GetComponent<BossTriggerPlate>();
         _bossTriggers.Add(trigger);
+        _bossTriggerPlate.Initialize(_bossRoomGenerator, _enemySummoner);
 
     }
     private void CreateRoomTrigger(HashSet<Vector2Int> floor, List<Enemy> enemies)
@@ -413,7 +421,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 
             foreach (var pos in room)
             {
-                Gizmos.DrawCube(new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0), Vector3.one);
+                Gizmos.DrawCube(new Vector3(pos.x, pos.y, 0), Vector3.one);
             }
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +9,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private List<Enemy> _agroedEnemies= new List<Enemy>();
     [Range(0.0f, 1.0f)] public float AttackPermission;
     [SerializeField] private int _attackersInWave;
-    public int activated;
+    public int ActivatedEnemies;
+    public Action OnAllEnemiesClear;
     public void ActiveRoom(List<Enemy> enemies)
     {
 
@@ -32,10 +34,10 @@ public class EnemyController : MonoBehaviour
         
         foreach (Enemy enemy in enemies)
         {
-            activated++;
-            if (_agroedEnemies.Contains(enemy) && activated <= _attackersInWave)
+            
+            if (_agroedEnemies.Contains(enemy) && ActivatedEnemies <= _attackersInWave)
             {
-                
+                ActivatedEnemies++;
                 _agroedEnemies.Remove(enemy);
                 
                 _activeEnemies.Add(enemy);
@@ -43,17 +45,21 @@ public class EnemyController : MonoBehaviour
                 enemy.gameObject.SetActive(true);
                 enemy.EnableAfterSpawn();
             }
-            if (activated >= _attackersInWave) {
+            if (ActivatedEnemies >= _attackersInWave) {
                 break;
             }
         }
     }
     public void ReArise()
     {
-        activated--;
-        if(activated == 0 && _agroedEnemies.Count > 0)
+        ActivatedEnemies--;
+        if(ActivatedEnemies == 0 && _agroedEnemies.Count > 0)
         {
             AriseEnemies(_agroedEnemies);
-        } 
+        }
+        if (_agroedEnemies.Count == 0) 
+        {
+            OnAllEnemiesClear?.Invoke();
+        }
     }
 }

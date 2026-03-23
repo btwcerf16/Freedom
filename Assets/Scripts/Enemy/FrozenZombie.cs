@@ -83,8 +83,9 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDis
         if (damage >= EnemyStats.CurrentHealth.Value)
         {
             Debug.Log("онлеп");
-            IsDead = true;
             ChangeState<DeathEnemyState>();
+            IsDead = true;
+            
 
         }
         //(Instantiate(_floatingDamage, damagePos, Quaternion.identity)).GetComponent<FloatingDamage>();
@@ -102,7 +103,11 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDis
     public override void Death()
     {
         base.Death();
-        _enemyController.ReArise();
+        if (!IsDead)
+        {
+            _enemyController.ReArise();
+        }
+        
     }
     private void DealDamage()
     {

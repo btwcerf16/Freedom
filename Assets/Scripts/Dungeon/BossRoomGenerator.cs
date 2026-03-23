@@ -38,4 +38,8 @@ public class BossRoomGenerator : DungeonGenerator
             0f);
         return floor;
     }
+    public void CallGeneration()
+    {
+        RunProceduralGeneration();
+    }
 }

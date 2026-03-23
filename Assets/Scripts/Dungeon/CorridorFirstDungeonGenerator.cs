@@ -23,6 +23,8 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
     [SerializeField] private TresuareSpawaner _tresuareSummoner;
     [SerializeField] private RoomTrigger _roomTriggerPrefab;
     [SerializeField] private List<RoomTrigger> _roomTriggers;
+    [SerializeField] private BossTriggerPlate _bossTriggerPlate;
+    [SerializeField] private List<BossTriggerPlate> _bossTriggers;
     [SerializeField] private EnemyController _enemyController;
     [SerializeField, Range(0f, 1f)]
     private float gizmoAlpha = 0.3f;
@@ -54,7 +56,10 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             }
             _roomTriggers.Clear();
         }
-       
+        if (_bossTriggers.Count > 0) 
+        {
+        
+        }
         
         _enemySummoner.ClearAllEnemies();
         
@@ -116,7 +121,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             if (index == bossIndex)
             {
                 _roomTypes[index] = ETypeRoom.BossRoom;
-                SummonEnemies(roomFloors[index], ETypeRoom.BossRoom);
+                //TODO сделай тут плиту на которую нужно будет наступить, в ней инфа сколько мобов убито
                 continue;
             }
 
@@ -150,8 +155,10 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
 
         if (enemies == null || enemies.Count == 0) return;
 
-
-        CreateRoomTrigger(floor, enemies);
+        if (typeRoom == ETypeRoom.EnemyPit)
+        {
+            CreateRoomTrigger(floor, enemies);
+        }
     }
 
     private List<Vector2Int> IncreaseCorridorBrush3by3(List<Vector2Int> corridor)
@@ -284,6 +291,17 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
             floorPositions.UnionWith(corridor);
         }
         return corridors;
+    }
+    private void CreateBossTriggerPlate(HashSet<Vector2Int> floor)
+    {
+        Vector2Int center = ProceduralGenerationAlgorithm.GetRoomCenter(floor);
+        var trigger = Instantiate(
+                _bossTriggerPlate,
+                new Vector3(center.x + 0.5f, center.y + 0.5f, 0),
+                Quaternion.identity
+        ).GetComponent<BossTriggerPlate>();
+        _bossTriggers.Add(trigger);
+
     }
     private void CreateRoomTrigger(HashSet<Vector2Int> floor, List<Enemy> enemies)
     {

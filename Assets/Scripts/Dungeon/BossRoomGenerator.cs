@@ -13,16 +13,18 @@ public class BossRoomGenerator : DungeonGenerator
     private Vector3 _spawnPos;
     protected override void RunProceduralGeneration()
     {
-        
+        Vector3 bossSpawnPoint = new();
         _tilemapVisualizer.Clear();
         HashSet<Vector2Int> floor = CreateBossRoom(new BoundsInt((Vector3Int)startPosition,
-            new Vector3Int(_roomWidth, _roomHeight, 0)));
+            new Vector3Int(_roomWidth, _roomHeight, 0)),out bossSpawnPoint);
         _tilemapVisualizer.PaintFloorTiles(floor);
         WallGenerator.CreateWalls(floor, _tilemapVisualizer);
-        _navMeshSurface.BuildNavMeshAsync();
+        _navMeshSurface.BuildNavMesh();
+        InstantiateBoss(bossSpawnPoint, new BoundsInt((Vector3Int)startPosition,
+            new Vector3Int(_roomWidth, _roomHeight, 0)));
         _player.transform.position = _spawnPos;
     }
-    private HashSet<Vector2Int> CreateBossRoom(BoundsInt room)
+    private HashSet<Vector2Int> CreateBossRoom(BoundsInt room, out Vector3 bossSpawnPoint)
     {
         
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
@@ -44,13 +46,14 @@ public class BossRoomGenerator : DungeonGenerator
             room.min.y + room.size.y / 2,
             0.0f
             );
-        InstantiateBoss(bossSpawnPos);
+        bossSpawnPoint = bossSpawnPos;
         return floor;
     }
-    private void InstantiateBoss(Vector3 spawnPos)
+    private void InstantiateBoss(Vector3 spawnPos, BoundsInt room)
     {
         HeartOfStormEnemy boss = Instantiate(_heartOfStormEnemy, spawnPos, Quaternion.identity).GetComponent<HeartOfStormEnemy>();
-        boss.Initialize(null, _player.transform);
+
+        boss.Initialize(null, _player.transform, room);
     }
     public void CallGeneration()
     {

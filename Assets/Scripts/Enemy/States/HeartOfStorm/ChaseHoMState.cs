@@ -1,67 +1,98 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-
 public class ChaseHoMState : State
 {
     private Enemy _enemy;
     private NavMeshAgent _agent;
+    private BoundsInt _bounds;
+
+    private float _edgeOffset = 2.0f;
+    private float _minDistance = 10.0f;
+
     private Vector3 _targetPoint;
 
-    private float _wanderRadius = 5f;    
-    private float _pointReachDistance = 0.5f;
-
-    public ChaseHoMState(Enemy enemy, NavMeshAgent agent)
+    public ChaseHoMState(Enemy enemy, NavMeshAgent agent, BoundsInt bounds)
     {
         _enemy = enemy;
         _agent = agent;
-
+        _bounds = bounds;
     }
+
     public override void Enter()
     {
-        Debug.Log("Начало погони");
         _enemy.EnemyAnimator.SetBool("Chase", true);
+
+        if (!_agent.enabled || !_agent.isOnNavMesh)
+            return;
+
         _agent.isStopped = false;
+        _agent.stoppingDistance = 0.3f;
+
+        SetNewDestination();
     }
 
     public override void Exit()
     {
-        base.Exit();
         _agent.isStopped = true;
         _enemy.EnemyAnimator.SetBool("Chase", false);
     }
+
     public override void Update()
     {
-        // если дошли до точки — берем новую
-        if (!_agent.pathPending && _agent.remainingDistance <= _pointReachDistance)
+        if (!_agent.enabled || !_agent.isOnNavMesh)
+            return;
+
+        if (ReachedDestination())
         {
-            SetNewDestination();
+            _enemy.ChangeState<IdleHoMState>();
+           
         }
     }
-    private void SetNewDestination()
-    {
-        Vector3 randomPoint = GetRandomPoint(_enemy.transform.position, _wanderRadius);
 
-        _targetPoint = randomPoint;
-        _agent.SetDestination(_targetPoint);
+    private bool ReachedDestination()
+    {
+        if (_agent.pathPending) return false;
+        if (!_agent.hasPath) return false;
+        if (_agent.remainingDistance > _agent.stoppingDistance) return false;
+
+        return true;
     }
 
-    private Vector3 GetRandomPoint(Vector3 center, float radius)
+    private void SetNewDestination()
     {
         for (int i = 0; i < 10; i++)
         {
-            Vector2 randomCircle = Random.insideUnitCircle * radius;
-            Vector3 randomPos = center + new Vector3(randomCircle.x, randomCircle.y, 0);
+            Vector3 point = GetPointInsideBounds();
 
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPos, out hit, 2f, NavMesh.AllAreas))
+            if (Vector3.Distance(point, _enemy.transform.position) > _minDistance)
             {
-                return hit.position;
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(point, out hit, _edgeOffset, NavMesh.AllAreas))
+                {
+                    _targetPoint = hit.position;
+                    _agent.SetDestination(_targetPoint);
+
+                    Debug.Log("НОВАЯ ТОЧКА В КОМНАТЕ: " + _targetPoint);
+                    return;
+                }
             }
         }
 
-        return center; 
+        Debug.LogWarning("Не нашёл точку в комнате");
+    }
+
+    private Vector3 GetPointInsideBounds()
+    {
+        float minX = _bounds.xMin + _edgeOffset;
+        float maxX = _bounds.xMax - _edgeOffset;
+
+        float minY = _bounds.yMin + _edgeOffset;
+        float maxY = _bounds.yMax - _edgeOffset;
+
+        float x = Random.Range(minX, maxX);
+        float y = Random.Range(minY, maxY);
+
+        return new Vector3(x, y, 0f);
     }
 }
-
-

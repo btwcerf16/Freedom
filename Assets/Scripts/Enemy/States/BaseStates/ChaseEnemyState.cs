@@ -18,7 +18,9 @@ public class ChaseEnemyState : State
     {
         Debug.Log("Íà÷àëî ïîãîíè");
         _enemy.EnemyAnimator.SetBool("Chase", true);
-        _agent.isStopped = false;
+
+        if (_agent.isOnNavMesh)
+            _agent.isStopped = false;
     }
 
     public override void Exit()
@@ -31,7 +33,12 @@ public class ChaseEnemyState : State
     public override void Update()
     {
         if (!_agent.enabled || !_agent.isOnNavMesh)
+        {
+            Debug.Log("ÍÅ ÏÎËÓ×ÀÅÒÑß 1");
             return;
+
+        }
+
         _agent.SetDestination(_enemy.EnemyTarget.position);
         if (_enemy.CanAttack())
         {

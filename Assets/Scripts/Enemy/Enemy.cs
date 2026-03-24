@@ -36,7 +36,7 @@ public abstract class Enemy : MonoBehaviour
     public event Action OnEnemyDeath;
 
     private Dictionary<Type, State> _states = new();
-    public void Initialize(EnemyController enemyController, Transform target)
+    public virtual void Initialize(EnemyController enemyController, Transform target)
     {
         EnemyStats = GetComponent<ActorStats>();
         EnemyAnimator = GetComponent<Animator>();

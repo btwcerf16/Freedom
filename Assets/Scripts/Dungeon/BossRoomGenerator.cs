@@ -8,8 +8,8 @@ public class BossRoomGenerator : DungeonGenerator
     [SerializeField] private int _roomWidth;
     [SerializeField] private int _roomHeight;
     [SerializeField] private GameObject _player;
-    [SerializeField] private NavMeshSurface _navMeshSurface
-        ;
+    [SerializeField] private NavMeshSurface _navMeshSurface;
+    [SerializeField] private HeartOfStormEnemy _heartOfStormEnemy;
     private Vector3 _spawnPos;
     protected override void RunProceduralGeneration()
     {
@@ -38,8 +38,19 @@ public class BossRoomGenerator : DungeonGenerator
         _spawnPos = new Vector3(
             room.min.x + room.size.x / 2f,
             room.min.y + 1f,
-            0f);
+            0.0f);
+        var bossSpawnPos = new Vector3(
+            room.min.x + room.size.x / 2,
+            room.min.y + room.size.y / 2,
+            0.0f
+            );
+        InstantiateBoss(bossSpawnPos);
         return floor;
+    }
+    private void InstantiateBoss(Vector3 spawnPos)
+    {
+        HeartOfStormEnemy boss = Instantiate(_heartOfStormEnemy, spawnPos, Quaternion.identity).GetComponent<HeartOfStormEnemy>();
+        boss.Initialize(null, _player.transform);
     }
     public void CallGeneration()
     {

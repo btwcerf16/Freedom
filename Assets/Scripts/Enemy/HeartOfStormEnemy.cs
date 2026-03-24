@@ -16,7 +16,7 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
         RegisterState(new RightAttackHoMState());
         RegisterState(new RushHoMState());
 
-
+        ChangeState<ChaseHoMState>();
 
     }
 

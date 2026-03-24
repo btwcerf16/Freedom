@@ -4,13 +4,13 @@ public class BossTriggerPlate : MonoBehaviour
 {
     private bool _activated;
     private BossRoomGenerator _generator;
-    private EnemySummoner _enemySummoner;
+    private EnemyController _enemyController;
 
-    public void Initialize(BossRoomGenerator bossRoomGenerator, EnemySummoner enemySummoner)
+    public void Initialize(BossRoomGenerator bossRoomGenerator, EnemyController enemyController)
     {
         _generator = bossRoomGenerator;
-        _enemySummoner = enemySummoner;
-
+        _enemyController = enemyController;
+        _enemyController.OnAllEnemiesClear += SetActivePlate;
 
     }
 
@@ -18,7 +18,7 @@ public class BossTriggerPlate : MonoBehaviour
     {
 
 
-        if (other.CompareTag("Player") && _activated)
+        if (other.CompareTag("Player"))
         {
             if (_activated)
             {
@@ -42,7 +42,7 @@ public class BossTriggerPlate : MonoBehaviour
     }
     private void OnDisable()
     {
-        
+        _enemyController.OnAllEnemiesClear -= SetActivePlate;
     }
 
 }

@@ -9,6 +9,7 @@ public class EnemySummoner : MonoBehaviour
     [SerializeField] private List<GameObject> _spawnedEnemies = new();
     [SerializeField] private Transform _player;
     [SerializeField] private EnemyController _enemyController;
+
     public List<Enemy> SummonEnemies(DungeonSO data, HashSet<Vector2Int> room, ETypeRoom typeRoom)
     {
         List<Enemy> roomEnemies = new();
@@ -32,7 +33,7 @@ public class EnemySummoner : MonoBehaviour
         }
 
         int enemyCount = Random.Range(data.minEnemiesInRoom, data.maxEnemiesInRoom);
-
+        
         foreach (var pos in room.OrderBy(_ => Guid.NewGuid()).Take(enemyCount))
         {
             GameObject obj = Instantiate(
@@ -45,8 +46,9 @@ public class EnemySummoner : MonoBehaviour
             if (enemy != null) roomEnemies.Add(enemy);
 
             _spawnedEnemies.Add(obj);
+           
         }
-
+        _enemyController.EnemiesCount += roomEnemies.Count;
         return roomEnemies;
     }
 
@@ -70,4 +72,6 @@ public class EnemySummoner : MonoBehaviour
 
         _spawnedEnemies.Clear();
     }
+
+    
 }

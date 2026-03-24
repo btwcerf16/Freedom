@@ -1,3 +1,4 @@
+using NavMeshPlus.Components;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -7,6 +8,8 @@ public class BossRoomGenerator : DungeonGenerator
     [SerializeField] private int _roomWidth;
     [SerializeField] private int _roomHeight;
     [SerializeField] private GameObject _player;
+    [SerializeField] private NavMeshSurface _navMeshSurface
+        ;
     private Vector3 _spawnPos;
     protected override void RunProceduralGeneration()
     {
@@ -16,7 +19,7 @@ public class BossRoomGenerator : DungeonGenerator
             new Vector3Int(_roomWidth, _roomHeight, 0)));
         _tilemapVisualizer.PaintFloorTiles(floor);
         WallGenerator.CreateWalls(floor, _tilemapVisualizer);
-
+        _navMeshSurface.BuildNavMeshAsync();
         _player.transform.position = _spawnPos;
     }
     private HashSet<Vector2Int> CreateBossRoom(BoundsInt room)

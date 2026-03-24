@@ -85,6 +85,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
         CreateRoomsAtDeadEnd(deadEnds, roomPositions);
 
         floorPositions.UnionWith(roomPositions);
+        
         floorPositions.UnionWith(SmoothFloor(floorPositions, 3));
         for (int i = 0; i < corridors.Count; i++)
         {
@@ -308,7 +309,7 @@ public class CorridorFirstDungeonGenerator : DungeonGenerator
                 Quaternion.identity
         ).GetComponent<BossTriggerPlate>();
         _bossTriggers.Add(trigger);
-        _bossTriggerPlate.Initialize(_bossRoomGenerator, _enemySummoner);
+        trigger.Initialize(_bossRoomGenerator, _enemyController);
 
     }
     private void CreateRoomTrigger(HashSet<Vector2Int> floor, List<Enemy> enemies)

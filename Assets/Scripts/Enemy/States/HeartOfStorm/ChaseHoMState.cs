@@ -7,7 +7,7 @@ public class ChaseHoMState : State
     private NavMeshAgent _agent;
     private BoundsInt _bounds;
 
-    private float _edgeOffset = 2.0f;
+    private float _edgeOffset = 10.0f;
     private float _minDistance = 10.0f;
 
     private Vector3 _targetPoint;

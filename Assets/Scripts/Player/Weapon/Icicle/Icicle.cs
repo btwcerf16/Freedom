@@ -1,9 +1,11 @@
+
 using UnityEngine;
 
 public class Icicle : Weapon
 {
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private float _attackRadius = 1.0f;
+    [SerializeField] private EffectData _effectData;
     public override bool CheckCondition()
     {
        return true;
@@ -25,6 +27,7 @@ public class Icicle : Weapon
             {
                 Debug.Log("Попал");
                 target.GetComponent<IDamageable>()?.GetDamage(_hand.Player.PlayerActorStats.CurrentDamageAttack, false);
+                target.GetComponent<EffectHandler>().AddEffect(_effectData);
             }
 
         }

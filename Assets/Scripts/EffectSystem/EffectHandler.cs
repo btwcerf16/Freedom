@@ -34,6 +34,7 @@ public class EffectHandler : MonoBehaviour
         if (existing != null)
         {
             existing.TimeRemaining = effectData.EffectDuration;
+
             existing.EffectStart(OwnerActorStats);
             return;
 

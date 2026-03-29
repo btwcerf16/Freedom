@@ -22,7 +22,7 @@ public class BossTriggerPlate : MonoBehaviour
         {
             if (_activated)
             {
-                //затемнение
+                
                 _generator.CallGeneration();
             }
             else

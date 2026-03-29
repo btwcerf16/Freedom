@@ -90,7 +90,6 @@ public class EnemyController : MonoBehaviour
         if (ActivatedEnemies <= 0 && _agroedEnemies.Count == 0)
         {
             Debug.Log("Комната зачищена");
-
             _currentRoom = null; 
         }
     }

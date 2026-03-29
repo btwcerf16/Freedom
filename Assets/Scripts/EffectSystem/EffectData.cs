@@ -12,7 +12,8 @@ public abstract class EffectData : ScriptableObject
     public Color EffectColor;
     public bool IsBuff;
     public bool CanPurged = true;
-    public bool Stackable = true;
+    public bool Stackable = false;
+    public bool RestartOnReapply = true;
     public abstract Effect CreateEffect(GameObject owner);
 
 }

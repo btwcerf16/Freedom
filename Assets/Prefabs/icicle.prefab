@@ -62,6 +62,8 @@ MonoBehaviour:
   _attackPoint: {fileID: 3503430394956806990}
   _attackRadius: 0.25
   _effectData: {fileID: 11400000, guid: 325b2dbb4ac4cc147b85ca0b26e3ca15, type: 2}
+  _spellConfig: {fileID: 11400000, guid: db54814e88dae88489188a8bb28f1c9b, type: 2}
+  _spell: {fileID: 0}
 --- !u!95 &383951261979637172
 Animator:
   serializedVersion: 7

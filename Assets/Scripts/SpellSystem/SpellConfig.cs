@@ -5,8 +5,8 @@ public abstract class SpellConfig : ScriptableObject
     public string SpellName;
     public string SpellDescription;
     public bool IsPassive = false;
-    public string CooldownTimer;
-
-    public abstract ISpell AddSpell();
+    public float CooldownTime;
+    public Sprite SpriteIcon;
+    public abstract Spell AddSpell(GameObject owner);
 
 }

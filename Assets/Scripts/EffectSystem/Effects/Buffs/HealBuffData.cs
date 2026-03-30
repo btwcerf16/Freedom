@@ -6,7 +6,6 @@ public class HealBuffData : EffectData
     public override Effect CreateEffect(GameObject owner)
     {
         Effect effect = owner.AddComponent<HealBuff>();
-
         effect.Initialize(this);
         return effect;
     }

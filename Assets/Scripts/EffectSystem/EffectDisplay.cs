@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Splines;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(ActorStats))]
@@ -53,7 +54,7 @@ public class EffectDisplay : MonoBehaviour
             if (_particleInstances.TryGetValue(effect, out var particle))
             {
                 particle.Stop();
-                PoolsController.Instance.ParticleSystemPool.ReturnObject(particle);
+                PoolsController.Instance.EffectSystemPool.ReturnObject(particle);
                 _particleInstances.Remove(effect);
 
             }
@@ -63,16 +64,15 @@ public class EffectDisplay : MonoBehaviour
     }
     private void OnDestroyClear()
     {
-        foreach(var instance in _particleInstances)
+        foreach (var instance in _particleInstances)
         {
             instance.Value.Stop();
-            PoolsController.Instance.ParticleSystemPool.ReturnObject(instance.Value);
-            
+            PoolsController.Instance.EffectSystemPool.ReturnObject(instance.Value);
         }
     }
     private void InstanceParticles(Color32 color, float duration, Effect effect)
     {
-        ParticleSystem particle = PoolsController.Instance.ParticleSystemPool.GetObject();
+        ParticleSystem particle = PoolsController.Instance.EffectSystemPool.GetObject();
 
         particle.Stop();
 
@@ -86,7 +86,7 @@ public class EffectDisplay : MonoBehaviour
 
         particle.Play();
 
-        _particleInstances.Add(effect, particle);
+        _particleInstances[effect] = particle;
     }
 
 }

@@ -36,7 +36,6 @@ public class Icicle : Weapon
                 target.GetComponent<IDamageable>()?.GetDamage(_hand.Player.PlayerActorStats.CurrentDamageAttack, false);
                 target.GetComponent<EffectHandler>().AddEffect(_effectData);
             }
-
         }
     }
 

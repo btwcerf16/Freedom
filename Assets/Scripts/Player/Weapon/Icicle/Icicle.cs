@@ -6,8 +6,7 @@ public class Icicle : Weapon
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private float _attackRadius = 1.0f;
     [SerializeField] private EffectData _effectData;
-    [SerializeField] private SpellConfig _spellConfig;
-    [SerializeField] private Spell _spell;
+
     public override bool CheckCondition()
     {
        return true;

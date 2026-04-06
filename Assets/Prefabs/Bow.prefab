@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 204505305294911848}
   m_Layer: 10
   m_Name: Bow
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -205,6 +205,7 @@ MonoBehaviour:
     \u0442\u043E\u0433\u043E \u043D\u0430\u0441\u043A\u043E\u043B\u044C\u043A\u043E
     \u043D\u0430\u0442\u044F\u043D\u0443\u0442\u0430 \u0442\u0435\u0442\u0438\u0432\u0430.
     \u041C\u0430\u043A\u0441 \u0443\u0440\u043E\u043D 10."
+  Owner: {fileID: 0}
   _minChargeTime: 0.55
   _maxChargeTime: 1
   _chargeSpeed: 1

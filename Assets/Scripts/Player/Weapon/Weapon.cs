@@ -18,6 +18,11 @@ public abstract class Weapon : MonoBehaviour
     public virtual bool CanHold => false;
     [SerializeField, TextArea] private string _description;
     public string Description => _description;
+
+    [SerializeField] protected SpellConfig _spellConfig;
+    [SerializeField] protected Spell _spell;
+    public GameObject Owner;
+
     protected virtual void Awake()
     {
 
@@ -60,7 +65,11 @@ public abstract class Weapon : MonoBehaviour
         transform.localScale = Vector3.one;
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(0, 0, hand.rotation.z);
-
+        Owner = _hand.Player.gameObject;
+        if(_spell!= null)
+        {
+            _spell.SetOwner(Owner);
+        }
     }
 
     public void DetachFromHand()
@@ -73,6 +82,11 @@ public abstract class Weapon : MonoBehaviour
         _collider.enabled = true;
         transform.localScale = Vector3.one;
         transform.localRotation = Quaternion.Euler(0, 0, 0);
+        Owner = null;
+        if (_spell != null)
+        {
+            _spell.SetOwner(Owner);
+        }
     }
     public void HideFromHand()
     {

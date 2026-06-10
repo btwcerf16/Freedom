@@ -3,7 +3,7 @@ using UnityEngine;
 public class BlowSpellConfig : SpellConfig
 {
     public float BlowRadius;
-    public float BlowDamage;
+    public float BlowDamage; 
     public override Spell AddSpell(GameObject owner)
     {
         Spell spell = owner.AddComponent<BlowSpell>();

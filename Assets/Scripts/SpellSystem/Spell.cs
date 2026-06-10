@@ -14,8 +14,11 @@ public abstract class Spell : MonoBehaviour
     }
     public virtual void Cast()
     {
-        Debug.Log(gameObject + " Произнес заклинание " +  SpellData.SpellName);
         OnCast?.Invoke(gameObject);
+    }
+    public virtual void OnEndCast()
+    {
+        Debug.Log(gameObject + " Произнес заклинание " + SpellData.SpellName);
     }
     public virtual void SetOwner(GameObject owner)
     {

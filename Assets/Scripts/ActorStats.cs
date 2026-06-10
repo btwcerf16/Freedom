@@ -19,6 +19,7 @@ public class ActorStats : MonoBehaviour
     public float CurrentRangeDamageMultiplier;
     public float CurrentMeleeDamageMultiplier;
     public float CurrentCooldownReduction;
+    public float CurrentMoveSpeed;
 
     private void Initialize()
     {
@@ -35,6 +36,7 @@ public class ActorStats : MonoBehaviour
         CurrentMeleeDamageMultiplier = _config.MeleeDamageMultiplier;
         CurrentCooldownReduction = _config.CooldownReduction;
         CurrentDamageAttack = _config.AttackDamage;
+        CurrentMoveSpeed = _config.MoveSpeed;
     }
     private void Start()
     {

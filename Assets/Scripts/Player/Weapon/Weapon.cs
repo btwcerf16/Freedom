@@ -46,13 +46,13 @@ public abstract class Weapon : MonoBehaviour
     /// </summary>
     public virtual void OnHold() { }
     public virtual void OnRelease() { }
-    public virtual void Throw(Vector2 direction, float force)
-    {
-        _rb.linearVelocity = Vector2.zero;
-        _rb.AddForce(direction * force, ForceMode2D.Impulse);
-    }
+    //public virtual void Throw(Vector2 direction, float force)
+    //{
+    //    _rb.linearVelocity = Vector2.zero;
+    //    _rb.AddForce(direction * force, ForceMode2D.Impulse);
+    //} можно потом сделать так, когда игрок бежит, тогда оружие не просто падает на землю, а еще и скользит 
 
-    public void AttachToHand(Transform hand)
+    public virtual void AttachToHand(Transform hand)
     {
         IsRaised = true;
         _animator.enabled = true;
@@ -72,7 +72,7 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-    public void DetachFromHand()
+    public virtual void DetachFromHand()
     {
         IsRaised = false;
         _hand.Player.PlayerActorStats.ResetAttackDamage();

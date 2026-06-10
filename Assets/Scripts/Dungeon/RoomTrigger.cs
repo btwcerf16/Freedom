@@ -5,30 +5,32 @@ public class RoomTrigger : MonoBehaviour
 {
     [SerializeField] private EnemyController _enemyController;
 
-    private List<Enemy> _roomEnemies;
+    [SerializeField] private List<Enemy> _roomEnemies = new();
  
 
     public void Initialize(List<Enemy> roomEnemies, EnemyController enemyController)
     {
         _roomEnemies = roomEnemies;
-        _enemyController = enemyController;
-        if (_enemyController == null)
+        
+        
+        if (enemyController == null)
         {
             Debug.LogError("ENEMY CONTROLLER IS NULL");
             return;
         }
+        _enemyController = enemyController;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         
 
-        if (other.CompareTag("Player") )
+        if (other.CompareTag("Player") && _roomEnemies.Count >0)
         {
-            
-            
-            _enemyController.ActiveRoom(_roomEnemies);
-            
+
+            Debug.Log("ѕытаюсь передать врагов в лист активных");
+            _enemyController.ActivateRoom(_roomEnemies);
+            _roomEnemies.Clear();
         }
     }
 

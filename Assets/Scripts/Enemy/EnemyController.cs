@@ -5,28 +5,27 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private List<Enemy> _activeEnemies= new List<Enemy>();
-    [SerializeField] private List<Enemy> _agroedEnemies= new List<Enemy>();
+    [SerializeField] private List<Enemy> _activeEnemies = new List<Enemy>();
+    [SerializeField] private List<Enemy> _agroedEnemies = new List<Enemy>();
     [Range(0.0f, 1.0f)] public float AttackPermission;
     [SerializeField] private int _attackersInWave;
     public int ActivatedEnemies;
     public int EnemiesCount;
     public Action OnAllEnemiesClear;
 
-    private List<Enemy> _currentRoom;
-    public void ActiveRoom(List<Enemy> enemies)
+    [SerializeField] private List<Enemy> _currentRoom;
+    public void ActivateRoom(List<Enemy> enemies)
     {
-        
-        if (_currentRoom != null)
+
+        if (_currentRoom?.Count > 0)
         {
             Debug.Log("Сначала зачисти текущую комнату");
             return;
         }
 
-        _currentRoom = enemies;
-
+        _currentRoom.AddRange(enemies);
         _agroedEnemies.Clear();
-        _activeEnemies.Clear();
+        
         ActivatedEnemies = 0;
 
         foreach (Enemy enemy in enemies)
@@ -84,12 +83,14 @@ public class EnemyController : MonoBehaviour
         if (ActivatedEnemies <= 0 && _agroedEnemies.Count > 0)
         {
             Debug.Log("НОВАЯ ВОЛНА");
+
             AriseEnemies();
         }
 
         if (ActivatedEnemies <= 0 && _agroedEnemies.Count == 0)
         {
             Debug.Log("Комната зачищена");
+            _activeEnemies.Clear();
             _currentRoom = null; 
         }
     }

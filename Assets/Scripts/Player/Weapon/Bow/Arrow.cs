@@ -49,13 +49,16 @@ public class Arrow : Projectile
     }
     private void ReturnIntoPool()
     {
+        Debug.Log("Проверка");
         if (target != null)
         {
+            Debug.Log("Прошел");
             target.OnEnemyDeath -= ReturnIntoPool;
             target = null;
             PoolsController.Instance.ArrowPool.ReturnObject(this);
-
+            return;
         }
+        PoolsController.Instance.ArrowPool.ReturnObject(this);
 
     }
 }

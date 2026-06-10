@@ -2,6 +2,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="ActorStats/Create new actor stats", fileName = "NewActorStats")]
 public class BaseActorStats : ScriptableObject
 {
+    public float MoveSpeed;
     public float MaxHealh;
     public float CritChance;
     public float CritDamageMultiplier;

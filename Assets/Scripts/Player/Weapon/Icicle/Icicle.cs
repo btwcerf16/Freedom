@@ -31,7 +31,9 @@ public class Icicle : Weapon
         {
             if (target.CompareTag("Enemy"))
             {
+
                 Debug.Log("Попал");
+                _spell.Cast();
                 target.GetComponent<IDamageable>()?.GetDamage(_hand.Player.PlayerActorStats.CurrentDamageAttack, false);
                 target.GetComponent<EffectHandler>().AddEffect(_effectData);
             }
@@ -42,7 +44,7 @@ public class Icicle : Weapon
     {
         _isAttacking = true;
         _animator.SetTrigger("Hit");
-        _spell.Cast();
+        
     }
     private void OnDrawGizmosSelected()
     {

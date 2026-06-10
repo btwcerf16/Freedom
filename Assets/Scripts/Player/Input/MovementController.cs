@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MovementController : MonoBehaviour, IForceReceiver
 {
-    [SerializeField] private float _moveSpeed = 5f;
+    private ActorStats _actorStats;
 
     private Controls _controls;
 
@@ -21,6 +21,7 @@ public class MovementController : MonoBehaviour, IForceReceiver
 
     private void Awake()
     {
+        _actorStats = GetComponent<ActorStats>();
         _controls = new Controls();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _effectHandler = GetComponent<EffectHandler>();
@@ -44,7 +45,7 @@ public class MovementController : MonoBehaviour, IForceReceiver
     {
         Vector2 inputDirection = _controls.Player.Move.ReadValue<Vector2>();
 
-        float speed = _moveSpeed;
+        float speed = _actorStats.CurrentMoveSpeed;
 
         float handDir = _hand.IsRightSide ? 1f : -1f;
 

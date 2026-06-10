@@ -13,8 +13,13 @@ public class Bow : Weapon
     [SerializeField] protected Transform _shootPoint;
     [SerializeField] private float minArrowSpeed;
     [SerializeField] private float maxArrowSpeed;
+    [SerializeField] private float _baseOrthographicSize;
+    [SerializeField] private float _maxOrthographicSize = 10;
+    
+    [SerializeField] private float _moveSpeedSlow = 2.5f; //насколько замедл€ет владельца пока он нат€гивает тетиву
+    private PlayableActor _playableActor;
     public override bool CanHold => true;
-
+    
     public override bool CheckCondition()
     {
         if(_currentChargeTime >= _minChargeTime)
@@ -26,6 +31,20 @@ public class Bow : Weapon
     public override void OnPress()
     {
         _animator.SetFloat("ChargeSpeed", _chargeSpeed);
+        _playableActor.PlayerActorStats.CurrentMoveSpeed -= _moveSpeedSlow;
+    }
+    
+    public override void AttachToHand(Transform hand)
+    {
+        base.AttachToHand(hand);
+        _playableActor = Owner.GetComponent<PlayableActor>();
+        _baseOrthographicSize = _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize;
+    }
+    public override void DetachFromHand()
+    {
+        base.DetachFromHand();
+        _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize = _baseOrthographicSize;
+        _playableActor = null;
     }
     public override void OnHold()
     {
@@ -36,10 +55,17 @@ public class Bow : Weapon
         {
             _animator.SetBool("IsFullCharged", true);
         }
+        
+        float orthographicSize = Mathf.Lerp(_baseOrthographicSize, _maxOrthographicSize, _currentChargeTime);
+        _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize = orthographicSize;
+        
+        
     }
 
     public override void OnRelease()
     {
+        _playableActor.PlayerActorStats.CurrentMoveSpeed += _moveSpeedSlow;
+        _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize = _baseOrthographicSize;
         _animator.SetBool("IsCharging", false);
         _animator.SetBool("IsFullCharged", false);
         if (!CheckCondition())

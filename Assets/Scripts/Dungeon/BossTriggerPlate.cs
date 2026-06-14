@@ -42,7 +42,10 @@ public class BossTriggerPlate : MonoBehaviour
     }
     private void OnDisable()
     {
-        _enemyController.OnAllEnemiesClear -= SetActivePlate;
+        if (_enemyController != null)
+        {
+            _enemyController.OnAllEnemiesClear -= SetActivePlate;
+        }
     }
 
 }

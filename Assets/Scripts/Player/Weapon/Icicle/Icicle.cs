@@ -19,9 +19,7 @@ public class Icicle : Weapon
     }
     private void Start()
     {
-
         _spell = _spellConfig?.AddSpell(gameObject);
-
     }
     public void Hit()
     {
@@ -31,11 +29,10 @@ public class Icicle : Weapon
         {
             if (target.CompareTag("Enemy"))
             {
-
                 Debug.Log("Попал");
                 _spell.Cast();
                 target.GetComponent<IDamageable>()?.GetDamage(_hand.Player.PlayerActorStats.CurrentDamageAttack, false);
-                target.GetComponent<EffectHandler>().AddEffect(_effectData);
+                target.GetComponent<EffectHandler>()?.AddEffect(_effectData);
             }
         }
     }
@@ -44,7 +41,9 @@ public class Icicle : Weapon
     {
         _isAttacking = true;
         _animator.SetTrigger("Hit");
-        
+        _hand.Player.PlayerActorStats.CurrentCooldownReduction.Value += 0.1f;
+        Debug.Log("КДР:" + _hand.Player.PlayerActorStats.CurrentCooldownReduction.Value);
+
     }
     private void OnDrawGizmosSelected()
     {

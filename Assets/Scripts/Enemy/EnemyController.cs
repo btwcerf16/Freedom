@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
     public int EnemiesCount;
     public Action OnAllEnemiesClear;
 
-    [SerializeField] private List<Enemy> _currentRoom;
+    [SerializeField] private List<Enemy> _currentRoom = new();
     public void ActivateRoom(List<Enemy> enemies)
     {
 
@@ -91,7 +91,7 @@ public class EnemyController : MonoBehaviour
         {
             Debug.Log("Комната зачищена");
             _activeEnemies.Clear();
-            _currentRoom = null; 
+            _currentRoom.Clear(); 
         }
     }
 }

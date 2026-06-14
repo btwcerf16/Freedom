@@ -71,7 +71,8 @@ public class EnemySummoner : MonoBehaviour
             DestroyImmediate(enemy);
 
         _spawnedEnemies.Clear();
+        _enemyController.EnemiesCount = 0;
     }
 
-    
+
 }

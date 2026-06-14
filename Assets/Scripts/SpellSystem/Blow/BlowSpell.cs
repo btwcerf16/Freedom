@@ -7,7 +7,7 @@ public class BlowSpell : Spell
 
     public float BlowDamage;
     public float BlowRadius;
-    public float Cooldown;
+    
     public override void SetOwner(GameObject owner)
     {
         base.SetOwner(owner);
@@ -16,15 +16,15 @@ public class BlowSpell : Spell
         var ownerStats = owner.GetComponent<ActorStats>();
         BlowDamage = ((BlowSpellConfig)SpellData).BlowDamage * ownerStats.CurrentMagicDamageMultiplier;
         BlowRadius = ((BlowSpellConfig)SpellData).BlowRadius * ownerStats.CurrentMagicDamageMultiplier;
-        Cooldown = ((BlowSpellConfig)SpellData).CooldownTime / ownerStats.CurrentCooldownReduction;
+        
     }
 
     public override void Cast()
     {
         base.Cast();
-        if (_cooldownTimer > 0) return;
+        if (CooldownTimer > 0) return;
 
-        _cooldownTimer = Cooldown;
+        CooldownTimer = CooldownTime;
         Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, BlowRadius);
         foreach (Collider2D target in targets)
         {
@@ -58,9 +58,9 @@ public class BlowSpell : Spell
     }
     public void Update()
     {
-        if(_cooldownTimer > 0)
+        if(CooldownTimer > 0)
         {
-            _cooldownTimer -= Time.deltaTime;
+            CooldownTimer -= Time.deltaTime;
         }
     }
 }

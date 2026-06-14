@@ -18,7 +18,7 @@ public class ActorStats : MonoBehaviour
     public float CurrentMagicDamageMultiplier;
     public float CurrentRangeDamageMultiplier;
     public float CurrentMeleeDamageMultiplier;
-    public float CurrentCooldownReduction;
+    public ReactiveVariable<float> CurrentCooldownReduction = new();
     public float CurrentMoveSpeed;
 
     private void Initialize()
@@ -34,7 +34,7 @@ public class ActorStats : MonoBehaviour
         CurrentMagicDamageMultiplier = _config.MagicDamageMultiplier;
         CurrentRangeDamageMultiplier = _config.RangeDamageMultiplier;
         CurrentMeleeDamageMultiplier = _config.MeleeDamageMultiplier;
-        CurrentCooldownReduction = _config.CooldownReduction;
+        CurrentCooldownReduction.Value = _config.CooldownReduction;
         CurrentDamageAttack = _config.AttackDamage;
         CurrentMoveSpeed = _config.MoveSpeed;
     }

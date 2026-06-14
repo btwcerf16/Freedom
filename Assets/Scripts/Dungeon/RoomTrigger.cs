@@ -30,6 +30,7 @@ public class RoomTrigger : MonoBehaviour
 
             Debug.Log("ѕытаюсь передать врагов в лист активных");
             _enemyController.ActivateRoom(_roomEnemies);
+            Debug.Log("передал");
             _roomEnemies.Clear();
         }
     }

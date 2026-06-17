@@ -14,14 +14,14 @@ public class BlowSpell : Spell
         if (owner == null)
             return;
         var ownerStats = owner.GetComponent<ActorStats>();
-        BlowDamage = ((BlowSpellConfig)SpellData).BlowDamage * ownerStats.CurrentMagicDamageMultiplier;
-        BlowRadius = ((BlowSpellConfig)SpellData).BlowRadius * ownerStats.CurrentMagicDamageMultiplier;
+        BlowDamage = ((BlowSpellConfig)SpellData).BlowDamage * ownerStats.MagicDamageMultiplier.CurrentValue;
+        BlowRadius = ((BlowSpellConfig)SpellData).BlowRadius * ownerStats.MagicDamageMultiplier.CurrentValue;
         
     }
 
-    public override void Cast()
+    public override void Cast(SpellCastData spellCastData)
     {
-        base.Cast();
+        base.Cast(spellCastData);
         if (CooldownTimer > 0) return;
 
         CooldownTimer = CooldownTime;

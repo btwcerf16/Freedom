@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4053750265072538784}
   - component: {fileID: 2729742591209502047}
   - component: {fileID: 3692933402251940814}
+  - component: {fileID: 3806459961028445519}
   m_Layer: 0
   m_Name: heart_of_storm
   m_TagString: Untagged
@@ -106,7 +107,7 @@ MonoBehaviour:
   CurrentMagicDamageMultiplier: 0
   CurrentRangeDamageMultiplier: 0
   CurrentMeleeDamageMultiplier: 0
-  CurrentCooldownReduction: 0
+  CurrentMoveSpeed: 0
 --- !u!114 &4053750265072538784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +165,20 @@ MonoBehaviour:
   _isBoss: 0
   _isArised: 0
   _agent: {fileID: 8780439168510587911}
+--- !u!114 &3806459961028445519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2646148642118376517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10363218189aab941b04411c522aa2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpellHolder
+  SpellConfigs: []
+  Spells: []
 --- !u!1 &3341213187174676009
 GameObject:
   m_ObjectHideFlags: 0

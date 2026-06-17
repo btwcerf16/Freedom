@@ -7,9 +7,9 @@ public class SpellHolder : MonoBehaviour
      public List<SpellConfig> SpellConfigs;
      public List<Spell> Spells;
      
-     public void CastSpell(int index)
+     public void CastSpell(int index, SpellCastData spellCastData)
      {
-        Spells[index].Cast();
+        Spells[index].Cast(spellCastData);
      }
 
     private void Start()

@@ -7,7 +7,7 @@ public abstract class Spell : MonoBehaviour, IDisposable
 {
     public float CooldownTimer;
     public float CooldownTime;
-    public Action<GameObject> OnCast;
+    public event Action<SpellCastData> OnCast;
     public SpellConfig SpellData;
     [SerializeField] protected GameObject _owner;
     private List<IDisposable> _disposable = new();
@@ -16,12 +16,11 @@ public abstract class Spell : MonoBehaviour, IDisposable
     public void Initialize(SpellConfig spellConfig)
     {
         SpellData = spellConfig;
-        
-       
     }
-    public virtual void Cast()
+    public virtual void Cast(SpellCastData spellCastData)
     {
-        OnCast?.Invoke(gameObject);
+        OnCast?.Invoke(spellCastData);
+        Debug.Log(OnCast);
     }
     public virtual void OnEndCast()
     {
@@ -31,13 +30,13 @@ public abstract class Spell : MonoBehaviour, IDisposable
     {
         _owner = owner;
         _ownerStats = _owner.GetComponent<ActorStats>();
-        IDisposable cooldownTimeDisposable = _ownerStats.CurrentCooldownReduction.Subscribe(SetCooldownTime);
+        IDisposable cooldownTimeDisposable = _ownerStats.CooldownReduction.Value.Subscribe(SetCooldownTime);
         _disposable.Add(cooldownTimeDisposable);
-        //CooldownTime = ((BlowSpellConfig)SpellData).CooldownTime / _ownerStats.CurrentCooldownReduction.Value;
+        
     }
     public virtual void SetCooldownTime(float oldCooldownTime, float cooldownTime)
     {
-        CooldownTime = SpellData.CooldownTime / _ownerStats.CurrentCooldownReduction.Value;
+        CooldownTime = SpellData.CooldownTime / _ownerStats.CooldownReduction.CurrentValue;
     }
     public void Dispose()
     {

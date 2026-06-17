@@ -117,7 +117,7 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDis
             if (target.CompareTag("Player"))
             {
                 Debug.Log("Попал");
-                target.GetComponent<IDamageable>().GetDamage(EnemyStats.CurrentDamageAttack, false);
+                target.GetComponent<IDamageable>().GetDamage(EnemyStats.CritDamageMultiplier.CurrentValue, false);
             }
         }
     }
@@ -130,7 +130,7 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDis
 
     public void GetHeal(float heal)
     {
-        EnemyStats.CurrentHealth.Value = Mathf.Clamp(EnemyStats.CurrentHealth.Value + heal, 0, EnemyStats.CurrentMaxHealth.Value);
+        EnemyStats.CurrentHealth.Value = Mathf.Clamp(EnemyStats.CurrentHealth.Value + heal, 0, EnemyStats.MaxHealth.CurrentValue);
     }
 
     public void Dispose()

@@ -45,7 +45,7 @@ public class MovementController : MonoBehaviour, IForceReceiver
     {
         Vector2 inputDirection = _controls.Player.Move.ReadValue<Vector2>();
 
-        float speed = _actorStats.CurrentMoveSpeed;
+        float speed = _actorStats.MoveSpeed.CurrentValue;
 
         float handDir = _hand.IsRightSide ? 1f : -1f;
 

@@ -13,10 +13,10 @@ public static class DamageCalculator
         damage *= GetAttackModifier(attackType, actorStats);
         damage *= GetDamageModifier(damageType, actorStats);
 
-        isCrit = Random.value * 100 <= actorStats.CurrentCritChance;
+        isCrit = Random.value * 100 <= actorStats.CritChance.CurrentValue;
 
         if (isCrit)
-            damage *= Mathf.Max(1f, actorStats.CurrentCritDamageMultiplier);
+            damage *= Mathf.Max(1f, actorStats.CritDamageMultiplier.CurrentValue);
 
         return damage;
     }
@@ -26,10 +26,10 @@ public static class DamageCalculator
             float modifier = 1f;
 
             if (type.HasFlag(EAttackType.Magic))
-                modifier *= actorStats.CurrentMagicDamageMultiplier;
+                modifier *= actorStats.MagicDamageMultiplier.CurrentValue;
 
             if (type.HasFlag(EAttackType.Range))
-                modifier *= actorStats.CurrentRangeDamageMultiplier;
+                modifier *= actorStats.RangeDamageMultiplier.CurrentValue;
 
             return modifier;
         }
@@ -39,12 +39,12 @@ public static class DamageCalculator
             float modifier = 1f;
 
             if (type.HasFlag(EDamageType.Piercing))
-                modifier *= actorStats.CurrentPiercingDamageMultiplier;
+                modifier *= actorStats.PiercingDamageMultiplier.CurrentValue;
 
             if (type.HasFlag(EDamageType.Bludgeoning))
-                modifier *= actorStats.CurrentBludgeoningDamageMultiplier;
+                modifier *= actorStats.BludgeoningDamageMultiplier.CurrentValue;
             if (type.HasFlag(EDamageType.Slashing))
-                modifier *= actorStats.CurrentSlashingDamageMultiplier;
+                modifier *= actorStats.SlashingDamageMultiplier.CurrentValue;
 
             return modifier;
         }

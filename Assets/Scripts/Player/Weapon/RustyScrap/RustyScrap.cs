@@ -40,7 +40,7 @@ public class RustyScrap : Weapon
             if (target.CompareTag("Enemy"))
             {
                 Debug.Log("Попал");
-                target.GetComponent<IDamageable>().GetDamage(_hand.Player.PlayerActorStats.CurrentDamageAttack, true);
+                target.GetComponent<IDamageable>().GetDamage(_hand.Player.PlayerActorStats.AttackDamage.CurrentValue, true);
                 Knockback(target);
             }
 

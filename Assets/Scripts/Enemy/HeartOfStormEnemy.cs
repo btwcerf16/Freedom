@@ -47,7 +47,7 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
 
     public void GetHeal(float heal)
     {
-        EnemyStats.CurrentHealth.Value = Mathf.Clamp(EnemyStats.CurrentHealth.Value + heal, 0, EnemyStats.CurrentMaxHealth.Value);
+        EnemyStats.CurrentHealth.Value = Mathf.Clamp(EnemyStats.CurrentHealth.Value + heal, 0, EnemyStats.MaxHealth.CurrentValue);
     }
     #endregion
 }

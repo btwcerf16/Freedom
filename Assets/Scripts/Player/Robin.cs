@@ -19,7 +19,7 @@ public class Robin : PlayableActor, IDamageable,IDisposable
         PlayerCinemachineCamera = GetComponentInChildren<CinemachineCamera>();
         if(PlayerHand != null)
             PlayerHand.Initialize(this);
-        IDisposable maxHealthDisposable = PlayerActorStats.CurrentMaxHealth.Subscribe(PlayerHealthBar.SetMaxHealth);
+        IDisposable maxHealthDisposable = PlayerActorStats.MaxHealth.Value.Subscribe(PlayerHealthBar.SetMaxHealth);
         IDisposable currentHealthDisposable = PlayerActorStats.CurrentHealth.Subscribe(PlayerHealthBar.SetHealthData);
         _disposable.Add(currentHealthDisposable);
         _disposable.Add(maxHealthDisposable);
@@ -38,7 +38,7 @@ public class Robin : PlayableActor, IDamageable,IDisposable
     }
     public void GetHeal(float heal)
     {
-        PlayerActorStats.CurrentHealth.Value = Mathf.Clamp(PlayerActorStats.CurrentHealth.Value + heal, 0, PlayerActorStats.CurrentMaxHealth.Value);
+        PlayerActorStats.CurrentHealth.Value = Mathf.Clamp(PlayerActorStats.CurrentHealth.Value + heal, 0, PlayerActorStats.MaxHealth.CurrentValue);
     }
     public void Dispose()
     {

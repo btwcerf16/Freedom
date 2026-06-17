@@ -88,8 +88,9 @@ public abstract class Weapon : MonoBehaviour
             _spell.SetOwner(Owner);
         }
     }
-    public void HideFromHand()
+    public virtual void HideFromHand()
     {
+
         _hand.Player.PlayerActorStats.ResetAttackDamage();
         _spriteRenderer.enabled = false;
         _rb.simulated = false;

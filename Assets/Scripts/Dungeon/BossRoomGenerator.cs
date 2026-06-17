@@ -10,9 +10,12 @@ public class BossRoomGenerator : DungeonGenerator
     [SerializeField] private GameObject _player;
     [SerializeField] private NavMeshSurface _navMeshSurface;
     [SerializeField] private HeartOfStormEnemy _heartOfStormEnemy;
+    [SerializeField] private GameObject _boss;
     private Vector3 _spawnPos;
     protected override void RunProceduralGeneration()
     {
+        if (_boss != null)
+            DestroyImmediate(_boss);
         Vector3 bossSpawnPoint = new();
         _tilemapVisualizer.Clear();
         HashSet<Vector2Int> floor = CreateBossRoom(new BoundsInt((Vector3Int)startPosition,
@@ -52,11 +55,12 @@ public class BossRoomGenerator : DungeonGenerator
     private void InstantiateBoss(Vector3 spawnPos, BoundsInt room)
     {
         HeartOfStormEnemy boss = Instantiate(_heartOfStormEnemy, spawnPos, Quaternion.identity).GetComponent<HeartOfStormEnemy>();
-
+        _boss = boss.gameObject;
         boss.Initialize(null, _player.transform, room);
     }
     public void CallGeneration()
     {
+        
         RunProceduralGeneration();
     }
 }

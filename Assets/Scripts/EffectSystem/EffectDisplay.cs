@@ -1,18 +1,18 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Splines;
 using UnityEngine.UI;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(ActorStats))]
 public class EffectDisplay : MonoBehaviour
 {
     [SerializeField] private bool _isPlayer;
+    [ShowIf(nameof(_isPlayer))]
     [SerializeField] private GameObject _effectPanel;
+    [ShowIf(nameof(_isPlayer))]
     [SerializeField] private GameObject _effectImagePrefab;
+
     private Dictionary<Effect,ParticleSystem> _particleInstances = new();
     [SerializeField] private List<GameObject> _effectImage;
 

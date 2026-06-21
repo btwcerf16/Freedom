@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class Arrow : Projectile
+public class Arrow : Projectile, IPoolable<Arrow>
 {
     [SerializeField] private Animator _animator;
     [SerializeField] private Enemy target;
     [SerializeField] private EffectData _effectData;
+    private ObjectPool<Arrow> _pool;
     public override void Launch(Vector2 direction, float speed, float damage, bool isCrit, float lifeTime)
     {
         base.Launch(direction, speed, damage, isCrit, lifeTime);
@@ -60,5 +61,10 @@ public class Arrow : Projectile
         }
         PoolsController.Instance.ArrowPool.ReturnObject(this);
 
+    }
+
+    public void SetPool(ObjectPool<Arrow> objectPool)
+    {
+        _pool = objectPool;
     }
 }

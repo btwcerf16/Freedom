@@ -72,8 +72,10 @@ public class Bow : Weapon
         {
             _animator.SetBool("IsFullCharged", true);
         }
-        
-        float orthographicSize = Mathf.InverseLerp(_baseOrthographicSize, _maxOrthographicSize, _currentChargeTime);
+
+        float chargePercent = Mathf.InverseLerp(_minChargeTime, _maxChargeTime, _currentChargeTime);
+
+        float orthographicSize = Mathf.Lerp(_baseOrthographicSize, _maxOrthographicSize, chargePercent);
         _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize = orthographicSize;
         
         
@@ -81,6 +83,8 @@ public class Bow : Weapon
 
     public override void OnRelease()
     {
+        if (_playableActor == null)
+            return;
         _isSlowedDown = false;
         _playableActor.PlayerActorStats.MoveSpeed.RemoveModifier(_statModifier);
         _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize = _baseOrthographicSize;

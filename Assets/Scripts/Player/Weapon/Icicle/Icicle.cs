@@ -43,6 +43,8 @@ public class Icicle : Weapon
                 target.GetComponent<EffectHandler>()?.AddEffect(_effectData);
             }
         }
+
+        
     }
 
     public override void OnPress()

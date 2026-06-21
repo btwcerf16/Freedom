@@ -1,43 +1,64 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Spell : MonoBehaviour, IDisposable
 {
     public float CooldownTimer;
     public float CooldownTime;
+
     public event Action<SpellCastData> OnCast;
+
     public SpellConfig SpellData;
+
     [SerializeField] protected GameObject _owner;
-    private List<IDisposable> _disposable = new();
     protected ActorStats _ownerStats;
+
+    private readonly List<IDisposable> _disposable = new();
+    private IDisposable _cooldownSubscription;
 
     public void Initialize(SpellConfig spellConfig)
     {
         SpellData = spellConfig;
     }
+
     public virtual void Cast(SpellCastData spellCastData)
     {
         OnCast?.Invoke(spellCastData);
-        Debug.Log(OnCast);
     }
-    public virtual void OnEndCast()
-    {
-        Debug.Log(gameObject + " Произнес заклинание " + SpellData.SpellName);
-    }
+
     public virtual void SetOwner(GameObject owner)
     {
+        _cooldownSubscription?.Dispose();
+        _cooldownSubscription = null;
+
         _owner = owner;
+
+        if (_owner == null)
+        {
+            _ownerStats = null;
+            return;
+        }
+
         _ownerStats = _owner.GetComponent<ActorStats>();
-        IDisposable cooldownTimeDisposable = _ownerStats.CooldownReduction.Value.Subscribe(SetCooldownTime);
-        _disposable.Add(cooldownTimeDisposable);
-        
+
+        _cooldownSubscription =
+            _ownerStats.CooldownReduction.Value.Subscribe(SetCooldownTime);
+
+        _disposable.Add(_cooldownSubscription);
     }
+
     public virtual void SetCooldownTime(float oldCooldownTime, float cooldownTime)
     {
-        CooldownTime = SpellData.CooldownTime / _ownerStats.CooldownReduction.CurrentValue;
+        CooldownTime = SpellData.CooldownTime /
+                       _ownerStats.CooldownReduction.CurrentValue;
     }
+
+    public virtual void OnEndCast()
+    {
+        Debug.Log($"{gameObject} cast {SpellData.SpellName}");
+    }
+
     public void Dispose()
     {
         foreach (var disp in _disposable)

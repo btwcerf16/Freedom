@@ -18,7 +18,10 @@ public abstract class Projectile : MonoBehaviour
         RB2D.gravityScale = 0;
         RB2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
-    public virtual void Launch(Vector2 direction, float speed, float damage, bool isCrit, float lifeTime)    {
+    
+    public virtual void Launch(Vector2 direction, float speed, float damage, bool isCrit, float lifeTime)    
+    {
+        transform.SetParent(null);
         RB2D.simulated = true;
         RB2D.linearVelocity = direction.normalized * speed;
         RotateToVelocity();
@@ -43,7 +46,7 @@ public abstract class Projectile : MonoBehaviour
         OnHit(collision);
     }
     
-    protected bool IsInLayerMask(int layer, LayerMask mask)
+    protected bool IsInLayerMask(int layer, LayerMask mask) 
     {
         return (mask.value & (1 << layer)) != 0;
     }

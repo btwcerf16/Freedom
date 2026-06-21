@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c5fa4995f5dcd6429fa23052a505a55, type: 3}
   m_Name: ZombieActorStats
   m_EditorClassIdentifier: Assembly-CSharp::BaseActorStats
+  MoveSpeed: 0
   MaxHealh: 10
   CritChance: 0
   CritDamageMultiplier: 0

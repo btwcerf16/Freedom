@@ -59,12 +59,12 @@ MonoBehaviour:
     \u0431\u043B\u0438\u0436\u043D\u0435\u0433\u043E \u0431\u043E\u044F, \u0442\u0438\u043F
     \u0443\u0440\u043E\u043D\u0430 \u043F\u0440\u043E\u043D\u0430\u0437\u0430\u044E\u0448\u0438\u0439,
     1 \u0443\u0440\u043E\u043D. "
+  _spellConfig: {fileID: 11400000, guid: b0c4f075a57ca4c4da01fb4c02fda497, type: 2}
+  _spell: {fileID: 0}
   Owner: {fileID: 0}
   _attackPoint: {fileID: 3503430394956806990}
   _attackRadius: 0.25
   _effectData: {fileID: 11400000, guid: 325b2dbb4ac4cc147b85ca0b26e3ca15, type: 2}
-  _spellConfig: {fileID: 11400000, guid: db54814e88dae88489188a8bb28f1c9b, type: 2}
-  _spell: {fileID: 0}
 --- !u!95 &383951261979637172
 Animator:
   serializedVersion: 7

@@ -8,7 +8,6 @@ public class InhibitedDebuff : Effect
         if (owner.TryGetComponent<NavMeshAgent>(out NavMeshAgent agent))
         {
             agent.acceleration /= ((InhibitedDebuffData)EffectData).InhibitedMultiplier;
-            
         }
     }
     public override void EffectTick(ActorStats owner)

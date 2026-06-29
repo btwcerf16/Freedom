@@ -54,6 +54,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 704
   _isCrit: 0
+  _effectData: {fileID: 11400000, guid: 554d4531bca32774f9fdde736d7a708b, type: 2}
 --- !u!50 &8765725803141520142
 Rigidbody2D:
   serializedVersion: 5

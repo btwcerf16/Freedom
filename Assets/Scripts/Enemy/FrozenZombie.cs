@@ -117,7 +117,7 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDis
             if (target.CompareTag("Player"))
             {
                 Debug.Log("Попал");
-                target.GetComponent<IDamageable>().GetDamage(EnemyStats.CritDamageMultiplier.CurrentValue, false);
+                target.GetComponent<IDamageable>().GetDamage(EnemyStats.AttackDamage.CurrentValue, false);
             }
         }
     }

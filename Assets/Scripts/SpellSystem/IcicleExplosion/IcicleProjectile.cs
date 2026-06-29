@@ -4,6 +4,7 @@ using UnityEngine;
 public class IcicleProjectile : Projectile, IPoolable<IcicleProjectile>
 {
     private ObjectPool<IcicleProjectile> _pool;
+    [SerializeField] private EffectData _effectData;
 
     public override void Launch(Vector2 direction, float speed, float damage, bool isCrit, float lifeTime)
     {
@@ -15,6 +16,7 @@ public class IcicleProjectile : Projectile, IPoolable<IcicleProjectile>
     {
         base.OnHit(collider2D);
         //ReturnIntoPool();
+        collider2D.GetComponent<EffectHandler>()?.AddEffect(_effectData);
     }
     public void SetPool(ObjectPool<IcicleProjectile> objectPool)
     {

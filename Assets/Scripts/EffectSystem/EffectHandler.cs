@@ -36,7 +36,10 @@ public class EffectHandler : MonoBehaviour
             existing.TimeRemaining = effectData.EffectDuration;
             if (effectData.RestartOnReapply)
             {
+                existing.EffectEnd(OwnerActorStats);
                 existing.EffectStart(OwnerActorStats);
+                CharacterEffectDisplay.ClearEffectSprite(existing);
+                CharacterEffectDisplay.AddEffectSprite(existing);
             }
             if (effectData.Stackable)
             {

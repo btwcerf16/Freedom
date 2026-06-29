@@ -39,7 +39,12 @@ public class Icicle : Weapon
 
                 };
                 _spell.Cast(spellCastData);
-                target.GetComponent<IDamageable>()?.GetDamage(_hand.Player.PlayerActorStats.AttackDamage.CurrentValue, false);
+                bool isCritical;
+                float calculatedDamage = 
+                    DamageCalculator.CalculateDamage(_hand.Player.PlayerActorStats.AttackDamage.CurrentValue, AttackType,
+                    DamageType, _hand.Player.PlayerActorStats, out isCritical);
+
+                target.GetComponent<IDamageable>()?.GetDamage(calculatedDamage, isCritical);
                 target.GetComponent<EffectHandler>()?.AddEffect(_effectData);
             }
         }

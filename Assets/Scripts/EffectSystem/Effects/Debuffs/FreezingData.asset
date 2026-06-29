@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b5abaed565ee6246a1d7358a6582506, type: 3}
   m_Name: FreezingData
   m_EditorClassIdentifier: Assembly-CSharp::FreezingDebuffData
-  EffectName: 
-  EffectDuration: 0
-  EffectDescription: 
-  SpriteIcon: {fileID: 0}
-  EffectColor: {r: 0, g: 0, b: 0, a: 0}
+  EffectName: Freezing
+  EffectDuration: 5
+  EffectDescription: "\u0423\u043C\u0435\u043D\u044C\u0448\u0430\u0435\u0442 \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C
+    \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u0435 \u043D\u0430
+    2, \u043E\u0442\u043D\u0438\u043C\u0430\u0435\u0442 0.5 \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F
+    \u0432 \u0441\u0435\u043A\u0443\u043D\u0434\u0443"
+  SpriteIcon: {fileID: -1376383968874940601, guid: d1d4f5f14cdbac246a95b5725202b647, type: 3}
+  EffectColor: {r: 0.33588463, g: 0.36364898, b: 0.6981132, a: 1}
   IsBuff: 0
   CanPurged: 1
   Stackable: 0
   RestartOnReapply: 1
-  MoveSpeedSlow: 0
-  DamagePerSecond: 0
+  MoveSpeedSlow: 2
+  DamagePerSecond: 0.5

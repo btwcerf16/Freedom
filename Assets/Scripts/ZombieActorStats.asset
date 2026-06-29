@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BaseActorStats
   MoveSpeed: 0
   MaxHealh: 10
-  CritChance: 0
+  CritChance: 1
   CritDamageMultiplier: 0
   PiercingDamageMultiplier: 1
   SlashingDamageMultiplier: 1
@@ -23,4 +23,4 @@ MonoBehaviour:
   RangeDamageMultiplier: 1
   MeleeDamageMultiplier: 1
   CooldownReduction: 1
-  AttackDamage: 0.5
+  AttackDamage: 2

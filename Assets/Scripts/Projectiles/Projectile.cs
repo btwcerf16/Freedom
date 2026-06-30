@@ -12,22 +12,23 @@ public abstract class Projectile : MonoBehaviour
     [SerializeField] protected bool _isCrit;
     protected Rigidbody2D RB2D;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         RB2D = GetComponent<Rigidbody2D>();
         RB2D.gravityScale = 0;
         RB2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
     
-    public virtual void Launch(Vector2 direction, float speed, float damage, bool isCrit, float lifeTime)    
+    public virtual void Launch(ProjectileData config)    
     {
         transform.SetParent(null);
         RB2D.simulated = true;
-        RB2D.linearVelocity = direction.normalized * speed;
+        RB2D.linearVelocity = config.Direction.normalized * config.Speed;
         RotateToVelocity();
-        Damage = damage;
-        _isCrit = isCrit;
-        LifeTime = lifeTime;
+        Damage = config.Damage;
+        _isCrit = config.IsCrit;
+        LifeTime = config.LifeTime;
+        layerMask = config.LayerMask;
         
     }
     public virtual void OnHit(Collider2D collider2D)

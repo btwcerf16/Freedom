@@ -118,8 +118,18 @@ public class Bow : Weapon
         bool isCritical;
         float calculatedDamage = DamageCalculator.CalculateDamage(damage, AttackType, DamageType, _hand.Player.PlayerActorStats, out isCritical);
         Debug.Log(isCritical);
+        ProjectileData projectileData = new()
+        {
+            Direction = direction,
+            Speed = speed,
+            Damage = damage,
+            IsCrit = isCritical,
+            LifeTime = 10.0f,
+            LayerMask = LayerMask.GetMask("Enemy", "Walls")
 
-        arrow.Launch(direction, speed, calculatedDamage, isCritical, 10.0f);
+        };
+        arrow.Launch(projectileData);
+        //arrow.Launch(direction, speed, calculatedDamage, isCritical, 10.0f);
     }
 
 

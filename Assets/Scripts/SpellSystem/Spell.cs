@@ -58,7 +58,16 @@ public abstract class Spell : MonoBehaviour, IDisposable
     {
         Debug.Log($"{gameObject} cast {SpellData.SpellName}");
     }
+    public LayerMask GetProjectileLayerMask()
+    {
+        if (_owner.CompareTag("Player"))
+            return LayerMask.GetMask("Enemy", "Walls");
 
+        if (_owner.CompareTag("Enemy"))
+            return LayerMask.GetMask("Player", "Walls");
+
+        return LayerMask.GetMask("Walls");
+    }
     public void Dispose()
     {
         foreach (var disp in _disposable)

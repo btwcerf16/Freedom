@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PooledParticleAutoReturn : MonoBehaviour
+public class PooledParticleAutoReturn : MonoBehaviour // избавься от этого , в чем смысл
 {
     private ParticleSystem _ps;
 

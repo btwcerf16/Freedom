@@ -3,6 +3,7 @@ using UnityEngine;
 public class IcicleExplosionSpellConfig : SpellConfig
 {
     public IcicleProjectile IciclePrefab;
+  
     public int PoolSize = 30;
     public int IcicleCount = 8;
     public float Radius = 2f;

@@ -3,16 +3,18 @@ using static UnityEngine.Rendering.STP;
 
 public class IcicleExplosionSpell : Spell
 {
-    private ObjectPool<IcicleProjectile> _pool;
+    private ObjectPool<IcicleProjectile> _iciclePool;
+    
 
     private IcicleExplosionSpellConfig _config => (IcicleExplosionSpellConfig)SpellData;
 
     public override void SetOwner(GameObject owner)
     {
         base.SetOwner(owner);
-        if (_pool == null)
+        if (_iciclePool == null)
         {
-            _pool = new ObjectPool<IcicleProjectile>(transform, _config.IciclePrefab, _config.PoolSize);
+            _iciclePool = new ObjectPool<IcicleProjectile>(transform, _config.IciclePrefab, _config.PoolSize);
+            
         }
     }
     public override void Cast(SpellCastData spellCastData)
@@ -46,12 +48,26 @@ public class IcicleExplosionSpell : Spell
 
     private void SpawnIcicle(Vector2 center, Vector2 direction)
     {
-        IcicleProjectile icicle = _pool.GetObject();
-
+        IcicleProjectile icicle = _iciclePool.GetObject();
         icicle.transform.position = center + direction * _config.Radius;
+
         bool isCritical;
-        float calculatedDamage = DamageCalculator.CalculateDamage(_config.Damage, _config.AttackType, _config.DamageType, _ownerStats, out isCritical);
-        icicle.SetPool(_pool);
-        icicle.Launch(direction, _config.ProjectileSpeed, calculatedDamage, isCritical, 0.5f);
+        float calculatedDamage = DamageCalculator.CalculateDamage(
+            _config.Damage, _config.AttackType, _config.DamageType, _ownerStats, out isCritical);
+
+        icicle.SetPool(_iciclePool);
+
+        ProjectileData projectileData = new ProjectileData()
+        {
+            Direction = direction,
+            Speed = _config.ProjectileSpeed,
+            Damage = calculatedDamage,
+            IsCrit = isCritical,
+            LifeTime = 0.5f,
+            LayerMask = GetProjectileLayerMask()
+        };
+
+        icicle.Launch(projectileData);
     }
+
 }

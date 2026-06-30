@@ -7,9 +7,9 @@ public class Arrow : Projectile, IPoolable<Arrow>
     [SerializeField] private Enemy target;
     [SerializeField] private EffectData _effectData;
     private ObjectPool<Arrow> _pool;
-    public override void Launch(Vector2 direction, float speed, float damage, bool isCrit, float lifeTime)
+    public override void Launch(ProjectileData projectileData)
     {
-        base.Launch(direction, speed, damage, isCrit, lifeTime);
+        base.Launch(projectileData);
         StartCoroutine(returnAfterLaunch(LifeTime));
     }
     public override void OnHit(Collider2D collider)

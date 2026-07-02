@@ -10,9 +10,10 @@ public class EffectHandler : MonoBehaviour
 
     public EffectDisplay CharacterEffectDisplay;
 
-    private void Start()
+    private void Awake()
     {
         OwnerActorStats = GetComponent<ActorStats>();
+        CharacterEffectDisplay = GetComponent<EffectDisplay>();
     }
     private void Update()
     {
@@ -40,6 +41,8 @@ public class EffectHandler : MonoBehaviour
                 existing.EffectStart(OwnerActorStats);
                 CharacterEffectDisplay.ClearEffectSprite(existing);
                 CharacterEffectDisplay.AddEffectSprite(existing);
+                
+              
             }
             if (effectData.Stackable)
             {
@@ -62,6 +65,7 @@ public class EffectHandler : MonoBehaviour
     public void RemoveEffect(Effect effect)
     {
         ActiveEffects.Remove(effect);
+
         CharacterEffectDisplay.ClearEffectSprite(effect);
         Destroy(effect);
     }

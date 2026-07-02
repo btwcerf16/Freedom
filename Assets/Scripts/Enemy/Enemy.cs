@@ -22,6 +22,7 @@ public abstract class Enemy : MonoBehaviour
 
     [Header("Combat")]
     public EEnemyType EnemyType;
+    [SerializeField] protected SpellHolder _spellHolder;
     public Transform EnemyTarget { get; private set; }
     [SerializeField] protected float _attackDistance = 1.4f;
     [SerializeField] protected Transform _attackPoint;

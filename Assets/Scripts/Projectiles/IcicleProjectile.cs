@@ -15,7 +15,14 @@ public class IcicleProjectile : Projectile, IPoolable<IcicleProjectile>
 
     public override void Launch(ProjectileData projectileData)
     {
+        _spriteRenderer.enabled = true;
+        RB2D.simulated = true;
+
+        _hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        _hitEffect.Clear();
+
         base.Launch(projectileData);
+
         StartCoroutine(ReturnAfterLaunch(LifeTime));
     }
 
@@ -46,19 +53,27 @@ public class IcicleProjectile : Projectile, IPoolable<IcicleProjectile>
         RB2D.simulated = false;
 
         _hitEffect.gameObject.SetActive(true);
+
+        _hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        _hitEffect.Clear();
         _hitEffect.Play();
 
-        yield return new WaitUntil(() => !_hitEffect.isPlaying);
+        yield return new WaitUntil(() => !_hitEffect.IsAlive(true));
 
-        _hitEffect.gameObject.SetActive(false);
+        _hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        _hitEffect.Clear();
+
         _spriteRenderer.enabled = true;
+        RB2D.simulated = true;
+
         ReturnIntoPool();
     }
 
     private IEnumerator ReturnAfterLaunch(float lifeTime)
     {
         yield return new WaitForSeconds(lifeTime);
-        ReturnIntoPool();
+        StartCoroutine(PlayEffectThenReturn());
+        
     }
 
     private void ReturnIntoPool()

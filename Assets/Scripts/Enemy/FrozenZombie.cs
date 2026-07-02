@@ -88,6 +88,7 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDis
             
 
         }
+        
         //(Instantiate(_floatingDamage, damagePos, Quaternion.identity)).GetComponent<FloatingDamage>();
         Vector2 damagePos = new Vector2(transform.position.x + .5f, transform.position.y + 1.0f);
         FloatingDamage floatingDamage = PoolsController.Instance.DamageTextPool.GetObject();

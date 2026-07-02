@@ -27,9 +27,10 @@ public class Icicle : Weapon
         Collider2D[] targets = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRadius);
         foreach (Collider2D target in targets)
         {
+            Debug.Log($"{target.name} {target.GetType()}");
             if (target.CompareTag("Enemy"))
             {
-                Debug.Log("Попал");
+                
                 SpellCastData spellCastData = new()
                 {
                     Direction = transform.right,

@@ -27,7 +27,7 @@ public class ChaseHoMState : State
             return;
 
         _agent.isStopped = false;
-        _agent.stoppingDistance = 0.3f;
+        
 
         SetNewDestination();
     }
@@ -43,6 +43,7 @@ public class ChaseHoMState : State
         if (!_agent.enabled || !_agent.isOnNavMesh)
             return;
 
+        
         if (ReachedDestination())
         {
             _enemy.ChangeState<IdleHoMState>();

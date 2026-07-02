@@ -7,7 +7,7 @@ using NaughtyAttributes;
 [RequireComponent(typeof(ActorStats))]
 public class EffectDisplay : MonoBehaviour
 {
-    [SerializeField] private bool _isPlayer;
+    [SerializeField]private bool _isPlayer;
     [ShowIf(nameof(_isPlayer))]
     [SerializeField] private GameObject _effectPanel;
     [ShowIf(nameof(_isPlayer))]

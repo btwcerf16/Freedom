@@ -19,8 +19,9 @@ public class IcicleExplosionSpell : Spell
     }
     public override void Cast(SpellCastData spellCastData)
     {
+        if (CooldownTimer > 0) return;
         base.Cast(spellCastData);
-
+        
 
         float step = 360f / _config.IcicleCount;
 
@@ -68,6 +69,13 @@ public class IcicleExplosionSpell : Spell
         };
 
         icicle.Launch(projectileData);
+    }
+    public void Update()
+    {
+        if (CooldownTimer > 0)
+        {
+            CooldownTimer -= Time.deltaTime;
+        }
     }
 
 }

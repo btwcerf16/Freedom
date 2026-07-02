@@ -12,7 +12,7 @@ public class SpellHolder : MonoBehaviour
         Spells[index].Cast(spellCastData);
      }
 
-    private void Start()
+    private void Awake()
     {
         foreach (SpellConfig spellConfig in SpellConfigs)
         {

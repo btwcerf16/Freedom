@@ -25,9 +25,14 @@ public class LeftAttackHoMState : State
         };
         _enemy.ActiveSpellCastData = spellCastData;
         _enemy.ActiveSpell = _spell;
-        _enemy.EnemyAnimator.SetTrigger("LeftLegAttack");
+        _enemy.EnemyAnimator.SetTrigger("LAttack");
         _agent.isStopped = true;
 
         
+    }
+    public override void Exit()
+    {
+        base.Exit();
+        _enemy.EnemyAnimator.SetBool("Idle", true);
     }
 }

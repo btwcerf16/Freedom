@@ -8,9 +8,9 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     [SerializeField] private Transform _leftLegPoint;
     [SerializeField] private Transform _rightLegPoint;
 
-    [SerializeField] private Collider2D _leftAttackCollision;
-    [SerializeField] private Collider2D _rightAttackCollision;
-    [SerializeField] private Collider2D _headAttackCollision;
+    [SerializeField] private CollisionAttackChecker _leftAttackCollision;
+    [SerializeField] private CollisionAttackChecker _rightAttackCollision;
+    [SerializeField] private CollisionAttackChecker _headAttackCollision;
 
     private void Update()
     {
@@ -25,19 +25,15 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
 
         RegisterState(new ChaseHoMState(this, _agent, roomBounds));
         RegisterState(new DeathHoMState());
-        RegisterState(new IdleHoMState(this, _agent));
+        RegisterState(new IdleHoMState(this, _agent, _leftAttackCollision, _rightAttackCollision, _headAttackCollision));
+        RegisterState(new JumpAttackHoMState(this));
 
-
+        RegisterState(new RightAttackHoMState(this));
+        RegisterState(new RushHoMState());
+        if (_spellHolder.Spells != null)
+            RegisterState(new LeftAttackHoMState(this, _agent, _leftLegPoint, _spellHolder.Spells[0]));
         _agent.enabled = true;
         ChangeState<ChaseHoMState>();
-    }
-    private void Start()
-    {
-        
-        RegisterState(new RightAttackHoMState());
-        RegisterState(new RushHoMState());
-        if(_spellHolder.Spells != null)
-            RegisterState(new LeftAttackHoMState(this, _agent, _leftLegPoint, _spellHolder.Spells[0]));
     }
     public override void Death()
     {

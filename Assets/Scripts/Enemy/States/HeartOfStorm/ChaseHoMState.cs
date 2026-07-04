@@ -36,6 +36,7 @@ public class ChaseHoMState : State
     {
         _agent.isStopped = true;
         _enemy.EnemyAnimator.SetBool("Chase", false);
+
     }
 
     public override void Update()
@@ -46,6 +47,7 @@ public class ChaseHoMState : State
         
         if (ReachedDestination())
         {
+            Debug.Log("Èח קויחא ג איהכ");
             _enemy.ChangeState<IdleHoMState>();
            
         }

@@ -1,19 +1,18 @@
 using UnityEngine;
 
-public class RightAttackHoMState : State
+public class JumpAttackHoMState : State
 {
     private Enemy _enemy;
-    public RightAttackHoMState(Enemy enemy)
+    public JumpAttackHoMState(Enemy enemy)
     {
         _enemy = enemy;
     }
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("Атака правoj ногой");
-        _enemy.EnemyAnimator.SetTrigger("RAttack");
+        Debug.Log("Атака прыjком");
+        _enemy.EnemyAnimator.SetTrigger("JAttack");
     }
-    
     public override void Exit() 
     { 
         base.Exit();

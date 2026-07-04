@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3813416873072338723}
   - component: {fileID: 71322770008529056}
+  - component: {fileID: 3272666747881444861}
   m_Layer: 0
   m_Name: HeartAttackPoint
   m_TagString: Untagged
@@ -78,6 +79,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.334842, y: 4.260167}
   m_EdgeRadius: 0
+--- !u!114 &3272666747881444861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513763766356827900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca0c41b9c429a0944886184229cb1508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollisionAttackChecker
 --- !u!1 &2646148642118376517
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,9 +319,9 @@ MonoBehaviour:
   ActiveSpell: {fileID: 0}
   _leftLegPoint: {fileID: 1899580531502479208}
   _rightLegPoint: {fileID: 377951676048446723}
-  _leftAttackCollision: {fileID: 2786618991875675058}
-  _rightAttackCollision: {fileID: 8889786438379305258}
-  _headAttackCollision: {fileID: 71322770008529056}
+  _leftAttackCollision: {fileID: 630051822406358120}
+  _rightAttackCollision: {fileID: 7803391628383880936}
+  _headAttackCollision: {fileID: 3272666747881444861}
 --- !u!114 &3806459961028445519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +347,7 @@ GameObject:
   m_Component:
   - component: {fileID: 377951676048446723}
   - component: {fileID: 8889786438379305258}
+  - component: {fileID: 7803391628383880936}
   m_Layer: 7
   m_Name: RightLegAttackPoint
   m_TagString: Untagged
@@ -402,6 +416,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6, y: 4.4}
   m_EdgeRadius: 0
+--- !u!114 &7803391628383880936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2913571644437469525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca0c41b9c429a0944886184229cb1508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollisionAttackChecker
 --- !u!1 &3341213187174676009
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,6 +620,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1899580531502479208}
   - component: {fileID: 2786618991875675058}
+  - component: {fileID: 630051822406358120}
   m_Layer: 7
   m_Name: LeftLegAttackPoint
   m_TagString: Untagged
@@ -662,6 +689,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6, y: 4.4}
   m_EdgeRadius: 0
+--- !u!114 &630051822406358120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6882849410194193106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca0c41b9c429a0944886184229cb1508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollisionAttackChecker
 --- !u!1 &8226208514164250894
 GameObject:
   m_ObjectHideFlags: 0

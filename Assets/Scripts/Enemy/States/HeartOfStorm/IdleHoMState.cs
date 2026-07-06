@@ -5,13 +5,13 @@ using UnityEngine.AI;
 
 public class IdleHoMState : State
 {
-    private Enemy _enemy;
+    private HeartOfStormEnemy _enemy;
     private NavMeshAgent _agent;
     private Coroutine _coroutine;
     private CollisionAttackChecker _leftCollisionAttackChecker;
     private CollisionAttackChecker _rightCollisionAttackChecker;
     private CollisionAttackChecker _headCollisionAttackChecker;
-    public IdleHoMState(Enemy enemy, NavMeshAgent agent, 
+    public IdleHoMState(HeartOfStormEnemy enemy, NavMeshAgent agent, 
         CollisionAttackChecker leftCollisionAttackChecker,
         CollisionAttackChecker rightCollisionAttackChecker,
         CollisionAttackChecker headCollisionAttackChecker
@@ -34,37 +34,53 @@ public class IdleHoMState : State
 
 
     }
+    
 
     public override void Exit()
     {
         base.Exit();
-        _enemy.StopCoroutine(waitUtilEndTimer());
+
+        if (_coroutine != null)
+            _enemy.StopCoroutine(_coroutine);
+
         _enemy.EnemyAnimator.SetBool("Idle", false);
     }
 
     public override void Update()
     {
         base.Update();
+
     }
     IEnumerator waitUtilEndTimer()
     {
         Debug.Log("ŒÊË‰‡ÌËÂ");
         yield return new WaitForSeconds(1.0f);
-        if (_leftCollisionAttackChecker.IsPlayerInside)
+        if (_leftCollisionAttackChecker.IsPlayerInside && _enemy.CanChooseNextAction)
         {
+            Debug.Log("À≈¬¿ﬂ ÕŒ√¿");
             _enemy.ChangeState<LeftAttackHoMState>();
+            _enemy.CanChooseNextAction = true;
+
+
         }
-        else if (_rightCollisionAttackChecker.IsPlayerInside)
+        else if (_headCollisionAttackChecker.IsPlayerInside && _enemy.CanChooseNextAction)
         {
-            _enemy.ChangeState<RightAttackHoMState>();
-        }
-        else if (_headCollisionAttackChecker.IsPlayerInside)
-        {
+            Debug.Log("√ŒÀŒ¬¿");
             _enemy.ChangeState<JumpAttackHoMState>();
+            _enemy.CanChooseNextAction = true;
         }
+        else if (_rightCollisionAttackChecker.IsPlayerInside && _enemy.CanChooseNextAction)
+        {
+            Debug.Log("œ‡‚‡ˇ ÕŒ√¿");
+            _enemy.ChangeState<RightAttackHoMState>();
+            _enemy.CanChooseNextAction = true;
+        }
+
         else
         {
+            Debug.Log("Õ»’”ﬂ");
             _enemy.ChangeState<ChaseHoMState>();
+            _enemy.CanChooseNextAction = true;
         }
     }
 }

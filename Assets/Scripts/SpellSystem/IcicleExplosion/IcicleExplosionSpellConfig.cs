@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(menuName = "Spells/ActiveSpells/IcicleExplosionSpell", fileName = " IcicleExplosionSpellConfig")]
+[CreateAssetMenu(menuName = "Spells/LastSpells/IcicleExplosionSpell", fileName = " IcicleExplosionSpellConfig")]
 public class IcicleExplosionSpellConfig : SpellConfig
 {
     public IcicleProjectile IciclePrefab;

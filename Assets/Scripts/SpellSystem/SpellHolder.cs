@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SpellHolder : MonoBehaviour
@@ -18,11 +19,16 @@ public class SpellHolder : MonoBehaviour
         {
             Spells.Add(spellConfig.AddSpell(gameObject));
         }
+        foreach(Spell spell in Spells)
+        {
+            spell.SetOwner(gameObject);
+        }
     }
     public void ReplaceSpell(int index, SpellConfig spellConfig)
     {
         SpellConfigs[index] = spellConfig;
         Spells[index] = spellConfig.AddSpell(gameObject);
+        Spells[index].SetOwner(gameObject);
     } 
     public void ResetSpellCooldown(int index)
     {

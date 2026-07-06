@@ -1,17 +1,21 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 [RequireComponent(typeof(EffectHandler), typeof(EffectDisplay), typeof(ActorStats))]
+
 public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
 {
-    public Spell ActiveSpell;
-    public SpellCastData ActiveSpellCastData;
+    public Spell LastSpell;
+    public SpellCastData LastSpellCastData;
     [SerializeField] private Transform _leftLegPoint;
     [SerializeField] private Transform _rightLegPoint;
+    [SerializeField] private Transform _headPoint;
 
     [SerializeField] private CollisionAttackChecker _leftAttackCollision;
     [SerializeField] private CollisionAttackChecker _rightAttackCollision;
     [SerializeField] private CollisionAttackChecker _headAttackCollision;
 
+    public bool CanChooseNextAction;
     private void Update()
     {
         if (EnemyStateMachine != null)
@@ -22,16 +26,14 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     {
         base.Initialize(enemyController, target);
         EnemyStateMachine = new StateMachine();
-
+        _spellHolder = GetComponent<SpellHolder>();
         RegisterState(new ChaseHoMState(this, _agent, roomBounds));
         RegisterState(new DeathHoMState());
         RegisterState(new IdleHoMState(this, _agent, _leftAttackCollision, _rightAttackCollision, _headAttackCollision));
-        RegisterState(new JumpAttackHoMState(this));
-
-        RegisterState(new RightAttackHoMState(this));
+        RegisterState(new JumpAttackHoMState(this, _agent, _headPoint));
+        RegisterState(new RightAttackHoMState(this, _agent, _rightLegPoint));
         RegisterState(new RushHoMState());
-        if (_spellHolder.Spells != null)
-            RegisterState(new LeftAttackHoMState(this, _agent, _leftLegPoint, _spellHolder.Spells[0]));
+        RegisterState(new LeftAttackHoMState(this, _agent, _leftLegPoint));
         _agent.enabled = true;
         ChangeState<ChaseHoMState>();
     }
@@ -39,11 +41,40 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     {
         base.Death();
     }
-    public void CastSpell()
+    public void ResumeBehavior()
     {
-
-        ActiveSpell.Cast(ActiveSpellCastData);
+        CanChooseNextAction = false;
+        ChangeState<IdleHoMState>();
     }
+    #region Spells
+    public void ExecuteAnimationSpell()
+    {
+        if (LastSpell == null)
+        {
+            Debug.LogError("LastSpell == null");
+            return;
+        }
+        LastSpell.Cast(LastSpellCastData);
+    }
+    public void SetCastJumpSpell(SpellCastData _spellCastData)
+    {
+        int index = 0;
+        LastSpell = _spellHolder.Spells[index];
+        LastSpellCastData = _spellCastData;
+    }
+    public void SetCastLeftLegSpell(SpellCastData _spellCastData)
+    {
+        int index = 0;
+        LastSpell = _spellHolder.Spells[index];
+        LastSpellCastData = _spellCastData;
+    }
+    public void SetCastRightLegSpell(SpellCastData _spellCastData)
+    {
+        int index = 0;
+        LastSpell = _spellHolder.Spells[index];
+        LastSpellCastData = _spellCastData;
+    }
+    #endregion
 
     #region Interfaces
     public void Dispose()
@@ -57,7 +88,6 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
         if(damage >= EnemyStats.CurrentHealth.Value)
         {
             Dispose();
-
         }
    
         Vector2 damagePos = new Vector2(transform.position.x + .5f + UnityEngine.Random.value*2, transform.position.y + 1.0f+ UnityEngine.Random.value);

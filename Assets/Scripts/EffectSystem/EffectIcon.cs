@@ -27,9 +27,9 @@ public class EffectIcon : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 
     public void SetEffectIcon(Sprite sprite, EffectData effectData, float timeDuration)
     {
-        IconEffectData = effectData;    
-        _image.sprite = sprite;
-        _subImage.sprite = sprite;
+        IconEffectData = effectData;
+        if (_image != null) _image.sprite = sprite;
+        if (_subImage != null) _subImage.sprite = sprite;
         _timeRemainig = timeDuration;
         _timeDuration = timeDuration;
     }

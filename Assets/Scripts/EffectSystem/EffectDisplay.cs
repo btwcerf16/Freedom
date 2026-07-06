@@ -21,6 +21,7 @@ public class EffectDisplay : MonoBehaviour
         deathAction += OnDestroyClear;
         if (_isPlayer)
         {
+            if (_effectPanel == null) return;
             GameObject iconPrefab = Instantiate(_effectImagePrefab,_effectPanel.transform);
 
             

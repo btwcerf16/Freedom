@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(menuName = "Spells/ActiveSpells/BlowSpell", fileName = " BlowSpellConfig")]
+[CreateAssetMenu(menuName = "Spells/LastSpells/BlowSpell", fileName = " BlowSpellConfig")]
 public class BlowSpellConfig : SpellConfig
 {
     public float BlowRadius;

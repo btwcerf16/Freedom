@@ -21,6 +21,7 @@ public class FreezingDebuff : Effect
     {
         base.EffectTick(owner);
         TimeRemaining -= Time.deltaTime;
-        owner.CurrentHealth.Value -= ((FreezingDebuffData)EffectData).DamagePerSecond * Time.deltaTime;
+        
+        owner.SendDamage(((FreezingDebuffData)EffectData).DamagePerSecond * Time.deltaTime, false);
     }
 }

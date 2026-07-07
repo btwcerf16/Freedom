@@ -6,11 +6,14 @@ public class AttackController : MonoBehaviour
 {
     private Controls _controls;
     private PlayerInventory _playerInventory;
+    private ActorStats _playerStats;
+
     private bool _isHolding;
     private void Awake()
     {
         _controls = new Controls();
         _playerInventory = GetComponent<PlayerInventory>();
+        _playerStats = GetComponent<ActorStats>();
 
     }
     private void OnEnable()
@@ -24,7 +27,7 @@ public class AttackController : MonoBehaviour
 
     private void OnAttackStarted(InputAction.CallbackContext context)
     {
-        if (_playerInventory.ActiveWeapon == null)
+        if (_playerInventory.ActiveWeapon == null || _playerStats.IsStunned || !_playerStats.CanAttack)
             return;
         _isHolding = true;
         _playerInventory.ActiveWeapon.OnPress();
@@ -39,7 +42,7 @@ public class AttackController : MonoBehaviour
     }
     private void Update()
     {
-        if (_playerInventory.ActiveWeapon == null)
+        if (_playerInventory.ActiveWeapon == null || _playerStats.IsStunned || !_playerStats.CanAttack)
             return;
         if (_isHolding && _playerInventory.ActiveWeapon.CanHold) {
             _playerInventory.ActiveWeapon.OnHold();

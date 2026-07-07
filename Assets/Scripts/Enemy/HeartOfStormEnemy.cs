@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 [RequireComponent(typeof(EffectHandler), typeof(EffectDisplay), typeof(ActorStats))]
@@ -15,6 +16,12 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     [SerializeField] private CollisionAttackChecker _rightAttackCollision;
     [SerializeField] private CollisionAttackChecker _headAttackCollision;
 
+    [SerializeField] private float _attackRadius = 4.0f;
+
+    [SerializeField] private float _knockbackSrength = 20.0f;
+    [SerializeField] private float _knockbackTime = 0.3f;
+
+    
     public bool CanChooseNextAction;
     private void Update()
     {
@@ -40,12 +47,76 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     public override void Death()
     {
         base.Death();
+        gameObject.SetActive(false);
+        
     }
     public void ResumeBehavior()
     {
         CanChooseNextAction = false;
         ChangeState<IdleHoMState>();
     }
+    private void LeftTrumple()
+    {
+        Collider2D[] targets = Physics2D.OverlapCircleAll(_leftLegPoint.position, _attackRadius);
+        foreach (Collider2D target in targets)
+        {
+            if (target.CompareTag("Player"))
+            {
+                Debug.Log("Попал");
+                target.GetComponent<IDamageable>()?.GetDamage(EnemyStats.AttackDamage.CurrentValue, true);
+                Knockback(target);
+                target.GetComponent<PlayableActor>()?.PlayerCinemachineCamera.GetComponent<CinemachineShake>().ShakeCamera(2.5f, 0.5f);
+            }
+            
+        }
+    }
+    private void RightTrumple()
+    {
+        Collider2D[] targets = Physics2D.OverlapCircleAll(_rightLegPoint.position, _attackRadius);
+        foreach (Collider2D target in targets)
+        {
+            if (target.CompareTag("Player"))
+            {
+                Debug.Log("Попал");
+                target.GetComponent<IDamageable>()?.GetDamage(EnemyStats.AttackDamage.CurrentValue, true);
+                Knockback(target);
+                target.GetComponent<PlayableActor>()?.PlayerCinemachineCamera.GetComponent<CinemachineShake>().ShakeCamera(2.5f, 0.5f);
+            }
+
+        }
+    }
+    private void JumpHit()
+    {
+        Collider2D[] targets = Physics2D.OverlapCircleAll(_headPoint.position, _attackRadius);
+        foreach (Collider2D target in targets)
+        {
+            if (target.CompareTag("Player"))
+            {
+                Debug.Log("Попал");
+                target.GetComponent<IDamageable>()?.GetDamage(EnemyStats.AttackDamage.CurrentValue * 1.3f, true);
+                if (target.gameObject.activeSelf)
+                {
+                    Knockback(target);
+                    target.GetComponent<PlayableActor>()?.PlayerCinemachineCamera.GetComponent<CinemachineShake>().ShakeCamera(2.5f, 0.5f);
+                }
+                    
+                
+                
+            }
+
+        }
+    }
+    private void Knockback(Collider2D target)
+    {
+        IForceReceiver forceReceiver = target.GetComponent<IForceReceiver>();
+
+        if (forceReceiver != null)
+        {
+            Vector2 dir = (target.transform.position - transform.position).normalized;
+            forceReceiver.ApplyForce(dir, _knockbackSrength, _knockbackTime);
+        }
+    }
+
     #region Spells
     public void ExecuteAnimationSpell()
     {
@@ -108,5 +179,10 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
         EnemyStats.CurrentHealth.Value = Mathf.Clamp(EnemyStats.CurrentHealth.Value + heal, 0, EnemyStats.MaxHealth.CurrentValue);
     }
     #endregion
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(2.0f);
+        SceneTransition.SwitchScene("MainMenu");
+    }
 }
 

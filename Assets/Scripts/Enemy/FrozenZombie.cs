@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDisposable
+public class FrozenZombie : Enemy, IDisalable, IDamageable, IDisposable, IForceReceiver
 {
     [SerializeField] private float _attackRadius = 1.4f;
 
@@ -26,9 +26,7 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDis
     }
     public void Update()
     {
-
-            EnemyStateMachine.CurrentState?.Update();
-
+        EnemyStateMachine.CurrentState?.Update();
     }
     public override void EnableAfterSpawn()
     {
@@ -58,25 +56,9 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDis
     public void ApplyForce(Vector2 direction, float force, float duration)
     {
         if (!IsDead)
-            StartCoroutine(KnockbackCoroutine(direction, force, duration));
+            StartCoroutine(ForceCoroutine(direction, force, duration));
     }
 
-    IEnumerator KnockbackCoroutine(Vector2 direction, float force, float duration)
-    {
-
-
-        float timer = 0;
-
-        while (timer < duration)
-        {
-            transform.position += (Vector3)(direction * force * Time.deltaTime);
-            timer += Time.deltaTime;
-            yield return null;
-        }
-       // _animator.SetBool("Pushed", false);
-
-        _agent.enabled = true;
-    }
 
     public void GetDamage(float damage, bool isCrit)
     {
@@ -137,5 +119,21 @@ public class FrozenZombie : Enemy, IDisalable, IForceReceiver, IDamageable, IDis
     public void Dispose()
     {
         Death();
+    }
+
+    public IEnumerator ForceCoroutine(Vector2 direction, float force, float duration)
+    {
+        float timer = 0;
+
+        while (timer < duration)
+        {
+            transform.position += (Vector3)(direction * force * Time.deltaTime);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        // _animator.SetBool("Pushed", false);
+
+        _agent.enabled = true;
+
     }
 }

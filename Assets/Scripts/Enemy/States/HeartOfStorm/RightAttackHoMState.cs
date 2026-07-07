@@ -24,6 +24,7 @@ public class RightAttackHoMState : State
             Direction = _legPoint.right,
             Target = _enemy.EnemyTarget.gameObject
         };
+
         _enemy.LastSpellCastData = spellCastData;
         _enemy.SetCastRightLegSpell(spellCastData);
         _enemy.EnemyAnimator.SetTrigger("RAttack");

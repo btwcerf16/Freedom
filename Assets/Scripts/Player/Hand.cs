@@ -34,7 +34,7 @@ public class Hand : MonoBehaviour
 
     private void Update()
     {
-        if (_player == null)
+        if (_player == null || _player.PlayerActorStats.IsStunned || !_player.PlayerActorStats.CanMove)
             return;
         Vector3 mouseWorld =
             _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());

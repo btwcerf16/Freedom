@@ -28,8 +28,11 @@ public class MovementController : MonoBehaviour, IForceReceiver
     }
     private void Update()
     {
-        ReadMovement();
-        UpdateFacing();
+        if (_actorStats.CanMove && !_actorStats.IsStunned) 
+        {
+            ReadMovement();
+            UpdateFacing();
+        }
     }
     private void OnEnable()
     {
@@ -72,15 +75,18 @@ public class MovementController : MonoBehaviour, IForceReceiver
     {
         StartCoroutine(ForceCoroutine(direction, force, duration));
     }
-    IEnumerator ForceCoroutine(Vector2 direction, float force, float duration)
+    public IEnumerator ForceCoroutine(Vector2 direction, float force, float duration)
     {
+        //_effectHandler.AddEffect();
         float timer = 0;
 
         while (timer < duration)
         {
+            _actorStats.CanMove = false;
             _rigidbody2D.linearVelocity = direction * force;
             timer += Time.deltaTime;
             yield return null;
         }
+        _actorStats.CanMove = true;
     }
 }

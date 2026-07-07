@@ -1,5 +1,3 @@
-using System.Drawing;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class BlowSpell : Spell

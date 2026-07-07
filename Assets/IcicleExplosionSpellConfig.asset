@@ -20,10 +20,10 @@ MonoBehaviour:
   CooldownTime: 5
   SpriteIcon: {fileID: -1376383968874940601, guid: d1d4f5f14cdbac246a95b5725202b647, type: 3}
   IciclePrefab: {fileID: 1546829592081944254, guid: 9df1a4ee2df4fae43b5e41eb1c84a171, type: 3}
-  PoolSize: 4
-  IcicleCount: 4
+  PoolSize: 8
+  IcicleCount: 8
   Radius: 1
   ProjectileSpeed: 10
-  Damage: 0.1
+  Damage: 1
   AttackType: 4
   DamageType: 1

@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 
 public class ActorStats : MonoBehaviour
@@ -26,6 +27,11 @@ public class ActorStats : MonoBehaviour
     public Stat CooldownReduction = new();
     public Stat MoveSpeed = new();
 
+    public bool CanMove = true;
+    public bool CanAttack = true;
+    public bool CanCast = true;
+    public bool IsStunned; 
+
     private void Start()
     {
         Initialize();
@@ -52,6 +58,10 @@ public class ActorStats : MonoBehaviour
         CooldownReduction.Initialize(_config.CooldownReduction);
 
         MoveSpeed.Initialize(_config.MoveSpeed);
+
+        CanMove = true;
+        CanAttack = true;
+        CanCast = true;
     }
 
     public void ResetAttackDamage()
@@ -67,5 +77,9 @@ public class ActorStats : MonoBehaviour
             attackDamage = 0;
 
         AttackDamage.Initialize(attackDamage);
+    }
+    public void SendDamage(float damage, bool isCrit)
+    {
+        gameObject.GetComponent<IDamageable>()?.GetDamage(damage, isCrit);
     }
 }

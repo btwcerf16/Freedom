@@ -257,7 +257,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd95d1eece542a449b97a8a29b850ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActorStats
-  _config: {fileID: 11400000, guid: 8ab4ab84956b14742ad9164c3b239d65, type: 2}
+  _config: {fileID: 11400000, guid: d41d7781a08a7b94296cadd62750ce8d, type: 2}
+  CanMove: 1
+  CanAttack: 1
+  CanCast: 1
+  IsStunned: 0
 --- !u!114 &4053750265072538784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +327,9 @@ MonoBehaviour:
   _leftAttackCollision: {fileID: 630051822406358120}
   _rightAttackCollision: {fileID: 7803391628383880936}
   _headAttackCollision: {fileID: 3272666747881444861}
+  _attackRadius: 4
+  _knockbackSrength: 20
+  _knockbackTime: 0.3
   CanChooseNextAction: 0
 --- !u!114 &3806459961028445519
 MonoBehaviour:
@@ -337,7 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpellHolder
   SpellConfigs:
-  - {fileID: 11400000, guid: b0c4f075a57ca4c4da01fb4c02fda497, type: 2}
+  - {fileID: 11400000, guid: 51d736c5d4026774f9e64a28340871df, type: 2}
   Spells: []
 --- !u!1 &2913571644437469525
 GameObject:

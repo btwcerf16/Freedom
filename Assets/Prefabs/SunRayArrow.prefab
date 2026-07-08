@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3366023318983279357}
   - component: {fileID: 7968878248162260709}
   - component: {fileID: 2486701433053957760}
+  - component: {fileID: 6746826402413932741}
   m_Layer: 0
   m_Name: sun_ray_arrow_0
   m_TagString: Untagged
@@ -114,6 +115,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6746826402413932741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148818650069492398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9ca1f1a92220745a74072b83d9a374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSorter
+  sortPoint: {fileID: 3366023318983279357}
+  spriteRenderer: {fileID: 0}
+  offset: 0
 --- !u!1 &152725858802762639
 GameObject:
   m_ObjectHideFlags: 0

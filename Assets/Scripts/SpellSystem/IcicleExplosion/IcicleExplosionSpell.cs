@@ -19,10 +19,10 @@ public class IcicleExplosionSpell : Spell
     }
     public override void Cast(SpellCastData spellCastData)
     {
-        if (CooldownTimer > 0) return;
-        base.Cast(spellCastData);
         
+        base.Cast(spellCastData);
 
+        if (CooldownTimer > 0) return;
         float step = 360f / _config.IcicleCount;
 
         for (int i = 0; i < _config.IcicleCount; i++)

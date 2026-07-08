@@ -59,7 +59,7 @@ MonoBehaviour:
     \u0431\u043B\u0438\u0436\u043D\u0435\u0433\u043E \u0431\u043E\u044F, \u0442\u0438\u043F
     \u0443\u0440\u043E\u043D\u0430 \u043F\u0440\u043E\u043D\u0430\u0437\u0430\u044E\u0448\u0438\u0439,
     1 \u0443\u0440\u043E\u043D. "
-  _spellConfig: {fileID: 11400000, guid: b0c4f075a57ca4c4da01fb4c02fda497, type: 2}
+  _spellConfig: {fileID: 11400000, guid: 89a82acc11e880040a8a61241d2fd86a, type: 2}
   _spell: {fileID: 0}
   Owner: {fileID: 0}
   _attackPoint: {fileID: 3503430394956806990}
@@ -170,6 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 496437250052902871}
   - component: {fileID: 6868471597302149865}
+  - component: {fileID: 3241256452330856048}
   m_Layer: 0
   m_Name: icicleSpite
   m_TagString: Untagged
@@ -252,6 +253,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &3241256452330856048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4975803756081952546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9ca1f1a92220745a74072b83d9a374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSorter
+  sortPoint: {fileID: 496437250052902871}
+  spriteRenderer: {fileID: 0}
+  offset: 0
 --- !u!1 &6596048975627987887
 GameObject:
   m_ObjectHideFlags: 0

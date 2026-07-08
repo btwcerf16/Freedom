@@ -11,10 +11,12 @@ public class IdleHoMState : State
     private CollisionAttackChecker _leftCollisionAttackChecker;
     private CollisionAttackChecker _rightCollisionAttackChecker;
     private CollisionAttackChecker _headCollisionAttackChecker;
+    private Transform _headPoint;
     public IdleHoMState(HeartOfStormEnemy enemy, NavMeshAgent agent, 
         CollisionAttackChecker leftCollisionAttackChecker,
         CollisionAttackChecker rightCollisionAttackChecker,
-        CollisionAttackChecker headCollisionAttackChecker
+        CollisionAttackChecker headCollisionAttackChecker,
+        Transform headPoint
         )
     {
         _enemy = enemy;
@@ -22,6 +24,7 @@ public class IdleHoMState : State
         _leftCollisionAttackChecker = leftCollisionAttackChecker;
         _rightCollisionAttackChecker = rightCollisionAttackChecker;
         _headCollisionAttackChecker = headCollisionAttackChecker;
+        _headPoint = headPoint;
     }
 
     public override void Enter()
@@ -31,10 +34,19 @@ public class IdleHoMState : State
         _agent.isStopped = true;
         _enemy.EnemyAnimator.SetBool("Idle", true);
         _coroutine = _enemy.StartCoroutine(waitUtilEndTimer());
+        SpellCastData spellCastData = new SpellCastData()
+        {
+            Position = _headPoint.position,
+            Caster = _enemy.gameObject,
+            Direction = _headPoint.right,
+            Target = _enemy.EnemyTarget.gameObject
+        };
+        _enemy.LastSpellCastData = spellCastData;
+        _enemy.SetCastIdleSpell(spellCastData);
 
 
     }
-    
+
 
     public override void Exit()
     {

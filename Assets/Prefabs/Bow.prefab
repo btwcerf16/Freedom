@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 7221930333379101897}
   - component: {fileID: 4050787958784661400}
   - component: {fileID: 1208698310296071720}
+  - component: {fileID: 424403564053913400}
   m_Layer: 0
   m_Name: BowSprite
   m_TagString: Untagged
@@ -354,5 +355,23 @@ PrefabInstance:
     - {fileID: 7716588034784035091, guid: ab34fd0d5778a5b49809f95f755ce347, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5215309447982486739, guid: ab34fd0d5778a5b49809f95f755ce347, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 424403564053913400}
   m_SourcePrefab: {fileID: 100100000, guid: ab34fd0d5778a5b49809f95f755ce347, type: 3}
+--- !u!114 &424403564053913400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6418219167244793857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9ca1f1a92220745a74072b83d9a374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSorter
+  sortPoint: {fileID: 7221930333379101897}
+  spriteRenderer: {fileID: 0}
+  offset: 0

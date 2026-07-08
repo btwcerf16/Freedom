@@ -67,7 +67,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.1488, y: 1.6300149}
+  m_Offset: {x: -0.1487999, y: 2.9478798}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -77,7 +77,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 6.334842, y: 4.260167}
+  m_Size: {x: 6.334842, y: 6.895897}
   m_EdgeRadius: 0
 --- !u!114 &3272666747881444861
 MonoBehaviour:
@@ -220,7 +220,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -1.9, y: -2.1}
+  m_Offset: {x: -1.9, y: -3.26}
   m_Size: {x: 4.3, y: 4}
   m_Direction: 0
 --- !u!195 &8780439168510587911
@@ -345,6 +345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpellHolder
   SpellConfigs:
   - {fileID: 11400000, guid: 51d736c5d4026774f9e64a28340871df, type: 2}
+  - {fileID: 11400000, guid: 89a82acc11e880040a8a61241d2fd86a, type: 2}
   Spells: []
 --- !u!1 &2913571644437469525
 GameObject:
@@ -413,7 +414,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.23, y: 0}
+  m_Offset: {x: -0.35, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -447,6 +448,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4101911741735548559}
   - component: {fileID: 6222228265681353656}
+  - component: {fileID: 5540242907570698255}
   m_Layer: 0
   m_Name: heart_of_storm_body_0
   m_TagString: Untagged
@@ -528,6 +530,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &5540242907570698255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3341213187174676009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9ca1f1a92220745a74072b83d9a374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSorter
+  sortPoint: {fileID: 3813416873072338723}
+  spriteRenderer: {fileID: 0}
+  offset: 10
 --- !u!1 &5814239200603342312
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,6 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8575389448477367079}
   - component: {fileID: 999736271342055617}
+  - component: {fileID: 1228267017478549512}
   m_Layer: 0
   m_Name: RightLeg
   m_TagString: Untagged
@@ -619,6 +637,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1228267017478549512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5814239200603342312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9ca1f1a92220745a74072b83d9a374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSorter
+  sortPoint: {fileID: 377951676048446723}
+  spriteRenderer: {fileID: 0}
+  offset: 0
 --- !u!1 &6882849410194193106
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,7 +679,7 @@ Transform:
   m_GameObject: {fileID: 6882849410194193106}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5, y: -5.5, z: 0}
+  m_LocalPosition: {x: 2.22, y: -5.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -686,7 +719,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1, y: 0}
+  m_Offset: {x: 1.25, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -720,6 +753,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6635855340026201277}
   - component: {fileID: 4277822559562079039}
+  - component: {fileID: 1852813068069429266}
   m_Layer: 0
   m_Name: LeftLeg
   m_TagString: Untagged
@@ -801,3 +835,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1852813068069429266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8226208514164250894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9ca1f1a92220745a74072b83d9a374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSorter
+  sortPoint: {fileID: 1899580531502479208}
+  spriteRenderer: {fileID: 0}
+  offset: 0

@@ -16,12 +16,12 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     [SerializeField] private CollisionAttackChecker _rightAttackCollision;
     [SerializeField] private CollisionAttackChecker _headAttackCollision;
 
-    [SerializeField] private float _attackRadius = 4.0f;
+    [SerializeField] private float _attackRadius = 6.0f;
 
     [SerializeField] private float _knockbackSrength = 20.0f;
     [SerializeField] private float _knockbackTime = 0.3f;
 
-    
+    [SerializeField] private Coroutine _endGameCorutine;
     public bool CanChooseNextAction;
     private void Update()
     {
@@ -36,7 +36,7 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
         _spellHolder = GetComponent<SpellHolder>();
         RegisterState(new ChaseHoMState(this, _agent, roomBounds));
         RegisterState(new DeathHoMState());
-        RegisterState(new IdleHoMState(this, _agent, _leftAttackCollision, _rightAttackCollision, _headAttackCollision));
+        RegisterState(new IdleHoMState(this, _agent, _leftAttackCollision, _rightAttackCollision, _headAttackCollision, _headPoint));
         RegisterState(new JumpAttackHoMState(this, _agent, _headPoint));
         RegisterState(new RightAttackHoMState(this, _agent, _rightLegPoint));
         RegisterState(new RushHoMState());
@@ -47,7 +47,10 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     public override void Death()
     {
         base.Death();
-        gameObject.SetActive(false);
+        _agent.enabled = false;
+        if(_endGameCorutine == null)
+            _endGameCorutine = StartCoroutine(EndGame());
+        //gameObject.SetActive(false);
         
     }
     public void ResumeBehavior()
@@ -82,7 +85,6 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
                 Knockback(target);
                 target.GetComponent<PlayableActor>()?.PlayerCinemachineCamera.GetComponent<CinemachineShake>().ShakeCamera(2.5f, 0.5f);
             }
-
         }
     }
     private void JumpHit()
@@ -127,6 +129,13 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
         }
         LastSpell.Cast(LastSpellCastData);
     }
+    public void SetCastIdleSpell(SpellCastData _spellCastData)
+    {
+        int index = 1;
+        LastSpell = _spellHolder.Spells[index];
+        LastSpellCastData = _spellCastData;
+        LastSpell.Cast(LastSpellCastData);
+    }
     public void SetCastJumpSpell(SpellCastData _spellCastData)
     {
         int index = 0;
@@ -161,7 +170,7 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
             Dispose();
         }
    
-        Vector2 damagePos = new Vector2(transform.position.x + .5f + UnityEngine.Random.value*2, transform.position.y + 1.0f+ UnityEngine.Random.value);
+        Vector2 damagePos = new Vector2(transform.position.x - .5f - UnityEngine.Random.value*2, transform.position.y - 1.0f- UnityEngine.Random.value);
         FloatingDamage floatingDamage = PoolsController.Instance.DamageTextPool.GetObject();
         floatingDamage.transform.position = damagePos;
 
@@ -183,6 +192,13 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     {
         yield return new WaitForSeconds(2.0f);
         SceneTransition.SwitchScene("MainMenu");
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_leftLegPoint.position, _attackRadius);
+        Gizmos.DrawWireSphere(_rightLegPoint.position, _attackRadius);
+        Gizmos.DrawWireSphere(_headPoint.position, _attackRadius);
     }
 }
 

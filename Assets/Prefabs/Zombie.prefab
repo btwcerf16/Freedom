@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 403990050161751339}
   - component: {fileID: 8554479181810263117}
+  - component: {fileID: 4705021127616988890}
   m_Layer: 7
   m_Name: ZombieSprite
   m_TagString: Untagged
@@ -91,6 +92,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &4705021127616988890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5871041335006574777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9ca1f1a92220745a74072b83d9a374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSorter
+  sortPoint: {fileID: 403990050161751339}
+  spriteRenderer: {fileID: 0}
+  offset: 0
 --- !u!1 &6756102487379267730
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,16 +239,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActorStats
   _config: {fileID: 11400000, guid: ac4a2b7211866e34fb37d761d5baa2e1, type: 2}
-  CurrentDamageAttack: 0
-  CurrentCritChance: 0
-  CurrentCritDamageMultiplier: 0
-  CurrentPiercingDamageMultiplier: 0
-  CurrentSlashingDamageMultiplier: 0
-  CurrentBludgeoningDamageMultiplier: 0
-  CurrentMagicDamageMultiplier: 0
-  CurrentRangeDamageMultiplier: 0
-  CurrentMeleeDamageMultiplier: 0
-  CurrentCooldownReduction: 0
+  CanMove: 1
+  CanAttack: 1
+  CanCast: 1
+  IsStunned: 0
 --- !u!50 &4774668198019988392
 Rigidbody2D:
   serializedVersion: 5
@@ -331,7 +341,6 @@ MonoBehaviour:
   _isPlayer: 0
   _effectPanel: {fileID: 0}
   _effectImagePrefab: {fileID: 0}
-  _particleSystem: {fileID: 8038050701500899541, guid: 676a8165fa4f94d4ca77de06ab9b71b4, type: 3}
   _effectImage: []
 --- !u!114 &-100822708659774803
 MonoBehaviour:
@@ -368,6 +377,7 @@ MonoBehaviour:
   IsDead: 0
   IsDisabled: 0
   EnemyType: 0
+  _spellHolder: {fileID: 0}
   _attackDistance: 1.4
   _attackPoint: {fileID: 5934173791933713153}
   EnemyStats: {fileID: 0}

@@ -32,6 +32,7 @@ public class ObjectPool<T> where T : Component
             CreateObject();
         T obj = _pool.Dequeue();
         obj.gameObject.SetActive(true);
+        obj.transform.parent = null;
         return obj;
     }
     public void ReturnObject(T obj)

@@ -16,9 +16,9 @@ MonoBehaviour:
   MaxHealh: 50
   CritChance: 10
   CritDamageMultiplier: 1
-  PiercingDamageMultiplier: 0
-  SlashingDamageMultiplier: 0
-  BludgeoningDamageMultiplier: 0
+  PiercingDamageMultiplier: 1
+  SlashingDamageMultiplier: 1
+  BludgeoningDamageMultiplier: 1
   MagicDamageMultiplier: 1
   RangeDamageMultiplier: 1
   MeleeDamageMultiplier: 1

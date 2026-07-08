@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f22cd7437a8c1e41881f2eaad0a2322, type: 3}
+  m_Name: HailSpellConfig
+  m_EditorClassIdentifier: Assembly-CSharp::HailSpellConfig
+  SpellName: 
+  SpellDescription: 
+  IsPassive: 0
+  CooldownTime: 5
+  SpriteIcon: {fileID: -4857218843037408790, guid: 7b81055741ee11a4fa1232e009363d85, type: 3}
+  PoolSize: 20
+  Radius: 5
+  RockOfIcePrefab: {fileID: 3394391748507978905, guid: 729261c1259c05142b0e60b261b7105d, type: 3}
+  Damage: 10

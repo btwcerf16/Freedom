@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class FreezingDebuff : Effect
 {
+    private float _tickTimer;
+    private const float TickInterval = 1f;
     public override void EffectStart(ActorStats owner)
     {
         base.EffectStart(owner);
@@ -20,8 +22,15 @@ public class FreezingDebuff : Effect
     public override void EffectTick(ActorStats owner)
     {
         base.EffectTick(owner);
+
         TimeRemaining -= Time.deltaTime;
-        
-        owner.SendDamage(((FreezingDebuffData)EffectData).DamagePerSecond * Time.deltaTime, false);
+        _tickTimer += Time.deltaTime;
+
+        if (_tickTimer >= TickInterval)
+        {
+            _tickTimer -= TickInterval;
+
+            owner.SendDamage(((FreezingDebuffData)EffectData).DamagePerSecond, false);
+        }
     }
 }

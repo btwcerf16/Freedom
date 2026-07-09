@@ -13,8 +13,7 @@ public class Bow : Weapon
     [SerializeField] protected Transform _shootPoint;
     [SerializeField] private float minArrowSpeed;
     [SerializeField] private float maxArrowSpeed;
-    [SerializeField] private float _baseOrthographicSize;
-    [SerializeField] private float _maxOrthographicSize = 10;
+    [SerializeField] private float _maxOrthographicSize = 10f;
     [SerializeField] private bool _isSlowedDown;
     [SerializeField,Range(-10, 0)] private float _moveSpeedSlow = -2.5f; //насколько замедл€ет владельца пока он нат€гивает тетиву
     private PlayableActor _playableActor;
@@ -37,18 +36,19 @@ public class Bow : Weapon
         if (_playableActor == null)
             return;
         _animator.SetFloat("ChargeSpeed", _chargeSpeed);
+        _maxOrthographicSize = _playableActor.LensOrtographicSize * 1.3f;
     }
-    
+
     public override void AttachToHand(Transform hand)
     {
         base.AttachToHand(hand);
         _playableActor = Owner.GetComponent<PlayableActor>();
-        _baseOrthographicSize = _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize;
+        
     }
     public override void DetachFromHand()
     {
         base.DetachFromHand();
-        _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize = _baseOrthographicSize;
+        _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize = _playableActor.LensOrtographicSize;
         _playableActor = null;
     }
     public override void HideFromHand()
@@ -75,7 +75,7 @@ public class Bow : Weapon
 
         float chargePercent = Mathf.InverseLerp(_minChargeTime, _maxChargeTime, _currentChargeTime);
 
-        float orthographicSize = Mathf.Lerp(_baseOrthographicSize, _maxOrthographicSize, chargePercent);
+        float orthographicSize = Mathf.Lerp(_playableActor.LensOrtographicSize, _maxOrthographicSize, chargePercent);
         _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize = orthographicSize;
         
         
@@ -87,7 +87,7 @@ public class Bow : Weapon
             return;
         _isSlowedDown = false;
         _playableActor.PlayerActorStats.MoveSpeed.RemoveModifier(_statModifier);
-        _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize = _baseOrthographicSize;
+        _playableActor.PlayerCinemachineCamera.Lens.OrthographicSize = _playableActor.LensOrtographicSize;
         _animator.SetBool("IsCharging", false);
         _animator.SetBool("IsFullCharged", false);
         if (!CheckCondition())

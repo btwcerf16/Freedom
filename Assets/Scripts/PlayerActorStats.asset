@@ -15,7 +15,7 @@ MonoBehaviour:
   MoveSpeed: 7
   MaxHealh: 20
   CritChance: 50
-  CritDamageMultiplier: 1
+  CritDamageMultiplier: 1.5
   PiercingDamageMultiplier: 1
   SlashingDamageMultiplier: 1
   BludgeoningDamageMultiplier: 1

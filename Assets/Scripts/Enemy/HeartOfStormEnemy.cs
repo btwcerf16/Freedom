@@ -21,21 +21,22 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     [SerializeField] private float _knockbackSrength = 20.0f;
     [SerializeField] private float _knockbackTime = 0.3f;
 
-    [SerializeField] private Coroutine _endGameCorutine;
+    private Coroutine _endGameCorutine;
+    [SerializeField] private ParticleSystem _deathEffect;
     public bool CanChooseNextAction;
     private void Update()
     {
         if (EnemyStateMachine != null)
             EnemyStateMachine.Update();
-        else Debug.Log("мер STATE MACHINE");
     }
+
     public void Initialize(EnemyController enemyController, Transform target, BoundsInt roomBounds)
     {
         base.Initialize(enemyController, target);
         EnemyStateMachine = new StateMachine();
         _spellHolder = GetComponent<SpellHolder>();
         RegisterState(new ChaseHoMState(this, _agent, roomBounds));
-        RegisterState(new DeathHoMState());
+        RegisterState(new DeathHoMState(EnemyAnimator));
         RegisterState(new IdleHoMState(this, _agent, _leftAttackCollision, _rightAttackCollision, _headAttackCollision, _headPoint));
         RegisterState(new JumpAttackHoMState(this, _agent, _headPoint));
         RegisterState(new RightAttackHoMState(this, _agent, _rightLegPoint));
@@ -43,12 +44,17 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
         RegisterState(new LeftAttackHoMState(this, _agent, _leftLegPoint));
         _agent.enabled = true;
         ChangeState<ChaseHoMState>();
+        var player = target.GetComponent<PlayableActor>();
+        player.LensOrtographicSize *= 1.2f;  
+        player.PlayerCinemachineCamera.Lens.OrthographicSize = player.LensOrtographicSize;
     }
     public override void Death()
     {
         base.Death();
         _agent.enabled = false;
-        if(_endGameCorutine == null)
+        var player = EnemyTarget.GetComponent<PlayableActor>();
+        player.LensOrtographicSize /= 1.2f;
+        if (_endGameCorutine == null)
             _endGameCorutine = StartCoroutine(EndGame());
         //gameObject.SetActive(false);
         
@@ -188,10 +194,25 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
         EnemyStats.CurrentHealth.Value = Mathf.Clamp(EnemyStats.CurrentHealth.Value + heal, 0, EnemyStats.MaxHealth.CurrentValue);
     }
     #endregion
-    IEnumerator EndGame()
+    public IEnumerator EndGame()
     {
+        ChangeState<DeathHoMState>();
+        
         yield return new WaitForSeconds(2.0f);
         SceneTransition.SwitchScene("MainMenu");
+    }
+    public IEnumerator ParticleCorutine()
+    {
+        _deathEffect.gameObject.SetActive(true);
+
+        _deathEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        _deathEffect.Clear();
+        _deathEffect.Play();
+
+        yield return new WaitUntil(() => !_deathEffect.IsAlive(true));
+        _deathEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        _deathEffect.Clear();
+
     }
     private void OnDrawGizmosSelected()
     {

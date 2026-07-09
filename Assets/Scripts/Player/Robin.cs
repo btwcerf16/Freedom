@@ -18,7 +18,8 @@ public class Robin : PlayableActor, IDamageable,IDisposable
         PlayerAnimator = GetComponent<Animator>();
 
         PlayerCinemachineCamera = GetComponentInChildren<CinemachineCamera>();
-        if(PlayerHand != null)
+        PlayerCinemachineCamera.Lens.OrthographicSize = LensOrtographicSize;
+        if (PlayerHand != null)
             PlayerHand.Initialize(this);
         IDisposable maxHealthDisposable = PlayerActorStats.MaxHealth.Value.Subscribe(PlayerHealthBar.SetMaxHealth);
         IDisposable currentHealthDisposable = PlayerActorStats.CurrentHealth.Subscribe(PlayerHealthBar.SetHealthData);

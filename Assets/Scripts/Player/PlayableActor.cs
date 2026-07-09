@@ -10,4 +10,7 @@ public abstract class PlayableActor : MonoBehaviour
     public ActorStats PlayerActorStats;
     public CinemachineCamera PlayerCinemachineCamera;
     public HealthBar PlayerHealthBar;
+    
+    public float LensOrtographicSize = 7.0f;
+
 }

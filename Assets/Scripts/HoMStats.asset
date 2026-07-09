@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HoMStats
   m_EditorClassIdentifier: Assembly-CSharp::BaseActorStats
   MoveSpeed: 5
-  MaxHealh: 50
+  MaxHealh: 200
   CritChance: 10
   CritDamageMultiplier: 1
   PiercingDamageMultiplier: 1

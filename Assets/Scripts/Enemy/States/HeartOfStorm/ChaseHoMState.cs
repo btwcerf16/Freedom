@@ -44,7 +44,12 @@ public class ChaseHoMState : State
         if (!_agent.enabled || !_agent.isOnNavMesh)
             return;
 
-        
+        Debug.Log(
+    $"remaining={_agent.remainingDistance} " +
+    $"hasPath={_agent.hasPath} " +
+    $"status={_agent.pathStatus} " +
+    $"pending={_agent.pathPending}"
+);
         if (ReachedDestination())
         {
             Debug.Log("Èח קויחא ג איהכ");

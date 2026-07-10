@@ -11,11 +11,13 @@ public class IdleHoMState : State
     private CollisionAttackChecker _leftCollisionAttackChecker;
     private CollisionAttackChecker _rightCollisionAttackChecker;
     private CollisionAttackChecker _headCollisionAttackChecker;
+    private CollisionAttackChecker _areaCollisionAttackChecker;
     private Transform _headPoint;
-    public IdleHoMState(HeartOfStormEnemy enemy, NavMeshAgent agent, 
+    public IdleHoMState(HeartOfStormEnemy enemy, NavMeshAgent agent,
         CollisionAttackChecker leftCollisionAttackChecker,
         CollisionAttackChecker rightCollisionAttackChecker,
         CollisionAttackChecker headCollisionAttackChecker,
+        CollisionAttackChecker areaCollisionAttackChecker,
         Transform headPoint
         )
     {
@@ -24,12 +26,14 @@ public class IdleHoMState : State
         _leftCollisionAttackChecker = leftCollisionAttackChecker;
         _rightCollisionAttackChecker = rightCollisionAttackChecker;
         _headCollisionAttackChecker = headCollisionAttackChecker;
+        _areaCollisionAttackChecker = areaCollisionAttackChecker;
         _headPoint = headPoint;
     }
 
     public override void Enter()
     {
         base.Enter();
+        
         Debug.Log("¬ ‡È‰Î");
         _agent.isStopped = true;
         _enemy.EnemyAnimator.SetBool("Idle", true);
@@ -42,7 +46,7 @@ public class IdleHoMState : State
             Target = _enemy.EnemyTarget.gameObject
         };
         _enemy.LastSpellCastData = spellCastData;
-        _enemy.SetCastIdleSpell(spellCastData);
+        //_enemy.SetCastIdleSpell(spellCastData);
 
 
     }
@@ -54,7 +58,7 @@ public class IdleHoMState : State
 
         if (_coroutine != null)
             _enemy.StopCoroutine(_coroutine);
-
+        
         _enemy.EnemyAnimator.SetBool("Idle", false);
     }
 
@@ -69,30 +73,28 @@ public class IdleHoMState : State
         yield return new WaitForSeconds(1.0f);
         if (_leftCollisionAttackChecker.IsPlayerInside && _enemy.CanChooseNextAction)
         {
-            Debug.Log("À≈¬¿ﬂ ÕŒ√¿");
             _enemy.ChangeState<LeftAttackHoMState>();
-            _enemy.CanChooseNextAction = true;
-
-
         }
         else if (_headCollisionAttackChecker.IsPlayerInside && _enemy.CanChooseNextAction)
         {
-            Debug.Log("√ŒÀŒ¬¿");
             _enemy.ChangeState<JumpAttackHoMState>();
-            _enemy.CanChooseNextAction = true;
         }
         else if (_rightCollisionAttackChecker.IsPlayerInside && _enemy.CanChooseNextAction)
         {
-            Debug.Log("œ‡‚‡ˇ ÕŒ√¿");
             _enemy.ChangeState<RightAttackHoMState>();
-            _enemy.CanChooseNextAction = true;
         }
-
+        else if(!_areaCollisionAttackChecker.IsPlayerInside && _enemy.CanChooseNextAction)
+        {
+            _enemy.ChangeState<TrampleHoMState>();
+        }
+        else if (_areaCollisionAttackChecker.IsPlayerInside && _enemy.CanChooseNextAction)
+        {
+            _enemy.ChangeState<MoveToPlayerHoMState>();
+        }
         else
         {
-            Debug.Log("Õ»’”ﬂ");
+            Debug.Log("Chase");
             _enemy.ChangeState<ChaseHoMState>();
-            _enemy.CanChooseNextAction = true;
         }
     }
 }

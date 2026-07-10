@@ -17,6 +17,7 @@ public class RightAttackHoMState : State
     {
         base.Enter();
         _agent.isStopped = true;
+        
         SpellCastData spellCastData = new SpellCastData()
         {
             Position = _legPoint.position,
@@ -35,6 +36,7 @@ public class RightAttackHoMState : State
     { 
         base.Exit();
         _agent.isStopped = true;
+        
         _enemy.EnemyAnimator.SetBool("Idle", true);
     }
 }

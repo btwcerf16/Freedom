@@ -15,6 +15,7 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     [SerializeField] private CollisionAttackChecker _leftAttackCollision;
     [SerializeField] private CollisionAttackChecker _rightAttackCollision;
     [SerializeField] private CollisionAttackChecker _headAttackCollision;
+    [SerializeField] private CollisionAttackChecker _areaAttackCollision;
 
     [SerializeField] private float _attackRadius = 6.0f;
 
@@ -35,13 +36,17 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
         base.Initialize(enemyController, target);
         EnemyStateMachine = new StateMachine();
         _spellHolder = GetComponent<SpellHolder>();
+        RegisterState(new MoveToPlayerHoMState(this, _agent, _leftAttackCollision, _rightAttackCollision,
+            _headAttackCollision, _areaAttackCollision));
         RegisterState(new ChaseHoMState(this, _agent, roomBounds));
         RegisterState(new DeathHoMState(EnemyAnimator));
-        RegisterState(new IdleHoMState(this, _agent, _leftAttackCollision, _rightAttackCollision, _headAttackCollision, _headPoint));
+        RegisterState(new IdleHoMState(this, _agent, _leftAttackCollision, _rightAttackCollision,
+            _headAttackCollision, _areaAttackCollision, _headPoint));
         RegisterState(new JumpAttackHoMState(this, _agent, _headPoint));
         RegisterState(new RightAttackHoMState(this, _agent, _rightLegPoint));
         RegisterState(new RushHoMState());
         RegisterState(new LeftAttackHoMState(this, _agent, _leftLegPoint));
+        RegisterState(new TrampleHoMState(this,_agent, _headPoint));
         _agent.enabled = true;
         ChangeState<ChaseHoMState>();
         var player = target.GetComponent<PlayableActor>();
@@ -137,7 +142,7 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     }
     public void SetCastIdleSpell(SpellCastData _spellCastData)
     {
-        int index = 1;
+        int index = 0;
         LastSpell = _spellHolder.Spells[index];
         LastSpellCastData = _spellCastData;
         LastSpell.Cast(LastSpellCastData);
@@ -157,6 +162,12 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
     public void SetCastRightLegSpell(SpellCastData _spellCastData)
     {
         int index = 0;
+        LastSpell = _spellHolder.Spells[index];
+        LastSpellCastData = _spellCastData;
+    }
+    public void SetCastTrampleSpell(SpellCastData _spellCastData)
+    {
+        int index = 1;
         LastSpell = _spellHolder.Spells[index];
         LastSpellCastData = _spellCastData;
     }
@@ -220,6 +231,7 @@ public class HeartOfStormEnemy : Enemy, IDisposable, IDamageable
         Gizmos.DrawWireSphere(_leftLegPoint.position, _attackRadius);
         Gizmos.DrawWireSphere(_rightLegPoint.position, _attackRadius);
         Gizmos.DrawWireSphere(_headPoint.position, _attackRadius);
+        
     }
 }
 

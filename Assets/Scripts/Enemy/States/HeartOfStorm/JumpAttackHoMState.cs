@@ -17,6 +17,7 @@ public class JumpAttackHoMState : State
     public override void Enter()
     {
         base.Enter();
+        
         _agent.isStopped = true;
         SpellCastData spellCastData = new SpellCastData()
         {
@@ -31,10 +32,10 @@ public class JumpAttackHoMState : State
     }
     public override void Exit() 
     {
+        base.Exit();
         _enemy.EnemyAnimator.SetBool("Idle", true);
         _agent.isStopped = false;
-        base.Exit();
-       
         
+
     }
 }

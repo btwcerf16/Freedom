@@ -6,6 +6,8 @@ public class HailSpellConfig : SpellConfig
     public float Radius = 20f;
     public RockOfIce RockOfIcePrefab;
     public float Damage = 10f;
+    public float TimeBeforeFall = 0.5f;
+    public float DamageMultiplyer; //each 3 time 
 
     public override Spell AddSpell(GameObject owner)
     {

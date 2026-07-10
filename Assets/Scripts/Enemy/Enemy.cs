@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
+//[RequireComponent(typeof(NavMeshAgent))]
 public abstract class Enemy : MonoBehaviour
 {
     
@@ -42,10 +42,13 @@ public abstract class Enemy : MonoBehaviour
         EnemyStats = GetComponent<ActorStats>();
         EnemyAnimator = GetComponent<Animator>();
         EnemyEffectHandler = GetComponent<EffectHandler>();
-        
 
-        _agent.updateRotation = false;
-        _agent.updateUpAxis = false;
+        if (_agent != null) 
+        {
+            _agent.updateRotation = false;
+            _agent.updateUpAxis = false;
+        }
+
 
         EnemyTarget = target;
         _enemyController = enemyController;

@@ -73,9 +73,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RockOfIce
   _hitEffect: {fileID: 1342669186013781380}
   _hitPoint: {fileID: 6492852413108252259}
-  _hitArea: 1.8
+  _hitArea: 2
   _animator: {fileID: 506767025167630178}
   HitDamage: 0
+  TimeBeforeFall: 0
   Owner: {fileID: 0}
   OwnerStats: {fileID: 0}
   AttackType: 4

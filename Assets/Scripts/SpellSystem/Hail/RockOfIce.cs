@@ -11,6 +11,7 @@ public class RockOfIce : MonoBehaviour, IPoolable<RockOfIce>
     [SerializeField] private Animator _animator;
     
     public float HitDamage;
+    public float TimeBeforeFall;
     public GameObject Owner;
     public ActorStats OwnerStats;
     public EAttackType AttackType;
@@ -19,16 +20,17 @@ public class RockOfIce : MonoBehaviour, IPoolable<RockOfIce>
     {
         _animator = GetComponent<Animator>();
     }
-    public void StartFall(float damage, GameObject owner, ActorStats ownerStats) 
+    public void StartFall(float damage, GameObject owner, ActorStats ownerStats, float timeBeforeFall) 
     {
         HitDamage = damage;
         Owner = owner;
         OwnerStats = ownerStats;
-       
-
+        TimeBeforeFall = timeBeforeFall;
+        
+        StartCoroutine(WaitTimeBeforeFallCoroutine(TimeBeforeFall));
         _hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         _hitEffect.Clear();
-        _animator.SetTrigger("Fall");
+        
     }
     private void Hit()
     {
@@ -43,9 +45,10 @@ public class RockOfIce : MonoBehaviour, IPoolable<RockOfIce>
                     DamageCalculator.CalculateDamage(HitDamage, AttackType,
                     EDamageType, OwnerStats, out isCritical);
                 target.GetComponent<IDamageable>()?.GetDamage(calculatedDamage, isCritical);
-                Debug.Log($"ÓÐÎÍ {calculatedDamage}" + target.name);
+                //Debug.Log($"ÓÐÎÍ {calculatedDamage}" + target.name);
             }
         }
+        
 
     }
     private IEnumerator ParticleCorutine()
@@ -58,11 +61,16 @@ public class RockOfIce : MonoBehaviour, IPoolable<RockOfIce>
 
         yield return new WaitUntil(() => !_hitEffect.IsAlive(true));
         ReturnIntoPool();
+        _animator.SetTrigger("Idle");
         _hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         _hitEffect.Clear();
         
     }
-
+    private IEnumerator WaitTimeBeforeFallCoroutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+        _animator.SetTrigger("Fall");
+    }
     private void ReturnIntoPool()
     {
         if(_pool != null)

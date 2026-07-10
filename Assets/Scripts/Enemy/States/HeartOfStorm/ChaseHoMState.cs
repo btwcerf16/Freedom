@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class ChaseHoMState : State
 {
-    private Enemy _enemy;
+    private HeartOfStormEnemy _enemy;
     private NavMeshAgent _agent;
     private BoundsInt _bounds;
 
@@ -12,7 +12,7 @@ public class ChaseHoMState : State
 
     private Vector3 _targetPoint;
 
-    public ChaseHoMState(Enemy enemy, NavMeshAgent agent, BoundsInt bounds)
+    public ChaseHoMState(HeartOfStormEnemy enemy, NavMeshAgent agent, BoundsInt bounds)
     {
         _enemy = enemy;
         _agent = agent;
@@ -22,13 +22,13 @@ public class ChaseHoMState : State
     public override void Enter()
     {
         _enemy.EnemyAnimator.SetBool("Chase", true);
-
+        _enemy.CanChooseNextAction = true;
         if (!_agent.enabled || !_agent.isOnNavMesh)
             return;
 
         _agent.isStopped = false;
-        
 
+        
         SetNewDestination();
     }
 
@@ -44,12 +44,6 @@ public class ChaseHoMState : State
         if (!_agent.enabled || !_agent.isOnNavMesh)
             return;
 
-        Debug.Log(
-    $"remaining={_agent.remainingDistance} " +
-    $"hasPath={_agent.hasPath} " +
-    $"status={_agent.pathStatus} " +
-    $"pending={_agent.pathPending}"
-);
         if (ReachedDestination())
         {
             Debug.Log("Èח קויחא ג איהכ");
@@ -92,11 +86,14 @@ public class ChaseHoMState : State
 
     private Vector3 GetPointInsideBounds()
     {
-        float minX = _bounds.xMin + _edgeOffset;
-        float maxX = _bounds.xMax - _edgeOffset;
+        float offsetX = Mathf.Min(_edgeOffset, _bounds.size.x * 0.5f);
+        float offsetY = Mathf.Min(_edgeOffset, _bounds.size.y * 0.5f);
 
-        float minY = _bounds.yMin + _edgeOffset;
-        float maxY = _bounds.yMax - _edgeOffset;
+        float minX = _bounds.xMin + offsetX;
+        float maxX = _bounds.xMax - offsetX;
+
+        float minY = _bounds.yMin + offsetY;
+        float maxY = _bounds.yMax - offsetY;
 
         float x = Random.Range(minX, maxX);
         float y = Random.Range(minY, maxY);

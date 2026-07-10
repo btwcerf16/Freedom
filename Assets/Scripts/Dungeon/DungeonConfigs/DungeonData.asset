@@ -19,6 +19,7 @@ MonoBehaviour:
   - {fileID: 8218736555722471786, guid: d9663bf42a1031c43adcbf9ad8d1f26c, type: 3}
   Bosses:
   - {fileID: 8218736555722471786, guid: 36291516312cbd743a5665cf69da63e0, type: 3}
+  - {fileID: 7461782581828986083, guid: f5fde3c959886d54faf2ad4dce998051, type: 3}
   minEnemiesInRoom: 3
   maxEnemiesInRoom: 5
   CommonTresuareItems:

@@ -5,20 +5,40 @@ public class HailSpell : Spell
     private ObjectPool<RockOfIce> _pool;
     private HailSpellConfig _config => (HailSpellConfig)SpellData;
 
+    [SerializeField] private int _castCounter;
+   
     public override void Cast(SpellCastData spellCastData)
     {
         base.Cast(spellCastData);
         if (CooldownTimer > 0) return;
         CooldownTimer = CooldownTime;
-        for (int i = 0; i < _config.PoolSize; i++)
+        _castCounter++;
+        float totalDamage = _config.Damage; 
+        if(_castCounter == 3)
+        {
+            _castCounter = 0;
+            totalDamage*= _config.DamageMultiplyer;
+
+        }
+        
+        
+
+        RockOfIce rockOfIce = _pool.GetObject();
+        rockOfIce.SetPool(_pool);
+        rockOfIce.transform.position = spellCastData.Target.transform.position;//new Vector2(spellCastData.Target.transform.position.x, spellCastData.Target.transform.position.y+0.2f);
+        rockOfIce.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        rockOfIce.transform.localScale = new Vector2(6f, 7f);
+        rockOfIce.StartFall(totalDamage, spellCastData.Caster, _ownerStats, _config.TimeBeforeFall);
+
+        for (int i = 0; i < _config.PoolSize-1; i++)
         {
             Vector2 randomPoint = spellCastData.Position + (Random.insideUnitCircle * _config.Radius);
-            RockOfIce rockOfIce = _pool.GetObject();
+            rockOfIce = _pool.GetObject();
             rockOfIce.SetPool(_pool);
             rockOfIce.transform.position = randomPoint;
             rockOfIce.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
             rockOfIce.transform.localScale = new Vector2(6f,7f);
-            rockOfIce.StartFall(_config.Damage, spellCastData.Caster, _ownerStats);
+            rockOfIce.StartFall(totalDamage, spellCastData.Caster, _ownerStats, _config.TimeBeforeFall);
             
         }
         

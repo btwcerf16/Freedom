@@ -1,5 +1,5 @@
 using UnityEngine;
-using static UnityEngine.Rendering.STP;
+ 
 
 public class IcicleExplosionSpell : Spell
 {
@@ -23,6 +23,7 @@ public class IcicleExplosionSpell : Spell
         base.Cast(spellCastData);
 
         if (CooldownTimer > 0) return;
+        CooldownTimer = CooldownTime;
         float step = 360f / _config.IcicleCount;
 
         for (int i = 0; i < _config.IcicleCount; i++)

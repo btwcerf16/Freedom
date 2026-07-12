@@ -17,7 +17,7 @@ MonoBehaviour:
     \u0440\u0430\u0437\u043B\u0435\u0442\u0430\u044E\u0449\u0438\u0445\u0441\u044F
     \u0441\u043E\u0441\u0443\u043B\u0435\u043A"
   IsPassive: 0
-  CooldownTime: 5
+  CooldownTime: 2
   SpriteIcon: {fileID: -1376383968874940601, guid: d1d4f5f14cdbac246a95b5725202b647, type: 3}
   IciclePrefab: {fileID: 1546829592081944254, guid: 9df1a4ee2df4fae43b5e41eb1c84a171, type: 3}
   PoolSize: 4

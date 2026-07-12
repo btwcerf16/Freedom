@@ -18,7 +18,7 @@ MonoBehaviour:
   CooldownTime: 0
   SpriteIcon: {fileID: -4857218843037408790, guid: 7b81055741ee11a4fa1232e009363d85, type: 3}
   PoolSize: 20
-  Radius: 15
+  Radius: 30
   RockOfIcePrefab: {fileID: 3394391748507978905, guid: 729261c1259c05142b0e60b261b7105d, type: 3}
   Damage: 7
   TimeBeforeFall: 2

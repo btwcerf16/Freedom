@@ -25,7 +25,7 @@ public class HailSpell : Spell
 
         RockOfIce rockOfIce = _pool.GetObject();
         rockOfIce.SetPool(_pool);
-        rockOfIce.transform.position = spellCastData.Target.transform.position;//new Vector2(spellCastData.Target.transform.position.x, spellCastData.Target.transform.position.y+0.2f);
+        rockOfIce.transform.position = new Vector2(spellCastData.Target.transform.position.x, spellCastData.Target.transform.position.y+2.0f);
         rockOfIce.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         rockOfIce.transform.localScale = new Vector2(6f, 7f);
         rockOfIce.StartFall(totalDamage, spellCastData.Caster, _ownerStats, _config.TimeBeforeFall);

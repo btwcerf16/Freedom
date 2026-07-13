@@ -7,7 +7,8 @@ using UnityEngine.AI;
 //[RequireComponent(typeof(NavMeshAgent))]
 public abstract class Enemy : MonoBehaviour
 {
-    
+    public SpriteRenderer EnemySprite;
+
     public Animator EnemyAnimator;
 
     public EffectHandler EnemyEffectHandler;
@@ -39,6 +40,10 @@ public abstract class Enemy : MonoBehaviour
     private Dictionary<Type, State> _states = new();
     public virtual void Initialize(EnemyController enemyController, Transform target)
     {
+        if (EnemySprite == null) 
+        {
+            EnemySprite = GetComponentInChildren<SpriteRenderer>();
+        }
         EnemyStats = GetComponent<ActorStats>();
         EnemyAnimator = GetComponent<Animator>();
         EnemyEffectHandler = GetComponent<EffectHandler>();
@@ -99,7 +104,17 @@ public abstract class Enemy : MonoBehaviour
             _agent.enabled = true;
     }
     
-    public virtual void Flip() { }
+    public virtual void Flip() 
+    {
+        if(EnemyTarget.position.x >= transform.position.x)
+        {
+            EnemySprite.flipX = true;
+        }
+        else
+        {
+            EnemySprite.flipX = false;
+        }
+    }
     public void SetTarget(Transform target)
     {
         EnemyTarget = target;

@@ -6,11 +6,6 @@ public class FrozenZombie : Enemy, IDisalable, IDamageable, IDisposable, IForceR
 {
     [SerializeField] private float _attackRadius = 1.4f;
 
-    #region States
-
-
-
-    #endregion
 
 
     private void Start()
@@ -27,6 +22,7 @@ public class FrozenZombie : Enemy, IDisalable, IDamageable, IDisposable, IForceR
     public void Update()
     {
         EnemyStateMachine.CurrentState?.Update();
+        Flip();
     }
     public override void EnableAfterSpawn()
     {
@@ -135,5 +131,9 @@ public class FrozenZombie : Enemy, IDisalable, IDamageable, IDisposable, IForceR
 
         _agent.enabled = true;
 
+    }
+    public override void Flip()
+    {
+        base.Flip();
     }
 }

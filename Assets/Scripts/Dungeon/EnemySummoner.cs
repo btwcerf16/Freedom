@@ -32,21 +32,27 @@ public class EnemySummoner : MonoBehaviour
             return roomEnemies;
         }
 
-        int enemyCount = Random.Range(data.minEnemiesInRoom, data.maxEnemiesInRoom);
-        
-        foreach (var pos in room.OrderBy(_ => Guid.NewGuid()).Take(enemyCount))
+        List<EnemyData> enemiesToSpawn = Calculate(data);
+
+        var positions = room
+            .OrderBy(_ => Guid.NewGuid())
+            .Take(enemiesToSpawn.Count)
+            .ToList();
+
+        for (int i = 0; i < enemiesToSpawn.Count; i++)
         {
             GameObject obj = Instantiate(
-                data.EnemyList[Random.Range(0, data.EnemyList.Count)],
-                new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0),
+                enemiesToSpawn[i].Enemy,
+                new Vector3(positions[i].x + 0.5f, positions[i].y + 0.5f, 0),
                 Quaternion.identity);
 
             Enemy enemy = InitializeEnemy(obj);
             obj.SetActive(false);
-            if (enemy != null) roomEnemies.Add(enemy);
+
+            if (enemy != null)
+                roomEnemies.Add(enemy);
 
             _spawnedEnemies.Add(obj);
-           
         }
         _enemyController.EnemiesCount += roomEnemies.Count;
         return roomEnemies;
@@ -73,6 +79,48 @@ public class EnemySummoner : MonoBehaviour
         _spawnedEnemies.Clear();
         _enemyController.EnemiesCount = 0;
     }
+    public List<EnemyData> Calculate(DungeonSO data)
+    {
+        List<EnemyData> result = new();
 
+        int budget = Random.Range(data.MinRoomBudget, data.MaxRoomBudget + 1);
+
+        while (true)
+        {
+            List<(EnemyData enemy, float weight)> candidates = new();
+
+            float totalWeight = 0;
+
+            foreach (EnemyData enemy in data.EnemyList)
+            {
+                if (enemy.EnemyCost > budget)
+                    continue;
+
+                float weight = budget - enemy.EnemyCost + 1;
+
+                candidates.Add((enemy, weight));
+                totalWeight += weight;
+            }
+
+            if (candidates.Count == 0)
+                break;
+
+            float roll = Random.Range(0f, totalWeight);
+
+            foreach (var candidate in candidates)
+            {
+                roll -= candidate.weight;
+
+                if (roll <= 0)
+                {
+                    result.Add(candidate.enemy);
+                    budget -= candidate.enemy.EnemyCost;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
 
 }

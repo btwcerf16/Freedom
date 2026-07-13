@@ -16,7 +16,8 @@ MonoBehaviour:
   WalkLength: 40
   StartRandomlyEachIteration: 0
   EnemyList:
-  - {fileID: 8218736555722471786, guid: d9663bf42a1031c43adcbf9ad8d1f26c, type: 3}
+  - {fileID: 11400000, guid: 317be937019688544992637ec4a8bf2c, type: 2}
+  - {fileID: 11400000, guid: cf0e0476d26c1a6419f09574386dabed, type: 2}
   Bosses:
   - {fileID: 8218736555722471786, guid: 36291516312cbd743a5665cf69da63e0, type: 3}
   - {fileID: 7461782581828986083, guid: f5fde3c959886d54faf2ad4dce998051, type: 3}

@@ -6,7 +6,8 @@ public class RoomTrigger : MonoBehaviour
     [SerializeField] private EnemyController _enemyController;
 
     [SerializeField] private List<Enemy> _roomEnemies = new();
- 
+        
+    
 
     public void Initialize(List<Enemy> roomEnemies, EnemyController enemyController)
     {

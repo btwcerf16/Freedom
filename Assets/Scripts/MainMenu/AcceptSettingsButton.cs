@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class AcceptSettingsButton : MonoBehaviour
 {
-    [SerializeField] private Text _minEnemyCountText;
-    [SerializeField] private Text _maxEnemyCountText;
+    [SerializeField] private Text _minRoomBudgetText;
+    [SerializeField] private Text _maxRoomBudgetText;
     [SerializeField] private Text _iterationsCountText;
     [SerializeField] private Text _iterationLengthText;
     [SerializeField] private DungeonSO _dungeonSO;
@@ -28,11 +28,11 @@ public class AcceptSettingsButton : MonoBehaviour
         {
             _errorText.text = "Ошибка"; return;
         }
-        if (_maxEnemyCountText == null || _maxEnemyCountText.text == "" || int.Parse(_maxEnemyCountText.text) <= 0)
+        if (_maxRoomBudgetText == null || _maxRoomBudgetText.text == "" || int.Parse(_maxRoomBudgetText.text) <= 0)
         {
             _errorText.text = "Ошибка"; return;
         }
-        if (_minEnemyCountText == null || _minEnemyCountText.text == "" || int.Parse(_minEnemyCountText.text) <= 0)
+        if (_minRoomBudgetText == null || _minRoomBudgetText.text == "" || int.Parse(_minRoomBudgetText.text) <= 0)
         {
             _errorText.text = "Ошибка"; return;
         }
@@ -40,7 +40,7 @@ public class AcceptSettingsButton : MonoBehaviour
         
         _dungeonSO.WalkLength = int.Parse(_iterationLengthText.text);
         _dungeonSO.Iterations = int.Parse(_iterationsCountText.text);
-        _dungeonSO.minEnemiesInRoom = int.Parse(_minEnemyCountText.text);
-        _dungeonSO.maxEnemiesInRoom = int.Parse(_maxEnemyCountText.text);
+        _dungeonSO.MinRoomBudget = int.Parse(_minRoomBudgetText.text);
+        _dungeonSO.MaxRoomBudget = int.Parse(_maxRoomBudgetText.text);
     }
 }
